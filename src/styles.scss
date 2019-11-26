@@ -1,0 +1,628 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+@import '~animate.css/animate.min';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$point-of-sales-primary: mat-palette($mat-pink);
+$point-of-sales-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$point-of-sales-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$point-of-sales-theme: mat-light-theme($point-of-sales-primary, $point-of-sales-accent, $point-of-sales-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($point-of-sales-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; 
+    background-color: #f5f5f8 !important;
+}
+body { 
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
+
+mat-sidenav-container {
+  height: 100%;
+}
+
+mat-sidenav {
+  background-color: #ff9f00;
+  width: 270px;
+}
+
+mat-sidenav {
+    width: 280px;
+}
+
+.mat-drawer { 
+    background-color: #ff9f00;
+    color:#fff
+}
+
+.main-content {
+    padding:20px;
+}
+
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+button {
+	background-image: none !important;
+	outline: 0 !important;
+	box-shadow: none !important;
+}
+
+button .mat-button-wrapper {
+	font-size: 1.3rem;
+}
+
+.layer {
+	font-size: 1.3rem;
+}
+
+.font-2 {
+	font-size: 2rem;
+}
+
+button.font-2 i {
+    font-size: 1.8rem;
+    position: absolute;
+}
+
+.layer .items {
+	position: absolute;
+	top: 2px;
+}
+
+mat-toolbar {
+    position: fixed;
+    z-index: 999;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+}
+
+mat-toolbar a i {
+    cursor: pointer;
+}
+
+.mat-toolbar.mat-primary {
+	background: #ff9f00;
+}
+
+.profile {
+	padding: 30px 0;
+	text-align: center;
+	background: rgba(0,0,0,0.1);
+}
+
+.profile h1 {
+	font-size: 1.2rem;
+	margin: 0;
+	margin-top: 20px;
+}
+
+.profile img {
+	vertical-align: middle;
+    max-width: 8rem;
+    max-height: 8rem;
+    border-radius: 50%;
+    border: .5rem solid rgba(255,255,255,.2);
+}
+
+mat-nav-list {
+	margin-top: 0;
+}
+
+mat-nav-list a i {
+    font-size: 1.5rem;
+    margin-left: 10px;
+    margin-right: 20px;	
+}
+
+mat-nav-list h4.text-divider { 
+	font-size: 0.83rem !important;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin: 5px 0;
+    margin-left: 25px;
+}
+
+.mat-icon-button .mat-icon, .mat-icon-button i {
+    line-height: 25px;
+}
+
+.delete-items-btn {
+    font-size: 28px;
+}
+
+.md-whiteframe-1dp, 
+.md-whiteframe-z1 {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+}
+
+.theme-search.active {
+    top: 0;
+    box-shadow: none;
+}
+
+.theme-search {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 90;
+    top: 64px;
+    width: 100%;
+    transition: .2s all ease-in-out;
+}
+
+.theme-search, 
+.theme-search > input.theme-search-input {
+    background-color: #fff !important;
+    height: 48px;
+}
+
+.theme-search > input.theme-search-input {
+    width: calc(100% - 64px);
+    line-height: 20px;
+    outline: none;
+    border: 0px;
+    padding: 0 30px;
+}
+
+.content {
+    position: relative;
+    margin-top: 64px;
+    background-image: url(assets/img/bg.svg);
+    background-color: #f5f5f8 !important;
+}
+
+.content .col-sm-9 mat-card {
+    border-radius: 0;
+    background: transparent !important;
+    border: transparent !important;
+    box-shadow: none !important;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 1.5rem;
+    height: calc(100vh - 64px);
+}
+
+.content .col-sm-9 mat-card .product-list {
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 0px 10px 0px 0;
+}
+
+.content .col-sm-3 mat-card {
+    height: calc(100vh - 64px);
+    border-radius: 0;
+}
+
+mat-card .col-sm-fix {
+    float: left;
+    width: 20% !important;
+    position: relative;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-bottom: 1.5rem;
+}
+
+mat-card .col-sm-fix a:hover {
+    text-decoration: none;
+}
+
+mat-card .col-sm-fix a h3 {
+    color: #000;
+    text-decoration: none;
+}
+
+mat-card .col-sm-fix a label {
+    color: rgba(0, 0, 0, 0.87);
+}
+
+mat-card .col-sm-fix .wrapper {
+    background: #ebebee;
+    padding: 15px 1rem;
+    position: relative;
+    border-radius: 4px !important;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+mat-card .col-sm-fix .img-wrapper {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+}
+
+mat-card .col-sm-fix .img-wrapper img {
+    max-width:  100%;
+}
+
+mat-card .col-sm-fix .txt-wrapper {
+    background: #fff;
+    padding: .8rem 1rem .5rem 1rem;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+mat-card .col-sm-fix .txt-wrapper h3 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+mat-card .col-sm-fix .txt-wrapper label {
+    background: #ebebee;
+    font-size: 11px;
+    font-weight: var(--font-weight-medium);
+    padding: 3px 5px;
+    border-radius: 3px;
+    margin-top: .5rem;
+}
+
+@media (min-width: 1367px) {
+    mat-card .col-sm-fix {
+        float: left;
+        width: 16.666666667% !important;
+        position: relative;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-bottom: 1rem;
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+.p-l-5 {
+    padding-left: 5px;
+}
+
+.p-l-15 {
+    padding-left: 15px;
+}
+
+.p-l-10 {
+    padding-left: 10px !important;
+}
+
+.p-r-10 {
+    padding-right: 10px !important;
+}
+
+.p-r-0 {
+    padding-right: 0;
+}
+
+.m-0 {
+    margin: 0;
+}
+
+.m-r-5 {
+    margin-right: 5px !important;
+}
+
+.m-l-5 {
+    margin-left: 5px !important;
+}
+
+.m-b-5 {
+    margin-bottom: 5px !important;
+}
+
+.m-t-5 {
+    margin-top: 5px !important;
+}
+
+.full-width {
+    width: 100%;
+}
+
+/*mat-dialog-content::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: var(--blink-scrollbar-width);
+    box-shadow: inset 0 0 0 12px rgba(0,0,0,.37);
+}*/
+
+/* width */
+
+.item-lists::-webkit-scrollbar,
+.product-list::-webkit-scrollbar,
+mat-dialog-content::-webkit-scrollbar {
+    width: 12px;
+    background-color: rgba(0,0,0,0) !important;
+}
+
+/* Track */
+.item-lists::-webkit-scrollbar-track:hover,
+.product-list::-webkit-scrollbar-track:hover,
+mat-dialog-content::-webkit-scrollbar-track:hover {
+    background: #ececec;
+    border-radius: 0px;
+}
+
+/* Handle */
+.item-lists::-webkit-scrollbar-thumb,
+.product-list::-webkit-scrollbar-thumb {
+    box-shadow: none !important;
+}
+
+.item-lists:hover::-webkit-scrollbar-thumb,
+.product-list:hover::-webkit-scrollbar-thumb,
+mat-dialog-content::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    box-shadow: inset 0 0 0 12px rgba(0,0,0,.37) !important;
+    border-radius: 10px;
+}
+
+/*/* Handle on hover */
+/*mat-dialog-content::-webkit-scrollbar-thumb:hover {
+    background: #b30000; 
+}*/
+
+#pos-dialog-content button.arithmetic {
+    background: #f5f5f5;
+    margin: 5px;
+}
+
+#pos-dialog-confirm button {
+    background: #e1e1e1 !important;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-bottom: 25px;
+}
+
+#pos-dialog-content .total-cost {
+    background: #e1e1e1;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 10px !important;
+}
+
+.badges {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgb(0, 188, 212);
+    margin-top: 13px;
+}
+.blue-badge {
+    background: rgb(0, 188, 212);
+}
+.yellow-badge {
+    background: rgb(255, 193, 7);
+}
+.red-badge {
+    background: rgb(244, 67, 54);
+}
+.purple-badge {
+    background: rgb(156, 39, 176);
+}
+.green-badge {
+    background: rgb(76, 175, 80);
+}
+.orange-badge {
+    background: rgb(255, 183, 77);
+}
+
+.c-red {
+    color: rgb(244, 67, 54);
+}
+
+.content .col-sm-3 mat-card {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.content .col-sm-3 mat-card .table {
+    margin-bottom: 0;
+}
+
+.content .col-sm-3 mat-card .table td, .table th { 
+    padding: 0;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.content .col-sm-3 mat-card a:last-child .table td {
+    border-bottom: 1px solid transparent;
+}
+
+.content .col-sm-3 mat-card .mat-list-base .mat-list-item {
+    margin-top: .5rem;
+    padding: 5px 0;
+    margin-left: 10px;
+}
+
+.content .col-sm-3 mat-card .mat-list-base .mat-list-item table tr td:nth-child(3) {
+    padding-right: 10px;
+}
+
+.content .col-sm-3 mat-card .mat-list-item-content {
+    padding-right: 2px;
+    padding-left: 0px;
+}
+
+.content .col-sm-3 mat-card .mat-list-base .mat-list-item:first-child {
+    margin-top: 0;
+}
+
+.content .col-sm-3 mat-card .mat-list-base .mat-list-item .item-price {
+    font-size: 12px;
+    float: left;
+    margin-top: -5px;
+    margin-bottom: 5px;
+    color: #5d5d5d;
+}
+
+.content .col-sm-3 mat-card .mat-list-base .mat-list-item .item-name {
+    font-size: .9rem;
+    color: #333;
+}
+
+.content .col-sm-3 mat-card .mat-list-base .mat-list-item .item-qty {
+    font-size: 1.5rem;
+}
+
+.content .col-sm-3 mat-card .mat-list-base .mat-list-item .item-total {
+    font-size: .8rem;
+    color: #333;
+}
+
+.content .col-sm-3 mat-card .item-lists {
+    height: calc(100vh - 310px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.content .col-sm-3 mat-card .sub-total-card-holder {
+    border-top: 1px solid #dee2e6;
+    box-shadow: 0 -2px 2px -2px  rgba(0, 0, 0, 0.15);
+    position: absolute;
+    bottom: 0;
+    height: 193px;
+    width: 100%;
+    padding-top: 10px;
+}
+
+.content .col-sm-3 mat-card .sub-total-card-holder .row .col:first-child {
+    padding-left: 30px;
+    font-size: 0.8rem;
+    margin: 3px 0px;
+    color: #333;
+}
+
+.content .col-sm-3 mat-card .sub-total-card-holder .row .col:last-child {
+    padding-right: 30px;
+    font-size: 0.8rem;
+    color: #333;
+    margin: 3px 0px;
+}
+
+.content .col-sm-3 mat-card .sub-total-card-holder .row .col h5 {
+    margin-bottom: 0;
+}
+
+.content .col-sm-3 mat-card .divider {
+    border-top: 1.5px dashed #333;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.content .col-sm-3 mat-card button.checkout {
+    background: #ff9f00;
+    color: #fff;
+    border-radius: 0;
+    margin-top: 10px;
+}
+
+.content .col-sm-3 mat-card .container-1 h3 {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 1.2rem;
+    margin-top: 7px;
+}
+
+.content .col-sm-3 mat-card .container-2 h3 {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 1.2rem;
+    margin-top: 7px;
+    margin-bottom: 20px;
+}
+
+.content .col-sm-3 mat-card .container-2 mat-form-field {
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 100%;
+}
+
+.content .col-sm-3 mat-card .container-2 .mat-form-field input {
+    font-size: 1.8rem;
+}
+
+.content .col-sm-3 mat-card .container-2 .mat-form-field-label {
+    top: 51px !important; 
+}
+
+.content .col-sm-3 mat-card .container-2 .mat-form-field-label.mat-empty {
+    top: 31px !important; 
+    font-size: .75rem;
+}
+
+.content .col-sm-3 mat-card .container-2 .arithmetic-holder {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.content .col-sm-3 mat-card .container-2 button.arithmetic {
+    background: #f5f5f5;
+    margin: 5px 10px;
+}
+
+.content .col-sm-3 mat-card .container-2 button.confirm-btn {
+    background: #ff9f00;
+    color: #fff;
+    border-radius: 0;
+    float: right;
+    margin-right: 15px;
+    margin-top: 73px;
+    width: 43%;
+    // border-radius: .25rem;
+}
+
+.content .col-sm-3 mat-card .container-2 button.back-btn {
+    background: #e1e1e1;
+    color: #333;
+    border-radius: 0;
+    float: left;
+    margin-left: 15px;
+    margin-top: 73px;
+    width: 43%;
+    // border-radius: .25rem;
+}
+
+.content .col-sm-3 mat-card .container-2 button.confirm-btn .mat-button-wrapper,
+.content .col-sm-3 mat-card .container-2 button.back-btn .mat-button-wrapper {
+    font-size: 1.1rem;
+}
+
+.content .col-sm3 mat-card .mat-input-element {
+    caret-color: #ff9f00;
+}
+
+.mat-form-field.mat-focused .mat-form-field-label {
+    color: #ff9f00;
+}
+
+.swal2-icon {
+    font-size: 20px !important;
+    margin-bottom: 15px !important;
+}
+
+.swal2-actions {
+    margin-bottom: 10px !important;
+}

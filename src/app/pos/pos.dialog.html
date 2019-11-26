@@ -1,0 +1,46 @@
+<mat-dialog-content id="pos-dialog-content" class="mat-typography">
+    <p class="m-0 m-l-5 m-r-5 text-uppercase"><strong>{{ data.name }}</strong></p>
+    <p class="m-0 m-l-5 m-r-5 cost"><strong>PRICE</strong> <strong class="pull-right">{{ data.price.toFixed(2) }}</strong></p>
+    <p class="m-0 m-l-5 m-b-5 m-r-5 total-qty"><strong>QUANTITY</strong> <strong class="pull-right">{{ data.quantity }}</strong></p>
+    <p class="m-0 m-l-5 m-b-5 m-r-5 total-cost"><strong>TOTAL</strong> <strong class="pull-right">{{ data.total.toFixed(2) }}</strong></p>
+    <button (click)="compute('7')" class="arithmetic" mat-button>
+      7
+    </button>
+    <button (click)="compute('8')" class="arithmetic" mat-button>
+      8
+    </button>
+    <button (click)="compute('9')" class="arithmetic" mat-button>
+      9
+    </button><br/>
+    <button (click)="compute('4')" class="arithmetic" mat-button>
+      4
+    </button>
+    <button (click)="compute('5')" class="arithmetic" mat-button>
+      5
+    </button>
+    <button (click)="compute('6')" class="arithmetic" mat-button>
+      6
+    </button><br/>
+    <button (click)="compute('1')" class="arithmetic" mat-button>
+      1
+    </button>
+    <button (click)="compute('2')" class="arithmetic" mat-button>
+      2
+    </button>
+    <button (click)="compute('3')" class="arithmetic" mat-button>
+      3
+    </button><br/>
+    <button class="arithmetic" mat-button disabled="true">
+      .
+    </button>
+    <button (click)="compute('0')" class="arithmetic" mat-button>
+      0
+    </button>
+    <button (click)="clear()" class="arithmetic" mat-button>
+      <i class="la la-arrow-left"></i>
+    </button>
+</mat-dialog-content>
+<mat-dialog-actions id="pos-dialog-confirm" align="start">
+  <!-- <button mat-button mat-dialog-close>Cancel</button> -->
+  <button (click)="addItem()" [disabled]="data.total <= 0" mat-button class="full-width" [mat-dialog-close]="true" cdkFocusInitial>ok</button>
+</mat-dialog-actions>
