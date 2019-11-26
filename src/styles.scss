@@ -41,17 +41,18 @@ mat-sidenav-container {
   height: 100%;
 }
 
-mat-sidenav {
-  background-color: #ff9f00;
-  width: 270px;
-}
-
-mat-sidenav {
+mat-sidenav[position="start"] {
+    background: #bd5d38;
     width: 280px;
 }
 
+mat-sidenav[position="end"]{
+    width: 455px;
+    background: #fff;
+}
+
 .mat-drawer { 
-    background-color: #ff9f00;
+    background-color: #bd5d38;
     color:#fff
 }
 
@@ -102,7 +103,7 @@ mat-toolbar a i {
 }
 
 .mat-toolbar.mat-primary {
-	background: #ff9f00;
+	background: #bd5d38;
 }
 
 .profile {
@@ -533,7 +534,7 @@ mat-dialog-content::-webkit-scrollbar-thumb {
 }
 
 .content .col-sm-3 mat-card button.checkout {
-    background: #ff9f00;
+    background: #bd5d38;
     color: #fff;
     border-radius: 0;
     margin-top: 10px;
@@ -584,7 +585,7 @@ mat-dialog-content::-webkit-scrollbar-thumb {
 }
 
 .content .col-sm-3 mat-card .container-2 button.confirm-btn {
-    background: #ff9f00;
+    background: #bd5d38;
     color: #fff;
     border-radius: 0;
     float: right;
@@ -611,11 +612,11 @@ mat-dialog-content::-webkit-scrollbar-thumb {
 }
 
 .content .col-sm3 mat-card .mat-input-element {
-    caret-color: #ff9f00;
+    caret-color: #bd5d38;
 }
 
 .mat-form-field.mat-focused .mat-form-field-label {
-    color: #ff9f00;
+    color: #bd5d38;
 }
 
 .swal2-icon {
@@ -625,4 +626,24 @@ mat-dialog-content::-webkit-scrollbar-thumb {
 
 .swal2-actions {
     margin-bottom: 10px !important;
+}
+
+.mat-tab-body {
+    color: #3f4047; 
+}
+
+mat-tab mat-nav-list {
+    height: 100%;
+    overflow: hidden;
+}
+
+mat-tab mat-list-item {
+    width: 100%;
+    padding: 9px 0;
+    background:red;
+}
+
+mat-tab mat-nav-list label {
+    font-size: 1rem;
+    font-weight: 400;
 }

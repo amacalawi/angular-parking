@@ -1,5 +1,5 @@
 <mat-sidenav-container>
-    <mat-sidenav #sidenav [(opened)]="opened" (opened)="log('Opened')" (closed)="log('Closed')">
+    <mat-sidenav #left position="start" [(opened)]="opened" (opened)="log('Opened')" (closed)="log('Closed')">
 		<div class="profile">
 			<img src="assets/img/profile.jpg"/>
 			<h1>Aliudin Amer Macalawi</h1>
@@ -54,8 +54,11 @@
 								</button>
 								<mat-menu #menu="matMenu">
 									<button mat-menu-item (click)="onContextMenuAction('All')">All</button>
-									<button mat-menu-item (click)="onContextMenuAction('Category 1')">Category 1</button>
-									<button mat-menu-item (click)="onContextMenuAction('Category 2')">Category 2</button>
+									<button mat-menu-item (click)="onContextMenuAction('Category 1')">Employee</button>
+                                    <button mat-menu-item (click)="onContextMenuAction('Category 2')">Parents</button>
+                                    <button mat-menu-item (click)="onContextMenuAction('Category 1')">Students</button>
+                                    <button mat-menu-item (click)="onContextMenuAction('Category 2')">Visitors</button>
+                                    <button mat-menu-item (click)="onContextMenuAction('Category 2')">Overnight Parkers</button>
 								</mat-menu>
 								
 								<!-- <button id="filterCategory" mat-button [matMenuTriggerFor]="menu">All</button>
@@ -70,17 +73,12 @@
                     <div class="col-sm-3">
                         <div class="layer">
                             <span class="items p-l-5">
-                            {{ totalItems }} {{ totalItems > 1 ? 'Items' : 'Item' }}
+                                <button mat-icon-button (click)="deleteStoredItems()">
+                                    <i class="flaticon-refresh"></i>
+                                </button>
                             </span>
-                            <div class="pull-right">
-
-                               <!--  <button mat-icon-button class="font-2">
-                                    <i class="la la-trash"></i>
-								</button> -->
-								<button mat-icon-button (click)="deleteStoredItems()">
-									<i class="flaticon-refresh"></i>
-								</button>
-                                <button mat-icon-button>
+                            <div class="pull-right">								
+                                <button mat-icon-button (click)="opened2=!opened2">
 									<i class="flaticon-grid-menu"></i>
 								</button>
                             </div>
@@ -100,9 +98,6 @@
 			                			<div *ngFor="let product of products" class="col-sm-fix">
 			                				<a href="javascript:;" (click)="openDialog(product.name, product.price, 0, 0)">
 				                				<div class="wrapper">
-					                				<div class="img-wrapper">
-					                					<img src="{{ product.image }}" />
-					                				</div>
 					                				<div class="txt-wrapper">
 					                					<h3>{{ product.name }}
 					                					</h3>
@@ -118,7 +113,7 @@
 		                </div>
 		                <div class="col-sm-3">
 		                	<mat-card>
-								<div class="container-1 animated fadeIn" *ngIf="showPayment">
+								<!-- <div class="container-1 animated fadeIn" *ngIf="showPayment">
 									<h3>Item Information</h3>
 									<div class="item-lists">
 										<mat-nav-list>
@@ -241,12 +236,33 @@
 									<button (click)="checkout()" [disabled]="totalPaid < totalPayment" class="confirm-btn" mat-button>
 										CONFIRM
 									</button>
-								</div>
+								</div> -->
 							</mat-card>
 		                </div>
 		            </div>     
 	            </div>           
 	        </div>
 	    </div>
-    </mat-sidenav-content>
+    </mat-sidenav-content> 
+    <mat-sidenav #right position="end" [(opened)]="opened2" (opened)="log2('Opened')" (closed)="log2('Closed')">
+            <mat-tab-group animationDuration="0ms" mat-align-tabs="center">
+                <mat-tab label="Logs">
+                    <div class="tab-content fadeIn animated">
+                        Logs Content Here
+                    </div>
+                </mat-tab>
+                <mat-tab label="Settings">
+                    <div class="tab-content fadeIn animated">
+                        <mat-nav-list>
+                            <div mat-list-item>
+                                Email Notifications <mat-slide-toggle position="end"></mat-slide-toggle>
+                            </div>
+                            <div mat-list-item>
+                                SMS Alerts <mat-slide-toggle position="end"></mat-slide-toggle>
+                            </div>
+                        </mat-nav-list>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>                  
+    </mat-sidenav>
 </mat-sidenav-container>

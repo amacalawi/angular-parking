@@ -8,7 +8,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule, MatGridListModule, MatMenuModule, MatCardModule, MatDialogModule, MatInputModule, MatSelectModule, MatSnackBarModule } from  '@angular/material';
+import { MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule, MatGridListModule, MatMenuModule, MatCardModule, MatDialogModule, MatInputModule, MatSelectModule, MatSnackBarModule, MatTabsModule, MatSlideToggleModule } from  '@angular/material';
 import { PosComponent, NotifComponent } from './pos/pos.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { POSDialogComponent } from './pos/pos.dialog.component';
@@ -47,7 +47,9 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     FormsModule,
     MatInputModule,
     MatSelectModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTabsModule,
+    MatSlideToggleModule
   ],
   providers: [
     ProductsService,
