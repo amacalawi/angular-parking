@@ -1,0 +1,252 @@
+<mat-sidenav-container>
+    <mat-sidenav #sidenav [(opened)]="opened" (opened)="log('Opened')" (closed)="log('Closed')">
+		<div class="profile">
+			<img src="assets/img/profile.jpg"/>
+			<h1>Aliudin Amer Macalawi</h1>
+		</div>
+		<mat-nav-list>
+			<a (click)="sidenav.close(); goTo('dashboard');" mat-list-item>
+				<i class="flaticon-dashboard"></i> Dashboard
+			</a>
+			<h4 class="text-divider">
+				Components
+			</h4>
+			<a (click)="sidenav.close(); goTo('pos')" mat-list-item>
+				<i class="flaticon-share"></i> Point Of Sales
+			</a>
+			<a (click)="goTo('reports')" mat-list-item>
+				<i class="flaticon-line-graph"></i> Reports
+			</a>
+			<a (click)="goTo('products')" mat-list-item>
+				<i class="flaticon-edit"></i> Products
+			</a>
+			<h4 class="text-divider">
+				Settings
+			</h4>
+				<a (click)="goTo('accounts')" mat-list-item>
+			<i class="flaticon-settings"></i> Account
+			</a>
+			<a (click)="goTo('signout')" mat-list-item>
+				<i class="flaticon-logout"></i> Signout
+			</a>
+    	</mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <div class="theme-search md-whiteframe-1dp" [ngClass]="{ 'active' : searchbar }">
+            <input type="text" class="theme-search-input" placeholder="Search for keywords ...">
+        </div>
+        <mat-toolbar color="primary">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="layer">
+                            <button mat-icon-button (click)="opened=!opened">
+                                <i class="flaticon-signs"></i>
+                            </button>
+                            {{ pageTitle }}
+                            
+                            <div class="pull-right">
+								<button mat-button (click)="toggleClass(searchbar = !searchbar)">
+									<i class="flaticon-search"></i>
+								</button>
+								<button mat-button id="filterCategory" mat-button [matMenuTriggerFor]="menu">
+									<i class="flaticon-squares-4"></i>
+								</button>
+								<mat-menu #menu="matMenu">
+									<button mat-menu-item (click)="onContextMenuAction('All')">All</button>
+									<button mat-menu-item (click)="onContextMenuAction('Category 1')">Category 1</button>
+									<button mat-menu-item (click)="onContextMenuAction('Category 2')">Category 2</button>
+								</mat-menu>
+								
+								<!-- <button id="filterCategory" mat-button [matMenuTriggerFor]="menu">All</button>
+								<mat-menu #menu="matMenu">
+									<button mat-menu-item (click)="onContextMenuAction('All')">All</button>
+									<button mat-menu-item (click)="onContextMenuAction('Category 1')">Category 1</button>
+									<button mat-menu-item (click)="onContextMenuAction('Category 2')">Category 2</button>
+								</mat-menu> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="layer">
+                            <span class="items p-l-5">
+                            {{ totalItems }} {{ totalItems > 1 ? 'Items' : 'Item' }}
+                            </span>
+                            <div class="pull-right">
+
+                               <!--  <button mat-icon-button class="font-2">
+                                    <i class="la la-trash"></i>
+								</button> -->
+								<button mat-icon-button (click)="deleteStoredItems()">
+									<i class="flaticon-refresh"></i>
+								</button>
+                                <button mat-icon-button>
+									<i class="flaticon-grid-menu"></i>
+								</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-toolbar>
+        <div class="content">
+	        <div class="container-fluid">
+	        	<div class="col-sm-12">
+		        	<div class="row">
+		                <div class="col-sm-9 p-r-0">
+		                	<mat-card>
+		                		<div class="product-list">
+			                		<div class="row">
+			                			<div *ngFor="let product of products" class="col-sm-fix">
+			                				<a href="javascript:;" (click)="openDialog(product.name, product.price, 0, 0)">
+				                				<div class="wrapper">
+					                				<div class="img-wrapper">
+					                					<img src="{{ product.image }}" />
+					                				</div>
+					                				<div class="txt-wrapper">
+					                					<h3>{{ product.name }}
+					                					</h3>
+					                					<label>₱{{ product.price.toFixed(2) }}</label>
+					                					<span class="pull-right badges {{ product.color }}"></span>
+					                				</div>
+					                			</div>
+					                		</a>
+			                			</div>
+				                	</div>
+				                </div>
+		                	</mat-card>
+		                </div>
+		                <div class="col-sm-3">
+		                	<mat-card>
+								<div class="container-1 animated fadeIn" *ngIf="showPayment">
+									<h3>Item Information</h3>
+									<div class="item-lists">
+										<mat-nav-list>
+											<a *ngFor="let item of items" mat-list-item>
+												<table class="table">
+													<tbody>
+														<tr>
+															<td width="15%" class="text-center">
+																<span class="item-qty">{{ item.quantity }}</span>
+															</td>
+															<td width="55%" class="p-l-10 p-r-10">
+																<strong class="item-name">{{ item.name }}</strong>
+																<br/>
+																<span class="item-price">₱{{ item.price.toFixed(2) }}</span>
+															</td>
+															<td width="30%" class="text-right">
+																<strong class="item-total">₱{{ item.total.toFixed(2) }}</strong>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</a>
+										</mat-nav-list>
+									</div>
+									<div class="sub-total-card-holder">
+										<div class="row">
+											<div class="col text-left">
+												<strong>Sub Total</strong>
+											</div>
+											<div class="col text-right">
+												<strong>₱{{ subTotal.toFixed(2) }}</strong>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col text-left">
+												<strong>Vat (12%)</strong>
+											</div>
+											<div class="col text-right">
+												<strong>₱{{ vatTotal.toFixed(2) }}</strong>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col text-left">
+												<strong>Total Discount</strong>
+											</div>
+											<div class="col text-right">
+												<strong class="c-red">₱{{ totalDiscount.toFixed(2) }}</strong>
+											</div>
+										</div>
+										<div class="divider"></div>
+										<div class="row">
+											<div class="col text-left">
+												<h5><strong>Total Payment</strong></h5>
+											</div>
+											<div class="col text-right">
+												<h5><strong>₱{{ totalPayment.toFixed(2) }}</strong></h5>
+											</div>
+										</div>
+										<button (click)="toggleCheckout()" [disabled]="totalPayment <= 0" mat-button class="text-center full-width checkout">
+											CHECKOUT
+										</button>
+									</div>
+								</div>
+								<div class="container-2 animated fadeIn" *ngIf="!showPayment">
+									<h3>Payment Information</h3>
+									<mat-form-field>
+										<input class="text-right" matInput placeholder="TOTAL PAYMENTS" [(ngModel)]="totalPayment" disabled>
+									</mat-form-field>
+									<mat-form-field>
+										<input class="text-right" matInput placeholder="AMOUNT PAID" [(ngModel)]="totalPaid" required>
+										<mat-error *ngIf="totalPaid <= 0 || totalPaid == ''">{{getErrorMessage()}}</mat-error>
+									</mat-form-field>
+									<mat-form-field>
+										<input class="text-right" matInput placeholder="AMOUNT CHANGE" [(ngModel)]="totalChange" disabled>
+									</mat-form-field>
+
+									<div class="arithmetic-holder">
+										<button (click)="compute('7')" class="arithmetic" mat-button>
+										7
+										</button>
+										<button (click)="compute('8')" class="arithmetic" mat-button>
+										8
+										</button>
+										<button (click)="compute('9')" class="arithmetic" mat-button>
+										9
+										</button><br/>
+										<button (click)="compute('4')" class="arithmetic" mat-button>
+										4
+										</button>
+										<button (click)="compute('5')" class="arithmetic" mat-button>
+										5
+										</button>
+										<button (click)="compute('6')" class="arithmetic" mat-button>
+										6
+										</button><br/>
+										<button (click)="compute('1')" class="arithmetic" mat-button>
+										1
+										</button>
+										<button (click)="compute('2')" class="arithmetic" mat-button>
+										2
+										</button>
+										<button (click)="compute('3')" class="arithmetic" mat-button>
+										3
+										</button><br/>
+										<button (click)="compute('.')" class="arithmetic" mat-button>
+										.
+										</button>
+										<button (click)="compute('0')" class="arithmetic" mat-button>
+										0
+										</button>
+										<button (click)="clear()" class="arithmetic" mat-button>
+										<i class="la la-arrow-left"></i>
+										</button>
+									</div>
+
+									<button (click)="toggleCheckout()" class="back-btn" mat-button>
+										BACK
+									</button>
+
+									<button (click)="checkout()" [disabled]="totalPaid < totalPayment" class="confirm-btn" mat-button>
+										CONFIRM
+									</button>
+								</div>
+							</mat-card>
+		                </div>
+		            </div>     
+	            </div>           
+	        </div>
+	    </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
