@@ -647,3 +647,33 @@ mat-tab mat-nav-list label {
     font-size: 1rem;
     font-weight: 400;
 }
+
+mat-form-field {
+    width: 100%;
+}
+
+.mat-form-field-flex {
+    border-radius: 4px 4px 0 0 !important;
+    padding: .75em .75em 0 .75em !important;
+    background-color: rgba(0,0,0,.04) !important;
+}
+
+.mat-form-field-infix {
+    width: 100% !important;
+}
+
+.mat-input-element {
+    caret-color: #bd5d38 !important;
+}
+
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+    color: #bd5d38 !important;
+}
+
+.mat-calendar-body-selected {
+    background-color: #bd5d38;
+}
+
+.mat-form-field.mat-focused .mat-form-field-ripple {
+    background-color: #bd5d38 !important;
+}
