@@ -12,3 +12,9 @@ mat-tab mat-nav-list label {
     font-size: 1rem;
     font-weight: 400;
 }
+
+.content .col-sm-3 mat-card .table td, .table th { 
+    padding: 0;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid #dee2e6;
+}

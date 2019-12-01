@@ -74,6 +74,10 @@ button .mat-button-wrapper {
 	font-size: 1.3rem;
 }
 
+.mat-fab .mat-button-wrapper { 
+    padding: 0 !important;
+}
+
 .layer {
 	font-size: 1.3rem;
 }
@@ -100,6 +104,18 @@ mat-toolbar {
 
 mat-toolbar a i {
     cursor: pointer;
+}
+
+.bg-primary {
+    background: #bd5d38 !important;
+}
+
+a.bg-primary:focus, a.bg-primary:hover, button.bg-primary:focus, button.bg-primary:hover {
+    background: #a75332 !important;
+}
+
+.c-primary {
+    color: #bd5d38 !important;
 }
 
 .mat-toolbar.mat-primary {
@@ -440,12 +456,6 @@ mat-dialog-content::-webkit-scrollbar-thumb {
     margin-bottom: 0;
 }
 
-.content .col-sm-3 mat-card .table td, .table th { 
-    padding: 0;
-    border-top: 1px solid transparent;
-    border-bottom: 1px solid #dee2e6;
-}
-
 .content .col-sm-3 mat-card a:last-child .table td {
     border-bottom: 1px solid transparent;
 }
@@ -677,3 +687,86 @@ mat-form-field {
 .mat-form-field.mat-focused .mat-form-field-ripple {
     background-color: #bd5d38 !important;
 }
+
+button.mat-flat-button span.mat-button-wrapper {
+    font-size: 1rem !important;
+}
+
+ul.ngx-pagination {
+    margin: 0;
+    padding: 0;
+    margin-top: 20px;
+}
+
+ul.ngx-pagination .current {
+    background: #bd5d38;
+    color: #ffffff;
+}
+
+ul.ngx-pagination li {
+    text-align: center;
+    border-radius: 50%;
+}
+
+ul.ngx-pagination li a {
+    border-radius: 50%;
+}
+
+ul.ngx-pagination li span:last-child {
+    display: inline-block;
+    width: 20px;
+    height: 25px;
+}
+
+
+// ul.ngx-pagination li {
+//     border-radius: 50%;
+//     text-align: center;
+//     margin-left: 2px;
+//     margin-right: 2px;
+// }
+
+// ul.ngx-pagination li:first-child {
+//     margin-left: 0;
+// }
+
+// ul.ngx-pagination li span:last-child {
+//     cursor: pointer;
+//     display: inline-block;
+//     vertical-align: middle;
+//     padding: 0.25rem;
+//     -webkit-border-radius: 50%;
+//     -moz-border-radius: 50%;
+//     -ms-border-radius: 50%;
+//     -o-border-radius: 50%;
+//     border-radius: 50%;
+//     text-align: center;
+//     position: relative;
+//     display: -webkit-box;
+//     display: -moz-box;
+//     display: -ms-flexbox;
+//     display: -webkit-flex;
+//     display: flex;
+//     -webkit-justify-content: center;
+//     -moz-justify-content: center;
+//     -ms-justify-content: center;
+//     justify-content: center;
+//     -webkit-align-items: center;
+//     -moz-align-items: center;
+//     -ms-align-items: center;
+//     align-items: center;
+//     text-align: center;
+//     vertical-align: middle;
+//     font-size: 1rem;
+//     line-height: 1rem;
+//     font-weight: 400;
+// }
+
+// ul.ngx-pagination li:hover a {
+//     text-decoration: none;
+//     border-radius: 50%;
+// }
+
+// ul.ngx-pagination li:hover a span:last-child {
+    
+// }

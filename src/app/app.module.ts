@@ -19,6 +19,8 @@ import { ProductFilterPipe } from './shared/product-filter.pipe';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { CustomersComponent } from './applications/customers/customers.component';
 
+import { NgxPaginationModule } from 'ngx-pagination';
+
 const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
 
 @NgModule({
@@ -54,7 +56,8 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     MatTabsModule,
     MatSlideToggleModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    NgxPaginationModule
   ],
   providers: [
     ProductsService,
