@@ -31,6 +31,7 @@ $point-of-sales-theme: mat-light-theme($point-of-sales-primary, $point-of-sales-
 
 html, body { height: 100%; 
     background-color: #f5f5f8 !important;
+    background-image: url(assets/img/bg.svg);
 }
 body { 
     margin: 0; 
@@ -718,6 +719,11 @@ ul.ngx-pagination li span:last-child {
     height: 25px;
 }
 
+.login-wrapper mat-card .mat-checkbox-label,
+.login-wrapper mat-card .forgot {
+    font-size: 12px !important;
+    color: #0000008a;
+}
 
 // ul.ngx-pagination li {
 //     border-radius: 50%;

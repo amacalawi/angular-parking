@@ -13,7 +13,7 @@ export class CustomersComponent implements OnInit {
     itemsPerPage: 5,
     currentPage: 1,
     totalItems: this.collection.count
-  };
+  };  
  
   public maxSize: number = 7;
   public directionLinks: boolean = true;

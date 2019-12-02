@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="login-wrapper">
+        <mat-card>
+            <div class="text-center img-wrapper">
+                <img src="assets/img/logo.svg" class="img-fluid"/>
+            </div>
+            <h1 class="text-center">Welcome back</h1>
+            <p class="text-center sub-header">Sign in with your credentials below.</p>
+            <mat-form-field>
+                <input  matInput placeholder="Email" [(ngModel)]="email" required>
+                <mat-error>We need an email address to log you in</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Password" [(ngModel)]="password" required>
+                <mat-error>We need a password to log you in</mat-error>
+            </mat-form-field>
+            <div class="row">
+                <div class="col-sm-6">
+                    <mat-checkbox>Remember Me</mat-checkbox>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <a href="/forgot" class="forgot">Forgot Password?</a>
+                </div>
+            </div>
+            <button mat-flat-button class="bg-primary">SIGN IN</button>
+        </mat-card>
+    </div>
+</div>
