@@ -1,28 +1,35 @@
 <div class="row">
     <div class="login-wrapper">
         <mat-card>
-            <div class="text-center img-wrapper">
-                <img src="assets/img/logo.svg" class="img-fluid"/>
-            </div>
-            <h1 class="text-center">Welcome back</h1>
-            <p class="text-center sub-header">Sign in with your credentials below.</p>
-            <mat-form-field>
-                <input  matInput placeholder="Email" [(ngModel)]="email" required>
-                <mat-error>We need an email address to log you in</mat-error>
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput placeholder="Password" [(ngModel)]="password" required>
-                <mat-error>We need a password to log you in</mat-error>
-            </mat-form-field>
-            <div class="row">
-                <div class="col-sm-6">
-                    <mat-checkbox>Remember Me</mat-checkbox>
+            <form (ngSubmit)="login()" [formGroup]="LoginForm" novalidate>
+                <div class="text-center img-wrapper">
+                    <img src="assets/img/logo.svg" class="img-fluid"/>
                 </div>
-                <div class="col-sm-6 text-right">
-                    <a href="/forgot" class="forgot">Forgot Password?</a>
+                <h1 class="text-center">Welcome back</h1>
+                <p class="text-center sub-header">Sign in with your credentials below.</p>
+                <mat-form-field>
+                    <input type="email" name="username" matInput placeholder="Email" formControlName="username" required autofocus>
+                    <mat-error>We need an email address to log you in</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input name="password" matInput placeholder="Password" formControlName="password" required [type]="hide ? 'password' : 'text'">
+                    <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error>We need a password to log you in</mat-error>
+                </mat-form-field>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <mat-checkbox>Remember Me</mat-checkbox>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <a href="/forgot" class="forgot">Forgot Password?</a>
+                    </div>
                 </div>
-            </div>
-            <button mat-flat-button class="bg-primary">SIGN IN</button>
+                <button type="submit" [disabled]="LoginForm.invalid || isLoading" mat-flat-button class="bg-primary">
+                    SIGN IN
+                </button>
+            </form>
         </mat-card>
     </div>
 </div>

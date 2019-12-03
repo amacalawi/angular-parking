@@ -58,7 +58,8 @@ mat-card {
 
 .mat-card {
     overflow-x: hidden;
-    height: inherit !important;
+    overflow-y: hidden;
+    // height: inherit !important;
 }
 
 .customer-content {

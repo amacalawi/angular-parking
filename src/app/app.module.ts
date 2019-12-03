@@ -22,6 +22,10 @@ import { CustomersComponent } from './applications/customers/customers.component
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LoginComponent } from './login/login.component';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './core/authentication/token.interceptor';
+import { CoreModule } from './core';
+
 const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
 
 @NgModule({
@@ -61,10 +65,12 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     MatNativeDateModule,
     NgxPaginationModule,
     ReactiveFormsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    CoreModule
   ],
   providers: [
     ProductsService,
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

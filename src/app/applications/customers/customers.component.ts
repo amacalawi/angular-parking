@@ -47,12 +47,11 @@ export class CustomersComponent implements OnInit {
   }
 
   opened = false;
-  opened2 = false;
-
   log(state: any) {
     console.log(state)
   }
 
+  opened2 = false;
   log2(state: any) {
     console.log(state)
   }
@@ -69,8 +68,19 @@ export class CustomersComponent implements OnInit {
   }
 
   activeForm = false;
+  documentHeight: any;
+
   toggleForm(activeForm: boolean) {
+    if(activeForm == false) {
+        this.documentHeight = <HTMLElement> document.querySelector('.content-table');
+        this.documentHeight = this.documentHeight.offsetHeight + 44.8;
+    } else {
+        this.documentHeight = <HTMLElement> document.querySelector('.content-form');
+        this.documentHeight = this.documentHeight.offsetHeight + 44.8;
+    }
+    console.log(this.documentHeight);
     activeForm = !false;
+    
   }
 
 }

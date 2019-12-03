@@ -72,7 +72,7 @@
                             <i class="la la-angle-double-left"></i> Back 
                         </button>
                     </h1>
-                    <mat-card>
+                    <mat-card [ngStyle]="{'height': documentHeight + 'px' }">
                         <div class="customer-content" [ngClass]="{ 'active' : activeForm }">
                             <div class="content-table">
                                 <div class="row">

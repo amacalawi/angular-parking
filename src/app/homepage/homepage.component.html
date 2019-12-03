@@ -1,36 +1,37 @@
 <mat-sidenav-container>
-    <mat-sidenav #sidenav [(opened)]="opened" (opened)="log('Opened')" (closed)="log('Closed')">
-    <div class="profile">
-      <img src="assets/img/profile.jpg"/>
-      <h1>Aliudin Amer Macalawi</h1>
-    </div>
-    <mat-nav-list>
-      <a (click)="sidenav.close(); goTo('dashboard');" mat-list-item>
-        <i class="flaticon-dashboard"></i> Dashboard
-      </a>
-      <h4 class="text-divider">
-        Components
-      </h4>
-      <a (click)="sidenav.close(); goTo('pos')" mat-list-item>
-        <i class="flaticon-share"></i> Point Of Sales
-      </a>
-      <a (click)="goTo('reports')" mat-list-item>
-        <i class="flaticon-line-graph"></i> Reports
-      </a>
-      <a (click)="goTo('products')" mat-list-item>
-        <i class="flaticon-edit"></i> Products
-      </a>
-      <h4 class="text-divider">
-        Settings
-      </h4>
-        <a (click)="goTo('accounts')" mat-list-item>
-      <i class="flaticon-settings"></i> Account
-      </a>
-      <a (click)="goTo('signout')" mat-list-item>
-        <i class="flaticon-logout"></i> Signout
-      </a>
-      </mat-nav-list>
+    <mat-sidenav #left position="start" [(opened)]="opened" (opened)="log('Opened')" (closed)="log('Closed')">
+        <div class="profile">
+            <img src="assets/img/profile.jpg"/>
+            <h1>Aliudin Amer Macalawi</h1>
+        </div>
+        <mat-nav-list>
+            <a (click)="sidenav.close(); goTo('dashboard');" mat-list-item>
+                <i class="flaticon-dashboard"></i> Dashboard
+            </a>
+            <h4 class="text-divider">
+                Components
+            </h4>
+            <a (click)="sidenav.close(); goTo('pos')" mat-list-item>
+                <i class="flaticon-share"></i> Point Of Sales
+            </a>
+            <a (click)="goTo('reports')" mat-list-item>
+                <i class="flaticon-line-graph"></i> Reports
+            </a>
+            <a (click)="goTo('products')" mat-list-item>
+                <i class="flaticon-interface-7"></i> Applications
+            </a>
+            <h4 class="text-divider">
+                Settings
+            </h4>
+                <a (click)="goTo('accounts')" mat-list-item>
+            <i class="flaticon-settings"></i> Account
+            </a>
+            <a (click)="logout()" mat-list-item>
+                <i class="flaticon-logout"></i> Signout
+            </a>
+        </mat-nav-list>
     </mat-sidenav>
+
     <mat-sidenav-content>
         <mat-toolbar color="primary">
             <div class="container-fluid">
@@ -72,4 +73,26 @@
             </div>
         </mat-toolbar>
     </mat-sidenav-content>
+
+    <mat-sidenav #right position="end" [(opened)]="opened2" (opened)="log2('Opened')" (closed)="log2('Closed')">
+            <mat-tab-group animationDuration="0ms" mat-align-tabs="center">
+                <mat-tab label="Logs">
+                    <div class="tab-content fadeIn animated">
+                        Logs Content Here
+                    </div>
+                </mat-tab>
+                <mat-tab label="Settings">
+                    <div class="tab-content fadeIn animated">
+                        <mat-nav-list>
+                            <div mat-list-item>
+                                <label>Email Notifications</label> <mat-slide-toggle position="end"></mat-slide-toggle>
+                            </div>
+                            <div mat-list-item>
+                                SMS Alerts <mat-slide-toggle position="end"></mat-slide-toggle>
+                            </div>
+                        </mat-nav-list>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>                  
+    </mat-sidenav>
 </mat-sidenav-container>
