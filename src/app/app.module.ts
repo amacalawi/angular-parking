@@ -16,6 +16,9 @@ import { POSDialogComponent } from './pos/pos.dialog.component';
 import { ProductsService } from './services/products.services';
 import { ProductFilterPipe } from './shared/product-filter.pipe';
 
+import { VehicleService } from './services/vehicles.services';
+import { CustomerTypeService } from './services/customer-types.services';
+
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { CustomersComponent } from './applications/customers/customers.component';
 
@@ -70,6 +73,8 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
   ],
   providers: [
     ProductsService,
+    VehicleService,
+    CustomerTypeService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],

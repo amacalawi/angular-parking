@@ -1,9 +1,18 @@
 <mat-sidenav-container>
+
+    <!--
+    /*
+    | ---------------------------------
+    | # sidebar left here
+    | ---------------------------------
+    */
+    -->
     <mat-sidenav #left position="start" [(opened)]="opened" (opened)="log('Opened')" (closed)="log('Closed')">
 		<div class="profile">
 			<img src="assets/img/profile.jpg"/>
 			<h1>Aliudin Amer Macalawi</h1>
-		</div>
+        </div>
+        
 		<mat-nav-list>
 			<a (click)="sidenav.close(); goTo('dashboard');" mat-list-item>
 				<i class="flaticon-dashboard"></i> Dashboard
@@ -32,6 +41,13 @@
     	</mat-nav-list>
     </mat-sidenav>
 
+    <!--
+    /*
+    | ---------------------------------
+    | # content here
+    | ---------------------------------
+    */
+    -->
     <mat-sidenav-content>
         <div class="theme-search md-whiteframe-1dp" [ngClass]="{ 'active' : searchbar }">
             <input type="text" class="theme-search-input" placeholder="Search for keywords ...">
@@ -44,8 +60,7 @@
                             <button mat-icon-button (click)="opened=!opened">
                                 <i class="flaticon-signs"></i>
                             </button>
-                            {{ pageTitle }}
-                            
+                            {{ pageTitle }}                            
                             <div class="pull-right">
 								<button mat-icon-button (click)="toggleClass(searchbar = !searchbar)" class="mr-3">
 									<i class="flaticon-search"></i>
@@ -59,6 +74,14 @@
                 </div>
             </div>
         </mat-toolbar>
+
+        <!--
+        /*
+        | ---------------------------------
+        | # content here
+        | ---------------------------------
+        */
+        -->
         <div class="content">
 	        <div class="container-fluid">
 	        	<div class="col-sm-12">
@@ -74,6 +97,14 @@
                     </h1>
                     <mat-card [ngStyle]="{'height': documentHeight + 'px' }">
                         <div class="customer-content" [ngClass]="{ 'active' : activeForm }">
+                            
+                            <!--
+                            /*
+                            | ---------------------------------
+                            | # table
+                            | ---------------------------------
+                            */
+                            -->
                             <div class="content-table">
                                 <div class="row">
                                     <div class="col-sm-3">
@@ -157,6 +188,14 @@
                                 </pagination-controls>
                                 <div class="clearfix"></div>
                             </div>
+
+                            <!--
+                            /*
+                            | ---------------------------------
+                            | # form
+                            | ---------------------------------
+                            */
+                            -->
                             <div class="content-form">
                                 <div class="row">
                                     <div class="col-sm-12">
@@ -164,6 +203,7 @@
                                             <div class="col-sm-4">
                                                 <mat-form-field>
                                                     <input matInput placeholder="First Name" required>
+                                                    <mat-error>this field is required</mat-error>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-sm-4">
@@ -174,6 +214,7 @@
                                             <div class="col-sm-4">
                                                 <mat-form-field>
                                                     <input matInput placeholder="Last Name" required>
+                                                    <mat-error>this field is required</mat-error>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-sm-4">
@@ -182,6 +223,7 @@
                                                         <mat-option value="Male">Male</mat-option>
                                                         <mat-option value="Female">Female</mat-option>
                                                     </mat-select>
+                                                    <mat-error>this field is required</mat-error>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-sm-4">
@@ -194,27 +236,17 @@
                                             <div class="col-sm-4">
                                                 <mat-form-field>
                                                     <mat-select placeholder="Type" required>
-                                                        <mat-option value="Parent">Parent</mat-option>
-                                                        <mat-option value="Student">Student</mat-option>
-                                                        <mat-option value="Employee">Employee</mat-option>
-                                                        <mat-option value="Visitor">Visitor</mat-option>
-                                                        <mat-option value="Overnight Parker">Overnight Parker</mat-option>
+                                                        <mat-option *ngFor="let customertype of customertypes" [value]="customertype.id">{{customertype.name}}</mat-option>
                                                     </mat-select>
+                                                    <mat-error>this field is required</mat-error>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-sm-4">
                                                 <mat-form-field>
                                                     <mat-select placeholder="Vehicle" required>
-                                                        <mat-option value="Parent">SUV</mat-option>
-                                                        <mat-option value="Student">Van</mat-option>
-                                                        <mat-option value="Employee">Bus</mat-option>
-                                                        <mat-option value="Visitor">Truck</mat-option>
-                                                        <mat-option value="Overnight Parker">Sedan</mat-option>
-                                                        <mat-option value="Overnight Parker">Taxi</mat-option>
-                                                        <mat-option value="Overnight Parker">Motorcycle</mat-option>
-                                                        <mat-option value="Overnight Parker">Bicycle</mat-option>
-                                                        <mat-option value="Overnight Parker">Tricycle</mat-option>
+                                                        <mat-option *ngFor="let vechile of vehicles" [value]="vechile.id">{{vechile.name}}</mat-option>
                                                     </mat-select>
+                                                    <mat-error>this field is required</mat-error>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-sm-4">
@@ -230,12 +262,14 @@
                                             <div class="col-sm-4">
                                                 <mat-form-field>
                                                     <input matInput placeholder="RFID No" required>
+                                                    <mat-error>this field is required</mat-error>
                                                 </mat-form-field>
                                             </div>
                                         </div>
                                     </div>
                                 </div>    
                             </div> 
+                            
                         </div>
                     </mat-card>
 	            </div>           
@@ -243,6 +277,13 @@
 	    </div>
     </mat-sidenav-content> 
 
+    <!--
+    /*
+    | ---------------------------------
+    | # sidebar right here
+    | ---------------------------------
+    */
+    -->
     <mat-sidenav #right position="end" [(opened)]="opened2" (opened)="log2('Opened')" (closed)="log2('Closed')">
             <mat-tab-group animationDuration="0ms" mat-align-tabs="center">
                 <mat-tab label="Logs">
