@@ -26,7 +26,7 @@
 				<a (click)="goTo('accounts')" mat-list-item>
 			<i class="flaticon-settings"></i> Account
 			</a>
-			<a (click)="goTo('signout')" mat-list-item>
+			<a (click)="logout()" mat-list-item>
 				<i class="flaticon-logout"></i> Signout
 			</a>
     	</mat-nav-list>
@@ -163,7 +163,7 @@
                                         <div class="row">
                                             <div class="col-sm-4">
                                                 <mat-form-field>
-                                                    <input matInput placeholder="First Name">
+                                                    <input matInput placeholder="First Name" required>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-sm-4">
@@ -173,12 +173,12 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <mat-form-field>
-                                                    <input matInput placeholder="Last Name">
+                                                    <input matInput placeholder="Last Name" required>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-sm-4">
                                                 <mat-form-field>
-                                                    <mat-select placeholder="Gender">
+                                                    <mat-select placeholder="Gender" required>
                                                         <mat-option value="Male">Male</mat-option>
                                                         <mat-option value="Female">Female</mat-option>
                                                     </mat-select>
@@ -193,7 +193,7 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <mat-form-field>
-                                                    <mat-select placeholder="Type">
+                                                    <mat-select placeholder="Type" required>
                                                         <mat-option value="Parent">Parent</mat-option>
                                                         <mat-option value="Student">Student</mat-option>
                                                         <mat-option value="Employee">Employee</mat-option>
@@ -204,7 +204,7 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <mat-form-field>
-                                                    <mat-select placeholder="Vehicle">
+                                                    <mat-select placeholder="Vehicle" required>
                                                         <mat-option value="Parent">SUV</mat-option>
                                                         <mat-option value="Student">Van</mat-option>
                                                         <mat-option value="Employee">Bus</mat-option>
@@ -224,7 +224,12 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <mat-form-field>
-                                                    <input matInput placeholder="Plate No">
+                                                    <input matInput placeholder="Plate No" required>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="RFID No" required>
                                                 </mat-form-field>
                                             </div>
                                         </div>

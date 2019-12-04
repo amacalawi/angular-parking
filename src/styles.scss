@@ -2,7 +2,33 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @import '~@angular/material/theming';
+@import '~material-design-icons/iconfont/material-icons.css';
 @import '~animate.css/animate.min';
+
+@font-face {
+    font-family: 'poppin-bold-italic';
+    src: url("assets/fonts/Poppins-BoldItalic.ttf");
+}
+@font-face {
+    font-family: 'poppin-med';
+    src: url("assets/fonts/Poppins-Medium.ttf");
+}
+@font-face {
+    font-family: 'poppin-reg';
+    src: url("assets/fonts/Poppins-Regular.ttf");
+}
+@font-face {
+    font-family: 'poppin-semi-bold';
+    src: url("assets/fonts/Poppins-SemiBold.ttf");
+}
+@font-face {
+    font-family: 'poppin-light';
+    src: url("assets/fonts/Poppins-Light.ttf");
+}
+@font-face {
+    font-family: 'poppin-light-italic';
+    src: url("assets/fonts/Poppins-LightItalic.ttf");
+}
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -33,6 +59,11 @@ html, body { height: 100%;
     background-color: #f5f5f8 !important;
     background-image: url(assets/img/bg.svg);
 }
+
+body, p, h1, h2, h3, h4, h5, h6, span, em, button, li, a, td, th {
+    font-family: 'poppin-reg' !important;
+}
+
 body { 
     margin: 0; 
     font-family: Roboto, "Helvetica Neue", sans-serif; 
