@@ -1,7 +1,8 @@
 import { Component, HostBinding, Input, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NavItem } from '../shared/nav-item';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { MenuItems } from '../shared/menu';
 
 @Component({
   selector: 'app-homepage',
@@ -20,12 +21,13 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 export class HomepageComponent implements OnInit, OnDestroy {
     expanded: boolean;
     @HostBinding('attr.aria-expanded') ariaExpanded = this.expanded;
-    @Input() item: NavItem;
-    @Input() depth: number;
+    items: NavItem;
+    // @Input() depth: number;
 
     constructor(
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        public menuItems: MenuItems, 
     ) { 
 
     }
@@ -33,11 +35,12 @@ export class HomepageComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {}
 
     ngOnInit() {
-        console.log('this is item' + this.item);
+        this.items = this.menuItems.getAll();
+
         if (sessionStorage.credentials !== undefined) {
-            if (this.depth === undefined) {
-                this.depth = 0;
-            }
+            // if (this.depth === undefined) {
+            //     this.depth = 0;
+            // }
 
         } else {
             this.router.navigate([this.route.snapshot.queryParams.redirect || '/login'], { replaceUrl: true });
@@ -66,11 +69,11 @@ export class HomepageComponent implements OnInit, OnDestroy {
         this.router.navigate(['/login']);
     }
 
-    onItemSelected(item: NavItem) {
-        if (!item.children || !item.children.length) {
-            this.router.navigate([item.route]);
+    onItemSelected(items: NavItem) {
+        if (!items.children || !items.children.length) {
+            this.router.navigate([items.route]);
         }
-        if (item.children && item.children.length) {
+        if (items.children && items.children.length) {
             this.expanded = !this.expanded;
         }
     }

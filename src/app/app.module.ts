@@ -28,6 +28,7 @@ import { LoginComponent } from './login/login.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './core/authentication/token.interceptor';
 import { CoreModule } from './core';
+import { MenuItems } from './shared/menu';
 
 const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
 
@@ -75,6 +76,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     ProductsService,
     VehicleService,
     CustomerTypeService,
+    MenuItems,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],

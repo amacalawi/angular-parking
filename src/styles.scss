@@ -760,6 +760,15 @@ ul.ngx-pagination li span:last-child {
     color: rgba(0, 0, 0, 0.87);
 }
 
+.mat-list-indicator {
+    width: 100%;
+    text-align: right;
+}
+
+.sub-menu-item .mat-list-item-content {
+    padding-left: 90px !important;
+}
+
 // ul.ngx-pagination li {
 //     border-radius: 50%;
 //     text-align: center;
