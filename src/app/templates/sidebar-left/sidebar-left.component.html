@@ -1,0 +1,22 @@
+<div class="profile">
+    <img src="assets/img/profile.jpg"/>
+    <h1>Aliudin Amer Macalawi</h1>
+</div>
+<mat-nav-list>
+    <div *ngFor="let item of items">
+        <a (click)="onItemSelected(item)" mat-list-item>
+            <i class="{{item.iconName}}"></i> {{item.displayName}}
+            <span class="mat-list-indicator" *ngIf="item.children && item.children.length">
+            <span></span>
+                <mat-icon [@indicatorRotate]="expanded ? 'expanded': 'collapsed'">
+                expand_more
+                </mat-icon>
+            </span>
+        </a> 
+        <div class="sub-menu-item" *ngIf="expanded">
+            <a (click)="onItemSelected(child)" *ngFor="let child of item.children" mat-list-item>
+                {{ child.displayName }}
+            </a>
+        </div>    
+    </div>    
+</mat-nav-list>

@@ -22,22 +22,25 @@ const MENUITEMS = [
     {
         displayName: 'Applications',
         iconName: 'flaticon-interface-7',
-        route: 'applications',
+        route: '',
         children: [
             {
                 displayName: 'Customers',
                 iconName: '',
-                route: 'applications/customers'
+                route: 'applications/customers',
+                children: []
             },
             {
                 displayName: 'Vehicles',
                 iconName: '',
-                route: 'applications/vehicles'
+                route: 'applications/vehicles',
+                children: []
             },
             {
                 displayName: 'Fix Rate',
                 iconName: '',
-                route: 'applications/fix-rates'
+                route: 'applications/fix-rates',
+                children: []
             }
         ]
     }

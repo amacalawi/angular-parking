@@ -5,11 +5,13 @@ import { CustomersComponent } from './applications/customers/customers.component
 import { PosComponent } from './pos/pos.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { LoginComponent } from './login/login.component';
+import { FixedRateComponent } from './pages/applications/fixed-rate/fixed-rate.component';
 import { AuthenticationGuard } from './core';
 
 const routes: Routes = [
   { path: 'dashboard', component: HomepageComponent, canActivate: [AuthenticationGuard] },
   { path: 'applications/customers', component: CustomersComponent, canActivate: [AuthenticationGuard] },
+  { path: 'applications/fixed-rate', component: FixedRateComponent, canActivate: [AuthenticationGuard] },
   { path: 'pos', component: PosComponent, canActivate: [AuthenticationGuard] },
   { path: 'notifications', component: NotificationsComponent },
   { path: 'login', component: LoginComponent },

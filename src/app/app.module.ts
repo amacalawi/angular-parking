@@ -29,6 +29,11 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './core/authentication/token.interceptor';
 import { CoreModule } from './core';
 import { MenuItems } from './shared/menu';
+import { NavService } from './services/nav.services';
+
+import { SidebarLeftComponent } from './templates/sidebar-left/sidebar-left.component';
+import { SidebarRightComponent } from './templates/sidebar-right/sidebar-right.component';
+import { FixedRateComponent } from './pages/applications/fixed-rate/fixed-rate.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
 
@@ -42,7 +47,10 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     NotificationsComponent,
     NotifComponent,
     CustomersComponent,
-    LoginComponent
+    LoginComponent,
+    SidebarLeftComponent,
+    SidebarRightComponent,
+    FixedRateComponent
   ],
   imports: [
     SocketIoModule.forRoot(config),
@@ -76,6 +84,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     ProductsService,
     VehicleService,
     CustomerTypeService,
+    NavService,
     MenuItems,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
   ],

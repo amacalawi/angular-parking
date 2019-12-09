@@ -1,0 +1,23 @@
+<mat-sidenav-content>        
+    <mat-toolbar color="primary">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="layer">
+                        <button mat-icon-button (click)="navService.openNav()">
+                            <i class="flaticon-signs"></i>
+                        </button>                         
+                        <div class="pull-right">
+                            <button mat-icon-button (click)="toggleClass(searchbar = !searchbar)" class="mr-3">
+                                <i class="flaticon-search"></i>
+                            </button>                                							
+                            <button mat-icon-button (click)="navService.openSidebar()">
+                                <i class="flaticon-grid-menu"></i>
+                            </button>					
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-toolbar>
+</mat-sidenav-content>
