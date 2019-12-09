@@ -4,8 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomepageComponent } from './homepage/homepage.component';
-
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule, MatGridListModule, MatMenuModule, MatCardModule, MatDialogModule, MatInputModule, MatSelectModule, MatSnackBarModule, MatTabsModule, MatSlideToggleModule, MatDatepickerModule, MatNativeDateModule, MatCheckboxModule } from  '@angular/material';
@@ -20,8 +18,6 @@ import { VehicleService } from './services/vehicles.services';
 import { CustomerTypeService } from './services/customer-types.services';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-import { CustomersComponent } from './applications/customers/customers.component';
-
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LoginComponent } from './login/login.component';
 
@@ -34,13 +30,15 @@ import { NavService } from './services/nav.services';
 import { SidebarLeftComponent } from './templates/sidebar-left/sidebar-left.component';
 import { SidebarRightComponent } from './templates/sidebar-right/sidebar-right.component';
 import { FixedRateComponent } from './pages/applications/fixed-rate/fixed-rate.component';
+import { CustomersComponent } from './pages/applications/customers/customers.component';
+import { VehiclesComponent } from './pages/applications/vehicles/vehicles.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomepageComponent,
     PosComponent,
     POSDialogComponent,
     ProductFilterPipe,
@@ -50,7 +48,9 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     LoginComponent,
     SidebarLeftComponent,
     SidebarRightComponent,
-    FixedRateComponent
+    FixedRateComponent,
+    VehiclesComponent,
+    DashboardComponent
   ],
   imports: [
     SocketIoModule.forRoot(config),

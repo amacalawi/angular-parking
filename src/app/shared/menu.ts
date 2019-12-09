@@ -39,10 +39,22 @@ const MENUITEMS = [
             {
                 displayName: 'Fix Rate',
                 iconName: '',
-                route: 'applications/fix-rates',
+                route: 'applications/fixed-rate',
                 children: []
             }
         ]
+    },
+    {
+        displayName: 'Account',
+        iconName: 'flaticon-settings',
+        route: 'account',
+        children: []
+    },
+    {
+        displayName: 'Signout',
+        iconName: 'flaticon-logout',
+        route: 'logout',
+        children: []
     }
 ]; 
 

@@ -1,17 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, HostBinding, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { VehicleService } from '../../services/vehicles.services';
-import { Vehicle } from '../../shared/vehicle';
-import { CustomerTypeService } from '../../services/customer-types.services';
-import { CustomerType } from '../../shared/customer-type';
+import { VehicleService } from '../../../services/vehicles.services';
+import { Vehicle } from '../../../shared/vehicle';
+import { CustomerTypeService } from '../../../services/customer-types.services';
+import { CustomerType } from '../../../shared/customer-type';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { NavItem } from '../../../shared/nav-item';
+import { NavService } from '../../../services/nav.services'
 
 @Component({
   selector: 'app-customers',
   templateUrl: './customers.component.html',
-  styleUrls: ['./customers.component.scss']
+  styleUrls: ['./customers.component.scss'],
+  animations: [
+    trigger('indicatorRotate', [
+      state('collapsed', style({transform: 'rotate(0deg)'})),
+      state('expanded', style({transform: 'rotate(180deg)'})),
+      transition('expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4,0.0,0.2,1)')
+      ),
+    ])
+  ]
 })
-export class CustomersComponent implements OnInit {
+export class CustomersComponent implements OnInit, OnDestroy {
+    pageTitle: string;
+    expanded: boolean;
+    @HostBinding('attr.aria-expanded') ariaExpanded = this.expanded;
+    items: NavItem;
 
     collection = { count: 60, data: [] };
     config = {
@@ -36,10 +52,15 @@ export class CustomersComponent implements OnInit {
     customertypes: CustomerType[];
 
     constructor(
+        public navService: NavService,
         private router: Router,
+        private route: ActivatedRoute,
         private vehicleService: VehicleService,
-        private customertypeService: CustomerTypeService,
+        private customertypeService: CustomerTypeService
     ) { 
+        let params = this.router.url;
+        this.pageTitle = params.replace(/\//g, " "); 
+        this.pageTitle = this.pageTitle.replace(/-/g, " ");
         for (var i = 0; i < this.collection.count; i++) {
             this.collection.data.push(
             {
@@ -50,9 +71,15 @@ export class CustomersComponent implements OnInit {
         }
     }
 
+    ngOnDestroy(): void {}
+
     ngOnInit() {
-        this.getAllVehicles();
-        this.getAllCustomerTypes();
+        if (sessionStorage.credentials !== undefined) {
+            this.getAllVehicles();
+            this.getAllCustomerTypes();
+        } else {
+            this.router.navigate([this.route.snapshot.queryParams.redirect || '/login'], { replaceUrl: true });
+        }
     }
 
     onPageChange(event){
@@ -60,25 +87,15 @@ export class CustomersComponent implements OnInit {
         this.config.currentPage = event;
     }
 
-    opened = false;
-    log(state: any) {
-        console.log(state)
-    }
-
-    opened2 = false;
-    log2(state: any) {
-        console.log(state)
-    }
-
     searchbar = true;
     toggleClass(searchbar: boolean) {
         searchbar = !false;
     }
-
-    goTo(link: string) {
-        setTimeout(() => {
-            this.router.navigate(['/' + link]);
-        }, 300);
+    
+    redirect() {
+        sessionStorage.clear();
+        localStorage.clear();
+        this.router.navigate([this.route.snapshot.queryParams.redirect || '/login'], { replaceUrl: true });
     }
 
     activeForm = false;
@@ -94,19 +111,15 @@ export class CustomersComponent implements OnInit {
         activeForm = !false;
     }
 
-    logout() {
-        sessionStorage.clear();
-        localStorage.clear();
-        this.router.navigate(['/login']);
-    }
-
     getAllVehicles() {
         this.vehicleService.getAllVehicles()
         .pipe(
             map(data => data)
         ).subscribe((vehicles: any) => {
             console.log(this.vehicles = vehicles.data);
-        }, error => { console.log(error) });
+        }, error => { 
+            this.redirect();
+        });
     }
 
     getAllCustomerTypes() {
@@ -115,6 +128,8 @@ export class CustomersComponent implements OnInit {
             map(data => data)
         ).subscribe((customertypes: any) => {
             console.log(this.customertypes = customertypes.data);
-        }, error => { console.log(error) });
+        }, error => { console.log(error)
+            this.redirect();
+        });
     }
 }

@@ -3,11 +3,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NavService } from '../../../services/nav.services'
 
 @Component({
-  selector: 'app-fixed-rate',
-  templateUrl: './fixed-rate.component.html',
-  styleUrls: ['./fixed-rate.component.scss']
+  selector: 'app-vehicles',
+  templateUrl: './vehicles.component.html',
+  styleUrls: ['./vehicles.component.scss']
 })
-export class FixedRateComponent implements OnInit {
+export class VehiclesComponent implements OnInit {
     pageTitle: string;
     
     constructor(

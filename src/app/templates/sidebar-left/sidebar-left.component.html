@@ -4,6 +4,9 @@
 </div>
 <mat-nav-list>
     <div *ngFor="let item of items">
+        <h4 *ngIf="item.displayName == 'Point Of Sales' || item.displayName == 'Account'" class="text-divider">
+            {{ (item.displayName == 'Point Of Sales') ? 'Components' : 'Settings' }}
+        </h4>
         <a (click)="onItemSelected(item)" mat-list-item>
             <i class="{{item.iconName}}"></i> {{item.displayName}}
             <span class="mat-list-indicator" *ngIf="item.children && item.children.length">

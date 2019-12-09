@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NavService } from '../../../services/nav.services'
+import { NavService } from '../../services/nav.services'
 
 @Component({
-  selector: 'app-fixed-rate',
-  templateUrl: './fixed-rate.component.html',
-  styleUrls: ['./fixed-rate.component.scss']
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
 })
-export class FixedRateComponent implements OnInit {
+export class DashboardComponent implements OnInit {
     pageTitle: string;
-    
+      
     constructor(
         public navService: NavService,
         private router: Router,
@@ -21,6 +21,9 @@ export class FixedRateComponent implements OnInit {
     }
 
     ngOnInit() {
+        if (sessionStorage.credentials !== undefined) {
+        } else {
+            this.router.navigate([this.route.snapshot.queryParams.redirect || '/login'], { replaceUrl: true });
+        }
     }
-
 }

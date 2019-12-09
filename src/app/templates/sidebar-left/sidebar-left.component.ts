@@ -47,10 +47,21 @@ export class SidebarLeftComponent implements OnInit, OnDestroy {
         });
     }
 
+    logout() {
+        sessionStorage.clear();
+        localStorage.clear();
+        this.router.navigate(['/login']);
+    }
+
     onItemSelected(item: NavItem) {
         if (!item.children || !item.children.length) {
-            this.router.navigate([item.route]);
-            this.navService.closeNav();
+            if (item.route !== 'logout') {
+                this.router.navigate([item.route]);
+                this.navService.closeNav();
+            } else {
+                this.navService.closeNav();
+                this.logout();
+            }
         }
         if (item.children && item.children.length) {
             this.expanded = !this.expanded;
