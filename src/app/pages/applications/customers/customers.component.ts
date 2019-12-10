@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostBinding, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { VehicleService } from '../../../services/vehicles.services';
@@ -7,7 +7,7 @@ import { CustomerTypeService } from '../../../services/customer-types.services';
 import { CustomerType } from '../../../shared/customer-type';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { NavItem } from '../../../shared/nav-item';
-import { NavService } from '../../../services/nav.services'
+import { NavService } from '../../../services/nav.services';
 
 @Component({
   selector: 'app-customers',
@@ -69,6 +69,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
             }
             );
         }
+        
     }
 
     ngOnDestroy(): void {}
@@ -95,7 +96,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
     redirect() {
         sessionStorage.clear();
         localStorage.clear();
-        this.router.navigate([this.route.snapshot.queryParams.redirect || '/login'], { replaceUrl: true });
+        this.router.navigate(['/login'], { queryParams: { redirect: this.router.url }, replaceUrl: true });
     }
 
     activeForm = false;

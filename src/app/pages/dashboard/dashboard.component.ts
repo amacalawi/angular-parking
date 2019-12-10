@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NavService } from '../../services/nav.services'
+import { ChartDataSets, ChartOptions } from 'chart.js';
+import { Color, Label } from 'ng2-charts';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,7 +11,31 @@ import { NavService } from '../../services/nav.services'
 })
 export class DashboardComponent implements OnInit {
     pageTitle: string;
-      
+    
+    lineChartData: ChartDataSets[] = [
+        { data: [85, 72, 78, 75, 77, 75], label: '' }
+    ];
+
+    lineChartLabels: Label[] = ['January', 'February', 'March', 'April', 'May', 'June'];
+
+    lineChartOptions = {
+        responsive: true,
+        legend: {
+            display: false
+        },
+    };
+
+    lineChartColors: Color[] = [
+        {
+            borderColor: 'rgba(169,84,52,1)',
+            backgroundColor: 'rgba(189,93,56,0.28)',
+        },
+    ];
+
+    lineChartLegend = true;
+    lineChartPlugins = [];
+    lineChartType = 'line';
+
     constructor(
         public navService: NavService,
         private router: Router,

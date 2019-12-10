@@ -21,5 +21,62 @@
             </div>
         </div>
     </mat-toolbar>
+    <div class="content">
+        <div class="container-fluid">
+            <div class="col-sm-12">
+                <h1 class="page-title">   
+                    <i class="page-icon flaticon-dashboard"></i>
+                    Dashboard Information
+                </h1>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <mat-card>
+                            <h2 class="mb-4 mt-0">
+                                Sales Overview
+                                <button mat-icon-button class="pull-right download-button">
+                                    <i class="la la-cloud-download"></i>
+                                </button>	
+                            </h2>
+                            <div class="row">
+                                
+                                <div class="col-sm-6 p-5">
+                                    <h1>
+                                        <strong>₱4,374.00</strong>
+                                    </h1>
+                                    <h3>Sales this month</h3>
+                                    <h5>
+                                        <div class="success-wrapper">
+                                            <i class="la la-caret-up"></i>
+                                        </div>
+                                        <span class="text-success">11% more sales</span> in comparison to last month.
+                                    </h5> 
+                                    <h5>
+                                        <div class="danger-wrapper">
+                                            <i class="la la-caret-down"></i>
+                                        </div>
+                                        <span class="text-danger">-2% revenue per sale</span> in comparison to last month.
+                                    </h5>
+                                    <button mat-flat-button class="bg-primary view-details">View Details</button>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="chart-wrapper">
+                                        <canvas baseChart 
+                                            [datasets]="lineChartData" 
+                                            [labels]="lineChartLabels" 
+                                            [options]="lineChartOptions"
+                                            [colors]="lineChartColors" 
+                                            [legend]="lineChartLegend" 
+                                            [chartType]="lineChartType" 
+                                            [plugins]="lineChartPlugins">
+                                        </canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </mat-sidenav-content>
         

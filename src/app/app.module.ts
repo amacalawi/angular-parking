@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule, MatGridListModule, MatMenuModule, MatCardModule, MatDialogModule, MatInputModule, MatSelectModule, MatSnackBarModule, MatTabsModule, MatSlideToggleModule, MatDatepickerModule, MatNativeDateModule, MatCheckboxModule } from  '@angular/material';
+import { MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule, MatGridListModule, MatMenuModule, MatCardModule, MatDialogModule, MatInputModule, MatSelectModule, MatSnackBarModule, MatTabsModule, MatSlideToggleModule, MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatPaginatorModule, MatSortModule, MatTableModule } from  '@angular/material';
 import { PosComponent, NotifComponent } from './pos/pos.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { POSDialogComponent } from './pos/pos.dialog.component';
@@ -17,6 +17,7 @@ import { ProductFilterPipe } from './shared/product-filter.pipe';
 import { VehicleService } from './services/vehicles.services';
 import { CustomerTypeService } from './services/customer-types.services';
 
+import { ChartsModule } from 'ng2-charts';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LoginComponent } from './login/login.component';
@@ -53,6 +54,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     DashboardComponent
   ],
   imports: [
+    ChartsModule,
     SocketIoModule.forRoot(config),
     BrowserModule,
     BrowserAnimationsModule,
@@ -78,7 +80,10 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     NgxPaginationModule,
     ReactiveFormsModule,
     MatCheckboxModule,
-    CoreModule
+    CoreModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule
   ],
   providers: [
     ProductsService,
