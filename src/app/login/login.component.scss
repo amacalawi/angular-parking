@@ -1,0 +1,31 @@
+.login-wrapper {
+    width: 320px;
+    position: absolute;
+    left: 50%;
+    margin-left: -160px;
+    top: 50%;
+    margin-top: -228.22px;
+}
+
+.login-wrapper mat-card img {
+    width: 4rem;
+    margin-bottom: 20px;
+}
+
+.login-wrapper mat-card h1 {
+    font-size: 18px;
+    margin-bottom: 0px;
+}
+
+.login-wrapper mat-card p.sub-header {
+    color: #0000008a;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.login-wrapper mat-card button {
+    color: #fff;
+    margin: 10px 0;
+    width: 100%;
+}
+

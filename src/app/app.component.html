@@ -1,1 +1,9 @@
-<router-outlet></router-outlet>
+<mat-sidenav-container>
+    <mat-sidenav #leftSidebar position="start" mode="over" opened="false">
+        <app-sidebar-left></app-sidebar-left>
+    </mat-sidenav> 
+    <router-outlet></router-outlet>
+    <mat-sidenav #rightSidebar position="end" mode="over" opened="false">
+        <app-sidebar-right></app-sidebar-right>
+    </mat-sidenav> 
+</mat-sidenav-container>

@@ -2,7 +2,33 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @import '~@angular/material/theming';
+@import '~material-design-icons/iconfont/material-icons.css';
 @import '~animate.css/animate.min';
+
+@font-face {
+    font-family: 'poppin-bold-italic';
+    src: url("assets/fonts/Poppins-BoldItalic.ttf");
+}
+@font-face {
+    font-family: 'poppin-med';
+    src: url("assets/fonts/Poppins-Medium.ttf");
+}
+@font-face {
+    font-family: 'poppin-reg';
+    src: url("assets/fonts/Poppins-Regular.ttf");
+}
+@font-face {
+    font-family: 'poppin-semi-bold';
+    src: url("assets/fonts/Poppins-SemiBold.ttf");
+}
+@font-face {
+    font-family: 'poppin-light';
+    src: url("assets/fonts/Poppins-Light.ttf");
+}
+@font-face {
+    font-family: 'poppin-light-italic';
+    src: url("assets/fonts/Poppins-LightItalic.ttf");
+}
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -31,7 +57,13 @@ $point-of-sales-theme: mat-light-theme($point-of-sales-primary, $point-of-sales-
 
 html, body { height: 100%; 
     background-color: #f5f5f8 !important;
+    background-image: url(assets/img/bg.svg);
 }
+
+body, p, h1, h2, h3, h4, h5, h6, span, em, button, li, a, td, th {
+    font-family: 'poppin-reg' !important;
+}
+
 body { 
     margin: 0; 
     font-family: Roboto, "Helvetica Neue", sans-serif; 
@@ -41,17 +73,18 @@ mat-sidenav-container {
   height: 100%;
 }
 
-mat-sidenav {
-  background-color: #ff9f00;
-  width: 270px;
-}
-
-mat-sidenav {
+mat-sidenav[position="start"] {
+    background: #bd5d38;
     width: 280px;
 }
 
+mat-sidenav[position="end"]{
+    width: 455px;
+    background: #fff;
+}
+
 .mat-drawer { 
-    background-color: #ff9f00;
+    background-color: #bd5d38;
     color:#fff
 }
 
@@ -71,6 +104,10 @@ button {
 
 button .mat-button-wrapper {
 	font-size: 1.3rem;
+}
+
+.mat-fab .mat-button-wrapper { 
+    padding: 0 !important;
 }
 
 .layer {
@@ -101,8 +138,20 @@ mat-toolbar a i {
     cursor: pointer;
 }
 
+.bg-primary {
+    background: #bd5d38 !important;
+}
+
+a.bg-primary:focus, a.bg-primary:hover, button.bg-primary:focus, button.bg-primary:hover {
+    background: #a75332 !important;
+}
+
+.c-primary {
+    color: #bd5d38 !important;
+}
+
 .mat-toolbar.mat-primary {
-	background: #ff9f00;
+	background: #bd5d38;
 }
 
 .profile {
@@ -439,12 +488,6 @@ mat-dialog-content::-webkit-scrollbar-thumb {
     margin-bottom: 0;
 }
 
-.content .col-sm-3 mat-card .table td, .table th { 
-    padding: 0;
-    border-top: 1px solid transparent;
-    border-bottom: 1px solid #dee2e6;
-}
-
 .content .col-sm-3 mat-card a:last-child .table td {
     border-bottom: 1px solid transparent;
 }
@@ -533,7 +576,7 @@ mat-dialog-content::-webkit-scrollbar-thumb {
 }
 
 .content .col-sm-3 mat-card button.checkout {
-    background: #ff9f00;
+    background: #bd5d38;
     color: #fff;
     border-radius: 0;
     margin-top: 10px;
@@ -584,7 +627,7 @@ mat-dialog-content::-webkit-scrollbar-thumb {
 }
 
 .content .col-sm-3 mat-card .container-2 button.confirm-btn {
-    background: #ff9f00;
+    background: #bd5d38;
     color: #fff;
     border-radius: 0;
     float: right;
@@ -611,11 +654,11 @@ mat-dialog-content::-webkit-scrollbar-thumb {
 }
 
 .content .col-sm3 mat-card .mat-input-element {
-    caret-color: #ff9f00;
+    caret-color: #bd5d38;
 }
 
 .mat-form-field.mat-focused .mat-form-field-label {
-    color: #ff9f00;
+    color: #bd5d38;
 }
 
 .swal2-icon {
@@ -625,4 +668,133 @@ mat-dialog-content::-webkit-scrollbar-thumb {
 
 .swal2-actions {
     margin-bottom: 10px !important;
+}
+
+.mat-tab-body {
+    color: #3f4047; 
+}
+
+mat-tab mat-nav-list {
+    height: 100%;
+    overflow: hidden;
+}
+
+mat-tab mat-list-item {
+    width: 100%;
+    padding: 9px 0;
+    background:red;
+}
+
+mat-tab mat-nav-list label {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.mat-form-field-flex {
+    border-radius: 4px 4px 0 0 !important;
+    padding: .75em .75em 0 .75em !important;
+    background-color: rgba(0,0,0,.04) !important;
+}
+
+.mat-form-field-infix {
+    width: 100% !important;
+}
+
+.mat-input-element {
+    caret-color: #bd5d38 !important;
+}
+
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+    color: #bd5d38 !important;
+}
+
+.mat-calendar-body-selected {
+    background-color: #bd5d38;
+}
+
+.mat-form-field.mat-focused .mat-form-field-ripple {
+    background-color: #bd5d38 !important;
+}
+
+button.mat-flat-button span.mat-button-wrapper {
+    font-size: 1rem !important;
+}
+
+.login-wrapper mat-card .mat-checkbox-label,
+.login-wrapper mat-card .forgot {
+    font-size: 12px !important;
+    color: #0000008a;
+}
+
+.login-wrapper mat-card .mat-icon {
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.mat-list-indicator {
+    width: 100%;
+    text-align: right;
+}
+
+.sub-menu-item .mat-list-item-content {
+    padding-left: 90px !important;
+}
+
+.table thead th {
+    background: #bd5d38;
+    color: #fff;
+    padding: .75rem;
+    text-align: left !important;
+    font-size: 1rem !important;
+    vertical-align: middle;
+    border-bottom: 2px solid #bd5d38;
+}
+
+.table thead th:not(:first-child) {
+    padding-left: 0 !important;
+}
+
+td.mat-cell, td.mat-footer-cell, th.mat-header-cell { 
+    vertical-align: middle;
+}
+
+.mat-sort-header-arrow {
+    color: #fff;
+}
+
+mat-paginator {
+    margin-top: 20px;
+}
+
+mat-paginator .mat-form-field-flex {
+    padding-top: 0 !important;
+}
+
+.mat-paginator-container {
+    justify-content: center !important;
+}
+
+.overlay-spinner {
+    background: rgba(255,255,255,0.3);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.overlay-spinner mat-spinner {
+    display: inline-block;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+}
+
+.mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #bd5d38;
 }

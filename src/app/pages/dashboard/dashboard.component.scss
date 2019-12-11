@@ -1,0 +1,98 @@
+h1.page-title {
+    font-size: 1.4rem;
+    margin: 20px 0;
+    padding-top: 25px;
+}
+
+h1.page-title i.page-icon {
+    background: #c5c4c4;
+    color: #bd5d38;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    display: inline-block;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+mat-card {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 2rem;
+    padding-bottom: .8rem;
+}
+
+mat-card h2 {
+    font-size: 18px;
+    border-bottom: 1px solid #523f690f;
+    padding-bottom: 1.5rem;
+    margin-left: .6rem;
+    margin-right: .6rem;
+}
+
+h3 {
+    margin-bottom: 1.5rem;
+}
+
+@media(min-width: 1367px) {
+    h3 {
+        margin-bottom: 3.5rem;
+    }
+    mat-card {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+}
+
+h5 {
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+    font-size: 18px;
+}
+
+.download-button {
+    margin-top: -15px;
+}
+.download-button i {
+    font-size: 30px;
+}
+
+button.view-details {
+    color: #fff;
+    margin-top: 1.5rem;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.success-wrapper {
+    float: left;
+    margin-right: 16px;
+    box-sizing: border-box;
+    place-content: center;
+    align-items: center;
+    padding: 8px;
+    vertical-align: middle;
+    margin-top: -8px;
+    border-radius: .25rem;
+    background-color: rgba(76, 175, 80, 0.098);
+    color: rgb(76, 175, 80);
+}
+
+.danger-wrapper {
+    float: left;
+    margin-right: 16px;
+    box-sizing: border-box;
+    place-content: center;
+    align-items: center;
+    padding: 8px;
+    vertical-align: middle;
+    margin-top: -8px;
+    border-radius: .25rem;
+    background-color: rgba(244, 67, 54, 0.098);
+    color: rgb(244, 67, 54);
+}

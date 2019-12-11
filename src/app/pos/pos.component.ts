@@ -77,10 +77,16 @@ export class PosComponent implements OnInit, OnDestroy {
   }
 
   opened = false;
+  opened2 = false;
 
   log(state: any) {
     console.log(state)
   }
+
+  log2(state: any) {
+    console.log(state)
+  }
+
 
   onContextMenuAction($items: string) {
     this.getAllProducts($items);
@@ -286,3 +292,5 @@ export class PosComponent implements OnInit, OnDestroy {
   `],
 })
 export class NotifComponent {}
+
+  

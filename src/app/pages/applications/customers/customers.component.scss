@@ -1,0 +1,109 @@
+h1.page-title {
+    font-size: 1.4rem;
+    margin: 20px 0;
+    padding-top: 25px;
+}
+
+h1.page-title i.page-icon {
+    background: #c5c4c4;
+    color: #bd5d38;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    display: inline-block;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+mat-card {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 2rem;
+    padding-bottom: .8rem;
+}
+
+.btn-float {
+    z-index: 9999999;
+    position: fixed;
+    bottom: 30px;
+    right: -60px;
+    transition: .2s all ease-in-out;
+}
+
+.btn-float.active {
+    bottom: 30px;
+    right: 30px;
+}
+
+.btn-float .mat-button-wrapper {
+    padding: 0 !important;
+}
+
+.btn-float i {
+    font-size: 30px;
+}
+
+.content-table {
+    float: left;
+    width: 100%;
+    margin-left: 0;
+}
+
+.content-form {
+    width: 100%;
+    margin-left: 120%;
+}
+
+.mat-card {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    // height: inherit !important;
+}
+
+.customer-content {
+    width: 100%;
+    transition: .3s all ease-in-out;
+    margin-left: 0%;
+}
+
+.customer-content.active {
+    margin-left: -120%;
+}
+
+.mat-flat-button {
+    color: #fff;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #bd5d38;
+    background: #bd5d38;
+    color: #fff;
+}
+
+.table a {
+    color: #212529;
+    transition: .2s all ease-in-out;
+}
+
+.table a:hover {
+    text-decoration: none;
+}
+
+.table a.edit-item:hover {
+    color: #FFD600;
+}
+
+.table a.delete-item:hover {
+    color: #EF5350;
+}
+
+.table i {
+    font-size: 1.2rem;
+}
