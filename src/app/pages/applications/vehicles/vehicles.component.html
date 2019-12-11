@@ -22,12 +22,11 @@
         </div>
     </mat-toolbar>
 
-
     <div class="content">
         <div class="container-fluid">
             <div class="col-sm-12">
                 <h1 class="page-title">   
-                    <i class="page-icon flaticon-users"></i>
+                    <i class="page-icon la la-car"></i>
                     Vehicle Information
                     <button *ngIf="!activeForm" (click)="toggleForm(activeForm = !activeForm)" mat-flat-button class="bg-primary pull-right">
                         New <i class="la la-angle-double-right"></i>
@@ -35,59 +34,126 @@
                     <button *ngIf="activeForm" (click)="toggleForm(activeForm = !activeForm)" mat-flat-button class="bg-primary pull-right">
                         <i class="la la-angle-double-left"></i> Back 
                     </button>
-                    <mat-card>
-                        <table mat-table [dataSource]="dataSource" matSort class="table">
-                            <!-- ID Column -->
-                            <ng-container matColumnDef="id">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-                                <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
-                            </ng-container>
-                            
-                            <!-- CODE Column -->
-                            <ng-container matColumnDef="code">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header> CODE </th>
-                                <td mat-cell *matCellDef="let element"> {{ element.code }} </td>
-                            </ng-container>
-                            
-                            <!-- NAME Column -->
-                            <ng-container matColumnDef="name">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header> NAME </th>
-                                <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
-                            </ng-container>
-                            
-                            <!-- DESCRIPTION Column -->
-                            <ng-container matColumnDef="description">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPTION </th>
-                                <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
-                            </ng-container>
-
-                            <!-- CREATED AT Column -->
-                            <ng-container matColumnDef="created_at">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header> CREATED AT </th>
-                                <td mat-cell *matCellDef="let element"> {{ element.created_at | date: 'dd/MM/yyyy hh:mm:ss' }} </td>
-                            </ng-container>
-
-                            <!-- CREATED AT Column -->
-                            <ng-container matColumnDef="commands">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header> COMMANDS </th>
-                                <td mat-cell *matCellDef="let element">  
-                                    <button (click)="editRow(element.id)" mat-icon-button>
-                                        <i class="la la-edit"></i>
-                                    </button>	
-                                    <button (click)="deleteRow(element.id)" mat-icon-button>
-                                        <i class="la la-trash"></i>
-                                    </button>
-                                </td>
-                            </ng-container>
-                            
-                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                        </table>
-                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-                    </mat-card>
                 </h1>
+                <mat-card [ngStyle]="{'height': documentHeight + 'px' }">
+                    <div class="vehicle-content" [ngClass]="{ 'active' : activeForm }">
+                        <div class="content-table">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <mat-form-field>
+                                        <input matInput placeholder="Search by keywords">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-6">
+                                    <mat-form-field>
+                                        <mat-select placeholder="Search by status">
+                                            <mat-option value="Active">Active</mat-option>
+                                            <mat-option value="Inactive">Inactive</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-sm-12">
+                                    <div class="table-responsive">
+                                        <table mat-table [dataSource]="dataSource" matSort class="table">
+                                            <!-- ID Column -->
+                                            <ng-container matColumnDef="id">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
+                                            </ng-container>
+                                            
+                                            <!-- CODE Column -->
+                                            <ng-container matColumnDef="code">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> CODE </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.code }} </td>
+                                            </ng-container>
+                                            
+                                            <!-- NAME Column -->
+                                            <ng-container matColumnDef="name">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> NAME </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+                                            </ng-container>
+                                            
+                                            <!-- DESCRIPTION Column -->
+                                            <ng-container matColumnDef="description">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> DESCRIPTION </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+                                            </ng-container>
+
+                                            <!-- CREATED AT Column -->
+                                            <ng-container matColumnDef="created_at">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> CREATED AT </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.created_at | date: 'dd/MM/yyyy hh:mm:ss' }} </td>
+                                            </ng-container>
+
+                                            <!-- STATUS Column -->
+                                            <ng-container matColumnDef="status">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> STATUS </th>
+                                                <td mat-cell *matCellDef="let element"> 
+                                                    <span class="text-success" *ngIf="element.is_active == 1">
+                                                        Active
+                                                    </span>
+                                                    <span class="text-danger" *ngIf="element.is_active == 0">
+                                                        Inactive
+                                                    </span>
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- CREATED AT Column -->
+                                            <ng-container matColumnDef="commands">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> COMMANDS </th>
+                                                <td mat-cell *matCellDef="let element">  
+                                                    <button (click)="editRow(element.id)" mat-icon-button>
+                                                        <i class="la la-edit"></i>
+                                                    </button>	
+                                                    <button (click)="deleteRow(element.id)" mat-icon-button>
+                                                        <i class="la la-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </ng-container>
+                                            
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                        </table>
+                                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-form">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <mat-form-field>
+                                                <input matInput placeholder="First Name" required>
+                                                <mat-error>this field is required</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <mat-form-field>
+                                                <input matInput placeholder="Middle Name">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <mat-form-field>
+                                                <input matInput placeholder="Last Name" required>
+                                                <mat-error>this field is required</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overlay-spinner">
+                        <mat-spinner></mat-spinner>
+                    </div>
+                </mat-card>
             </div>
         </div>
     </div>
 </mat-sidenav-content>
-    
+<button mat-fab class="btn-float bg-primary" [ngClass]="{ 'active' : activeForm }">
+    <i class="la la-save"></i>
+</button>

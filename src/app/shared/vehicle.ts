@@ -4,4 +4,5 @@ export class Vehicle {
   name: string;
   description: string;
   created_at: string;
+  status: boolean;
 }

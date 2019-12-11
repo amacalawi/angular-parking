@@ -8,27 +8,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
-// export interface PeriodicElement {
-//     name: string;
-//     position: number;
-//     weight: number;
-//     symbol: string;
-// }
-  
-// const ELEMENT_DATA: PeriodicElement[] = [
-//     {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-//     {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-//     {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-//     {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-//     {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-//     {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-//     {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-//     {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-//     {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-//     {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-// ];
-
-
 @Component({
   selector: 'app-vehicles',
   templateUrl: './vehicles.component.html',
@@ -38,7 +17,7 @@ export class VehiclesComponent implements OnInit {
     pageTitle: string;
     vehicles: Vehicle[];
 
-    displayedColumns: string[] = ['id', 'code', 'name', 'description', 'created_at', 'commands'];
+    displayedColumns: string[] = ['id', 'code', 'name', 'description', 'created_at', 'status', 'commands'];
     dataSource = new MatTableDataSource(this.vehicles);    
     @ViewChild(MatSort, {static: true}) sort: MatSort;
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -63,6 +42,19 @@ export class VehiclesComponent implements OnInit {
         localStorage.clear();
         this.router.navigate(['/login'], { queryParams: { redirect: this.router.url }, replaceUrl: true });
     }
+    
+    activeForm = false;
+    documentHeight: any;
+    toggleForm(activeForm: boolean) {
+        if(activeForm == false) {
+            this.documentHeight = <HTMLElement> document.querySelector('.content-table');
+            this.documentHeight = this.documentHeight.offsetHeight + 44.8;
+        } else {
+            this.documentHeight = <HTMLElement> document.querySelector('.content-form');
+            this.documentHeight = this.documentHeight.offsetHeight + 44.8;
+        }
+        activeForm = !false;
+    }
 
     getAllVehicles() {
         this.vehicleService.getAllVehicles()
@@ -78,8 +70,19 @@ export class VehiclesComponent implements OnInit {
         });
     }
 
+    displayForm() {
+        this.activeForm = true;
+        this.documentHeight = <HTMLElement> document.querySelector('.content-form');
+        this.documentHeight = this.documentHeight.offsetHeight + 44.8;
+    }
+
     editRow(id: number) {
-        console.log('edit: ' + id);
+        var overlaySpinner = <HTMLElement> document.querySelector('.overlay-spinner');
+        overlaySpinner.classList.add("d-block");
+        setTimeout(() => {
+            overlaySpinner.classList.remove("d-block");
+            this.displayForm();
+        }, 500 + 300 * (Math.random() * 5));
     }
 
     deleteRow(id: number) {
