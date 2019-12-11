@@ -41,14 +41,14 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <mat-form-field>
-                                        <input matInput placeholder="Search by keywords">
+                                        <input [(ngModel)]="searchFilter" (keyup)="filteredDataSource()" matInput placeholder="Search by keywords">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-sm-6">
                                     <mat-form-field>
-                                        <mat-select placeholder="Search by status">
-                                            <mat-option value="Active">Active</mat-option>
-                                            <mat-option value="Inactive">Inactive</mat-option>
+                                        <mat-select [(ngModel)]="statusFilter" (ngModelChange)="filteredDataSource()" placeholder="Search by status">
+                                            <mat-option value="1">Active</mat-option>
+                                            <mat-option value="0">Inactive</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
@@ -121,29 +121,35 @@
                             </div>
                         </div>
                         <div class="content-form">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <input matInput placeholder="First Name" required>
-                                                <mat-error>this field is required</mat-error>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <input matInput placeholder="Middle Name">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <input matInput placeholder="Last Name" required>
-                                                <mat-error>this field is required</mat-error>
-                                            </mat-form-field>
+                            <form (ngSubmit)="saveVehicle()" [formGroup]="VehicleForm" novalidate>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="code" formControlName="code" required>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="name" formControlName="name" required>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="description" formControlName="description" required>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                <button type="submit" [disabled]="VehicleForm.invalid || isLoading" mat-fab class="btn-float bg-primary" [ngClass]="{ 'active' : activeForm }">
+                                    <i class="la la-save"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                     <div class="overlay-spinner">
@@ -154,6 +160,3 @@
         </div>
     </div>
 </mat-sidenav-content>
-<button mat-fab class="btn-float bg-primary" [ngClass]="{ 'active' : activeForm }">
-    <i class="la la-save"></i>
-</button>

@@ -113,7 +113,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
     }
 
     getAllVehicles() {
-        this.vehicleService.getAllVehicles()
+        this.vehicleService.getAllVehicles('active')
         .pipe(
             map(data => data)
         ).subscribe((vehicles: any) => {
