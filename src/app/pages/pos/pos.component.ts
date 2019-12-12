@@ -1,12 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { POSDialogComponent } from './pos.dialog.component';
-import { ProductsService } from '../services/products.services';
-import { Product } from '../shared/product';
+import { ProductsService } from '../../services/products.services';
+import { TransactionService } from '../../services/transactions.services'
+import { NavService } from '../../services/nav.services'
+import { Product } from '../../shared/product';
+import { Transaction } from '../../shared/transaction';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { FormControl, Validators } from '@angular/forms';
 import { Socket } from 'ngx-socket-io';
 import Swal from 'sweetalert2'
 import 'rxjs/add/operator/map';
@@ -38,6 +41,7 @@ export class PosComponent implements OnInit, OnDestroy {
   limit: number;
   page: number = 1;
   products: Product[];
+  transactions: Transaction[];
   totalItems: number;
   subTotal: number;
   vatTotal: number;
@@ -51,11 +55,36 @@ export class PosComponent implements OnInit, OnDestroy {
     return (this.totalPaid <= 0) ? 'You must enter a value on amount paid' : '';
   }
 
-  constructor(private _snackBar: MatSnackBar, private socket: Socket, private productsService: ProductsService, private router: Router, public dialog: MatDialog) { }
+  constructor(
+      public navService: NavService,
+      private router: Router,
+      private route: ActivatedRoute,
+      private transactionService: TransactionService,
+      private builder: FormBuilder,
+      private _snackBar: MatSnackBar, 
+      private socket: Socket, 
+      private productsService: ProductsService, 
+      public dialog: MatDialog
+  ) {   
+      let params = this.router.url;
+      this.pageTitle = params.replace(/\//g, " "); 
+      this.pageTitle = this.pageTitle.replace(/-/g, " ");    
+      // this.VehicleForm = this.builder.group({
+      //     code: ['', Validators.required],
+      //     name: ['', Validators.required],
+      //     description: ['', ''],
+      // });
+
+      // this.formErrors = {
+      //     code: {},
+      //     name: {},
+      //     description: {}
+      // };    
+  }
 
   ngOnInit() {
     this.getSelectedItems();
-    this.getAllProducts();
+    this.getAllQueuedParking();
     this.computeTotalPayments();
     this.getMessage();
   }
@@ -76,26 +105,8 @@ export class PosComponent implements OnInit, OnDestroy {
     });
   }
 
-  opened = false;
-  opened2 = false;
-
-  log(state: any) {
-    console.log(state)
-  }
-
-  log2(state: any) {
-    console.log(state)
-  }
-
-
   onContextMenuAction($items: string) {
     this.getAllProducts($items);
-  }
-
-  goTo(link: string) {
-    setTimeout(() => {
-      this.router.navigate(['/' + link]);
-    }, 300);
   }
 
   searchbar = true;
@@ -127,6 +138,17 @@ export class PosComponent implements OnInit, OnDestroy {
       this.computeTotalPayments();
       console.log('dialog closed!');
     });
+  }
+
+  getAllQueuedParking() {
+      this.transactionService.getAllQueuedParking('all-queued-parking')
+      .subscribe((transactions: any) => {
+          console.log(transactions);
+          console.log(this.transactions = transactions.data);
+      }, error => { 
+          console.log(error);
+          // this.redirect();
+      });
   }
 
   getSelectedItems() {

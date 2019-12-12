@@ -7,13 +7,14 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressSpinnerModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule, MatGridListModule, MatMenuModule, MatCardModule, MatDialogModule, MatInputModule, MatSelectModule, MatSnackBarModule, MatTabsModule, MatSlideToggleModule, MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatPaginatorModule, MatSortModule, MatTableModule } from  '@angular/material';
-import { PosComponent, NotifComponent } from './pos/pos.component';
+import { PosComponent, NotifComponent } from './pages/pos/pos.component';
 import { NotificationsComponent } from './notifications/notifications.component';
-import { POSDialogComponent } from './pos/pos.dialog.component';
+import { POSDialogComponent } from './pages/pos/pos.dialog.component';
 
 import { ProductsService } from './services/products.services';
 import { ProductFilterPipe } from './shared/product-filter.pipe';
 
+import { TransactionService } from './services/transactions.services';
 import { VehicleService } from './services/vehicles.services';
 import { CustomerTypeService } from './services/customer-types.services';
 
@@ -89,6 +90,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
   providers: [
     ProductsService,
     VehicleService,
+    TransactionService,
     CustomerTypeService,
     NavService,
     MenuItems,

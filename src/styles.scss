@@ -266,8 +266,8 @@ mat-nav-list h4.text-divider {
 }
 
 mat-card .col-sm-fix {
-    float: left;
-    width: 20% !important;
+    // float: left;
+    // width: 20% !important;
     position: relative;
     padding-right: 15px;
     padding-left: 15px;
@@ -310,14 +310,13 @@ mat-card .col-sm-fix .img-wrapper img {
 mat-card .col-sm-fix .txt-wrapper {
     background: #fff;
     padding: .8rem 1rem .5rem 1rem;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
+    border-radius: .25rem;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
 }
 
 mat-card .col-sm-fix .txt-wrapper h3 {
     margin: 0;
-    font-size: 1rem;
+    font-size: .85rem;
 }
 
 mat-card .col-sm-fix .txt-wrapper label {
@@ -331,8 +330,8 @@ mat-card .col-sm-fix .txt-wrapper label {
 
 @media (min-width: 1367px) {
     mat-card .col-sm-fix {
-        float: left;
-        width: 16.666666667% !important;
+        // float: left;
+        // width: 16.666666667% !important;
         position: relative;
         padding-right: 15px;
         padding-left: 15px;
@@ -396,6 +395,7 @@ mat-card .col-sm-fix .txt-wrapper label {
 
 /* width */
 
+.table-responsive::-webkit-scrollbar,
 .item-lists::-webkit-scrollbar,
 .product-list::-webkit-scrollbar,
 mat-dialog-content::-webkit-scrollbar {
@@ -404,6 +404,7 @@ mat-dialog-content::-webkit-scrollbar {
 }
 
 /* Track */
+.table-responsive::-webkit-scrollbar-track:hover,
 .item-lists::-webkit-scrollbar-track:hover,
 .product-list::-webkit-scrollbar-track:hover,
 mat-dialog-content::-webkit-scrollbar-track:hover {
@@ -412,11 +413,13 @@ mat-dialog-content::-webkit-scrollbar-track:hover {
 }
 
 /* Handle */
+.table-responsive::-webkit-scrollbar-thumb,
 .item-lists::-webkit-scrollbar-thumb,
 .product-list::-webkit-scrollbar-thumb {
     box-shadow: none !important;
 }
 
+.table-responsive::-webkit-scrollbar-thumb,
 .item-lists:hover::-webkit-scrollbar-thumb,
 .product-list:hover::-webkit-scrollbar-thumb,
 mat-dialog-content::-webkit-scrollbar-thumb {
