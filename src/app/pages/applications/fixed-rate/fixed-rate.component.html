@@ -21,4 +21,154 @@
             </div>
         </div>
     </mat-toolbar>
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="col-sm-12">
+                <h1 class="page-title">   
+                    <i class="page-icon la la-car"></i>
+                    Fixed Rate Information
+                    <button *ngIf="!activeForm" (click)="toggleForm(activeForm = !activeForm)" mat-flat-button class="bg-primary pull-right">
+                        New <i class="la la-angle-double-right"></i>
+                    </button>
+                    <button *ngIf="activeForm" (click)="toggleForm(activeForm = !activeForm)" mat-flat-button class="bg-primary pull-right">
+                        <i class="la la-angle-double-left"></i> Back 
+                    </button>
+                </h1>
+                <mat-card [ngStyle]="{'height': documentHeight + 'px' }">
+                    <div class="fixed-rate-content" [ngClass]="{ 'active' : activeForm }">
+                        <div class="content-table">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <mat-form-field>
+                                        <input [(ngModel)]="searchFilter" (keyup)="filteredDataSource()" matInput placeholder="Search by keywords">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-6">
+                                    <mat-form-field>
+                                        <mat-select [(ngModel)]="statusFilter" (ngModelChange)="filteredDataSource()" placeholder="Search by status">
+                                            <mat-option value="1">Active</mat-option>
+                                            <mat-option value="0">Inactive</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-sm-12">
+                                    <div class="table-responsive">
+                                        <table mat-table [dataSource]="dataSource" matSort class="table">
+                                            <!-- id column -->
+                                            <ng-container matColumnDef="id">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
+                                            </ng-container>
+                                            
+                                            <!-- vehicle column -->
+                                            <ng-container matColumnDef="vehicle">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> VEHICLE </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.vehicle_id }} </td>
+                                            </ng-container>
+                                            
+                                            <!-- validitiy column -->
+                                            <ng-container matColumnDef="validity">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> VALID MINUTES </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.validity_minute }}mins </td>
+                                            </ng-container>
+                                            
+                                            <!-- fixed rate column -->
+                                            <ng-container matColumnDef="fixedrate">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> FIXED RATE </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.fixed_rate }} </td>
+                                            </ng-container>
+
+                                            <!-- excess column -->
+                                            <ng-container matColumnDef="excess">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> EXCESS RATE PER MIN </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.excess_rate_per_minute }} </td>
+                                            </ng-container>
+
+                                            <!-- modified column -->
+                                            <ng-container matColumnDef="modified">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> LAST MODIFIED AT </th>
+                                                <td mat-cell *matCellDef="let element"> 
+                                                    <span *ngIf="element.updated_at != null">{{ element.updated_at | date: 'dd/MM/yyyy hh:mm:ss' }}</span>
+                                                    <span *ngIf="element.updated_at == null">{{ element.created_at | date: 'dd/MM/yyyy hh:mm:ss' }}</span>
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- status column -->
+                                            <ng-container matColumnDef="status">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> STATUS </th>
+                                                <td mat-cell *matCellDef="let element"> 
+                                                    <span class="text-success" *ngIf="element.is_active == 1">
+                                                        Active
+                                                    </span>
+                                                    <span class="text-danger" *ngIf="element.is_active == 0">
+                                                        Inactive
+                                                    </span>
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- commands column -->
+                                            <ng-container matColumnDef="commands">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> COMMANDS </th>
+                                                <td mat-cell *matCellDef="let element">  
+                                                    <button (click)="editRow(element.id)" mat-icon-button>
+                                                        <i class="la la-edit"></i>
+                                                    </button>	
+                                                    <button (click)="deleteRow(element.id)" mat-icon-button>
+                                                        <i class="la la-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </ng-container>
+                                            
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                        </table>
+                                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-form">
+                            <form (ngSubmit)="saveFixedRate()" [formGroup]="FixedRateForm" novalidate>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <mat-select formControlName="vehicle_id" required placeholder="Vehicle">
+                                                        <mat-option value="1">Active</mat-option>
+                                                        <mat-option value="0">Inactive</mat-option>
+                                                    </mat-select>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="name" formControlName="name" required>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="description" formControlName="description" required>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" [disabled]="FixedRateForm.invalid || isLoading" mat-fab class="btn-float bg-primary" [ngClass]="{ 'active' : activeForm }">
+                                    <i class="la la-save"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="overlay-spinner">
+                        <mat-spinner></mat-spinner>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </div>
 </mat-sidenav-content>

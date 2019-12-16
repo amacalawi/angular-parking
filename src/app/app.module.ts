@@ -15,6 +15,7 @@ import { ProductsService } from './services/products.services';
 import { ProductFilterPipe } from './shared/product-filter.pipe';
 
 import { TransactionService } from './services/transactions.services';
+import { FixedRateService } from './services/fixedrates.services';
 import { VehicleService } from './services/vehicles.services';
 import { CustomerTypeService } from './services/customer-types.services';
 
@@ -90,6 +91,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
   providers: [
     ProductsService,
     VehicleService,
+    FixedRateService,
     TransactionService,
     CustomerTypeService,
     NavService,

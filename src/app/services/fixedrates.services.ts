@@ -6,7 +6,7 @@ import { ApiService } from '../core/services/api.service';
 @Injectable({
     providedIn: 'root'
 })
-export class TransactionService {
+export class FixedRateService {
 
   constructor(private apiService: ApiService) { }
 
@@ -34,9 +34,9 @@ export class TransactionService {
       );
   }
 
-  getAllQueuedParking(payroll: any): Observable<any> {
+  getAllFixedRate(payroll: any): Observable<any> {
     return this.apiService
-    .get(`/transactions/${payroll}`)
+    .get(`/fixed-rates/${payroll}`)
     .pipe(
         map((body: any) => body)
     );
