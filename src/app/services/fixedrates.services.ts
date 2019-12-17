@@ -12,7 +12,7 @@ export class FixedRateService {
 
   create(payroll: any): Observable<any> {
     return this.apiService
-    .post(`/vehicles`, payroll)
+    .post(`/fixed-rates`, payroll)
     .pipe(
         map((body: any) => body)
       );
@@ -20,7 +20,15 @@ export class FixedRateService {
 
   update(payroll: any, id): Observable<any> {
     return this.apiService
-    .post(`/vehicles/${id}/update`, payroll)
+    .put(`/fixed-rates/${id}/update`, payroll)
+    .pipe(
+        map((body: any) => body)
+      );
+  }
+
+  modify(id): Observable<any> {
+    return this.apiService
+    .put(`/fixed-rates/${id}/modify`)
     .pipe(
         map((body: any) => body)
       );
@@ -28,7 +36,7 @@ export class FixedRateService {
 
   find(id): Observable<any> {
     return this.apiService
-    .post(`/vehicles/${id}/find`)
+    .get(`/fixed-rates/${id}/find`)
     .pipe(
         map((body: any) => body)
       );

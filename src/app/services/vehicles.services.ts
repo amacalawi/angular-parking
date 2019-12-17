@@ -20,7 +20,7 @@ export class VehicleService {
 
   update(payroll: any, id): Observable<any> {
     return this.apiService
-    .post(`/vehicles/${id}/update`, payroll)
+    .put(`/vehicles/${id}/update`, payroll)
     .pipe(
         map((body: any) => body)
       );
@@ -28,7 +28,15 @@ export class VehicleService {
 
   find(id): Observable<any> {
     return this.apiService
-    .post(`/vehicles/${id}/find`)
+    .get(`/vehicles/${id}/find`)
+    .pipe(
+        map((body: any) => body)
+      );
+  }
+
+  filter(id): Observable<any> {
+    return this.apiService
+    .get(`/vehicles/${id}/filter`)
     .pipe(
         map((body: any) => body)
       );

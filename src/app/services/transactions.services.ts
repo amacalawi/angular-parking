@@ -10,9 +10,9 @@ export class TransactionService {
 
   constructor(private apiService: ApiService) { }
 
-  create(payroll: any): Observable<any> {
+  checkin(rfid: any): Observable<any> {
     return this.apiService
-    .post(`/vehicles`, payroll)
+    .post(`/transactions/${rfid}/checkin`)
     .pipe(
         map((body: any) => body)
       );

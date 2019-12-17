@@ -46,15 +46,17 @@ export class FixedRateComponent implements OnInit {
         this.pageTitle = params.replace(/\//g, " "); 
         this.pageTitle = this.pageTitle.replace(/-/g, " ");    
         this.FixedRateForm = this.builder.group({
-            code: ['', Validators.required],
-            name: ['', Validators.required],
-            description: ['', ''],
+            vehicle_id: ['', Validators.required],
+            validity_minute: ['', Validators.required],
+            fixed_rate: ['', Validators.required],
+            excess_rate_per_minute: ['', Validators.required],
         });
 
         this.formErrors = {
-            code: {},
-            name: {},
-            description: {}
+            vehicle_id: {},
+            validity_minute: {},
+            fixed_rate: {},
+            excess_rate_per_minute: {}
         };    
     }
 
@@ -62,11 +64,11 @@ export class FixedRateComponent implements OnInit {
         if (sessionStorage.credentials !== undefined) {
             this.getAllVehiclesNotFixedRate();
             this.getAllFixedRate();
-            // this.FixedRateForm.valueChanges.subscribe(() => {
-            //     this.onFormValuesChanged();
-            // });
+            this.FixedRateForm.valueChanges.subscribe(() => {
+                this.onFormValuesChanged();
+            });
         } else {
-            // this.router.navigate([this.route.snapshot.queryParams.redirect || '/'], { replaceUrl: true });
+            this.router.navigate([this.route.snapshot.queryParams.redirect || '/'], { replaceUrl: true });
         }
     }
 
@@ -74,7 +76,7 @@ export class FixedRateComponent implements OnInit {
         let temp = this.fixedrates;
         if (this.statusFilter && this.searchFilter) {    
             temp = temp.filter(data => {
-                return ((data.vehicle.name.toLowerCase().includes(this.searchFilter) || data.validity_minute.includes(this.searchFilter) || data.description.toLowerCase().includes(this.searchFilter)) && data.is_active == this.statusFilter);
+                return ((data.vehicle_name.toLowerCase().includes(this.searchFilter) || data.validity_minute.toString().includes(this.searchFilter) || data.fixed_rate.toString().includes(this.searchFilter) || data.excess_rate_per_minute.toString().includes(this.searchFilter)) && data.is_active == this.statusFilter);
             })            
         } else {
             if(this.statusFilter) {            
@@ -82,7 +84,7 @@ export class FixedRateComponent implements OnInit {
             }
             if(this.searchFilter) { 
                 temp = temp.filter(data => {
-                    // return (data.code.toLowerCase().includes(this.searchFilter) || data.name.toLowerCase().includes(this.searchFilter) || data.description.toLowerCase().includes(this.searchFilter));
+                    return data.vehicle_name.toLowerCase().includes(this.searchFilter) || data.validity_minute.toString().includes(this.searchFilter) || data.fixed_rate.toString().includes(this.searchFilter) || data.excess_rate_per_minute.toString().includes(this.searchFilter);
                 })
             }
         }
@@ -135,13 +137,15 @@ export class FixedRateComponent implements OnInit {
     }
 
     resetForm() {
+        this.getAllVehiclesNotFixedRate();
         this.getAllFixedRate();
         this.editForm = false;
         this.editFormId = null;
         this.FixedRateForm.patchValue({
-            code: '',
-            name: '',
-            description: ''
+            vehicle_id: '',
+            validity_minute: '',
+            fixed_rate: '',
+            excess_rate_per_minute: ''
         });
     }
 
@@ -155,6 +159,7 @@ export class FixedRateComponent implements OnInit {
         this.activeForm = false;
         this.documentHeight = <HTMLElement> document.querySelector('.content-table');
         this.documentHeight = this.documentHeight.offsetHeight + 44.8;
+        this.getAllVehiclesNotFixedRate();
     }
 
     onFormValuesChanged()
@@ -165,9 +170,9 @@ export class FixedRateComponent implements OnInit {
             {
                 continue;
             }
-            // Clear previous errors
+            
             this.formErrors[field] = {};
-            // Get the control
+            
             const control = this.FixedRateForm.get(field);
             if ( control && control.dirty && !control.valid )
             {
@@ -176,33 +181,71 @@ export class FixedRateComponent implements OnInit {
         }
     }
 
-    editRow(id: number) {        
-        this.fixedrateService.find(id)
-        .subscribe((vehicles: any) => {
-            console.log(vehicles.data);
-            this.editForm = true;
-            this.editFormId = id;
-            this.FixedRateForm.patchValue({
-                code: vehicles.data.code,
-                name: vehicles.data.name,
-                description: vehicles.data.description
+    filterVehicle(id: number): Promise <any> {
+        return Promise.resolve((() => {
+            this.vehicleService.filter(id)
+            .subscribe((vehicles: any) => {
+                console.log(this.vehicles = vehicles.data);
+            }, error => { 
+                this.redirect();
             });
-        }, error => { 
-            this.redirect();
+            return this.vehicles;
+        })());
+    }
+
+    editRow(id: number) {
+        this.filterVehicle(id).then(data1 => {
+            this.fixedrateService.find(id)
+            .subscribe((fixedrates: any) => {
+                console.log(fixedrates.data);
+                this.editForm = true;
+                this.editFormId = id;
+                this.FixedRateForm.patchValue({
+                    vehicle_id: fixedrates.data.vehicle_id,
+                    validity_minute: fixedrates.data.validity_minute,
+                    fixed_rate: fixedrates.data.fixed_rate,
+                    excess_rate_per_minute: fixedrates.data.excess_rate_per_minute
+                });
+            }, error => { 
+                this.redirect();
+            });
+            var overlaySpinner = <HTMLElement> document.querySelector('.overlay-spinner');
+            overlaySpinner.classList.add('d-block');
+            setTimeout(() => {
+                overlaySpinner.classList.remove('d-block');
+                this.displayForm();
+            }, 500 + 300 * (Math.random() * 5));
         });
-        var overlaySpinner = <HTMLElement> document.querySelector('.overlay-spinner');
-        overlaySpinner.classList.add('d-block');
-        setTimeout(() => {
-            overlaySpinner.classList.remove('d-block');
-            this.displayForm();
-        }, 500 + 300 * (Math.random() * 5));
     }
 
-    deleteRow(id: number) {
-        console.log('delete: ' + id);
+    deleteRow(id: number, active: number) {
+        let text = (active == 0) ? 'The status will be changed to active.' : 'The status will be changed to inactive.';
+        Swal.fire({
+            title: 'Are you sure?',
+            text: text,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, change it!',
+            cancelButtonText: 'No, not now.'
+            }).then((result) => {
+            if (result.value) {                
+                this.fixedrateService.modify(id)
+                .subscribe((fixedrates: any) => {
+                    console.log(fixedrates);
+                    this.getAllFixedRate();
+                    Swal.fire(
+                        'Success!',
+                        'the information has been successfully changed.',
+                        'success'
+                    )
+                }, error => { 
+                    this.redirect();
+                });  
+            }
+        });        
     }
 
-    saveVehicle() {
+    saveFixedRate() {
         Swal.fire({
             title: 'Are you sure?',
             text: 'The information will be saved.',
@@ -217,21 +260,19 @@ export class FixedRateComponent implements OnInit {
                     .subscribe((vehicles: any) => {
                         console.log(vehicles);
                     }, error => { 
-                        console.log(error);
-                        // this.redirect();
+                        this.redirect();
                     });
                 } else {
                     this.fixedrateService.update(this.FixedRateForm.value, this.editFormId)
                     .subscribe((vehicles: any) => {
                         console.log(vehicles);
                     }, error => { 
-                        console.log(error);
-                        // this.redirect();
+                        this.redirect();
                     });
                 }
                 Swal.fire(
                     'Success!',
-                    'All stored items has been reset successfully.',
+                    'The information has been successfully saved.',
                     'success'
                 )
             }
