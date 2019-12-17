@@ -1,6 +1,6 @@
 export class FixedRate {
   id: number;
-  vehicle_id: number;
+  vehicle_name: string;
   validity_minute: number;
   fixed_rate: number;
   excess_rate_per_minute: number;

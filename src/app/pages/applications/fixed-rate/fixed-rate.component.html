@@ -65,7 +65,7 @@
                                             <!-- vehicle column -->
                                             <ng-container matColumnDef="vehicle">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> VEHICLE </th>
-                                                <td mat-cell *matCellDef="let element"> {{ element.vehicle_id }} </td>
+                                                <td mat-cell *matCellDef="let element"> {{ element.vehicle.name }} </td>
                                             </ng-container>
                                             
                                             <!-- validitiy column -->
@@ -134,24 +134,29 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="row">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
                                                 <mat-form-field>
-                                                    <mat-select formControlName="vehicle_id" required placeholder="Vehicle">
-                                                        <mat-option value="1">Active</mat-option>
-                                                        <mat-option value="0">Inactive</mat-option>
+                                                    <mat-select placeholder="Vehicle" formControlName="vehicle_id" required>
+                                                        <mat-option *ngFor="let vehicle of vehicles" [value]="vehicle.id">{{vehicle.name}}</mat-option>
                                                     </mat-select>
                                                     <mat-error>this field is required</mat-error>
                                                 </mat-form-field>
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
                                                 <mat-form-field>
-                                                    <input matInput placeholder="name" formControlName="name" required>
+                                                    <input matInput placeholder="Validity Minute" formControlName="validity_minute" required>
                                                     <mat-error>this field is required</mat-error>
                                                 </mat-form-field>
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
                                                 <mat-form-field>
-                                                    <input matInput placeholder="description" formControlName="description" required>
+                                                    <input matInput placeholder="Fixed Rate" formControlName="fixed_rate" required>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="Excess Rate Per Minute" formControlName="excess_rate_per_minute" required>
                                                     <mat-error>this field is required</mat-error>
                                                 </mat-form-field>
                                             </div>

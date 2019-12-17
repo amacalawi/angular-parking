@@ -70,28 +70,28 @@ export class FixedRateComponent implements OnInit {
         }
     }
 
-    // filteredDataSource() {
-    //     let temp = this.fixedrates;
-    //     if (this.statusFilter && this.searchFilter) {    
-    //         temp = temp.filter(data => {
-    //             // return ((data.code.toLowerCase().includes(this.searchFilter) || data.name.toLowerCase().includes(this.searchFilter) || data.description.toLowerCase().includes(this.searchFilter)) && data.is_active == this.statusFilter);
-    //         })            
-    //     } else {
-    //         if(this.statusFilter) {            
-    //             temp = temp.filter(data => data.is_active == this.statusFilter);   
-    //         }
-    //         if(this.searchFilter) { 
-    //             temp = temp.filter(data => {
-    //                 // return (data.code.toLowerCase().includes(this.searchFilter) || data.name.toLowerCase().includes(this.searchFilter) || data.description.toLowerCase().includes(this.searchFilter));
-    //             })
-    //         }
-    //     }
+    filteredDataSource() {
+        let temp = this.fixedrates;
+        if (this.statusFilter && this.searchFilter) {    
+            temp = temp.filter(data => {
+                return ((data.vehicle.name.toLowerCase().includes(this.searchFilter) || data.validity_minute.includes(this.searchFilter) || data.description.toLowerCase().includes(this.searchFilter)) && data.is_active == this.statusFilter);
+            })            
+        } else {
+            if(this.statusFilter) {            
+                temp = temp.filter(data => data.is_active == this.statusFilter);   
+            }
+            if(this.searchFilter) { 
+                temp = temp.filter(data => {
+                    // return (data.code.toLowerCase().includes(this.searchFilter) || data.name.toLowerCase().includes(this.searchFilter) || data.description.toLowerCase().includes(this.searchFilter));
+                })
+            }
+        }
 
-    //     this.dataSource = new MatTableDataSource(temp);
-    //     this.dataSource.sort = this.sort;
-    //     this.dataSource.paginator = this.paginator;
-    //     return this.dataSource;
-    // }
+        this.dataSource = new MatTableDataSource(temp);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        return this.dataSource;
+    }
 
     redirect() {
         sessionStorage.clear();
@@ -124,8 +124,8 @@ export class FixedRateComponent implements OnInit {
 
     getAllFixedRate() {
         this.fixedrateService.getAllFixedRate('all')
-        .subscribe((vehicles: any) => {
-            console.log(this.fixedrates = vehicles.data);
+        .subscribe((fixedrates: any) => {
+            console.log(this.fixedrates = fixedrates.data);
             this.dataSource = new MatTableDataSource(this.fixedrates);    
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
