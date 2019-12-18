@@ -11,6 +11,7 @@ import { TransactionService } from './../services/transactions.services';
 
 export class NotificationsComponent implements OnInit {
     messages: string;
+    results: [];
 
     constructor(
         private socket: Socket, 
@@ -25,22 +26,17 @@ export class NotificationsComponent implements OnInit {
         this.sendMessage(this.messages);
     }
 
-    checkIn(msg: string): Promise <any> {
-        return Promise.resolve((() => {
-            this.transactionService.checkin(msg)
-            .subscribe((transactions: any) => {
-                console.log(transactions.data);
-            }, error => { 
-                // this.redirect();
-            });
-        })());
-    }
-
-    sendMessage(msg: string){
-        this.checkIn(msg).then(data => {
-            if (data.status == 'ok') {
+    sendMessage(msg: string) {
+        this.transactionService.checkin(msg)
+        .subscribe((transactions: any) => {
+            console.log(transactions);
+            if (transactions.status == 'ok') {
                 this.socket.emit("message", msg);
             }
+        }, error => { 
+            
+            console.log(error);
+            // this.redirect();
         });
     }
 }
