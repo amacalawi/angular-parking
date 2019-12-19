@@ -13,6 +13,8 @@ import { NavService } from '../../../services/nav.services';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-customers',
@@ -42,6 +44,11 @@ export class CustomersComponent implements OnInit, OnDestroy {
     vehicleFilter: any;
     statusFilter: any;
     searchFilter: any;
+    formErrors: any;
+    editForm = false;
+    editFormId: number;
+
+    public CustomerForm: FormGroup;
 
     displayedColumns: string[] = ['rfid', 'fullname', 'gender', 'type', 'vehicle', 'modified_at', 'status', 'commands'];
     dataSource = new MatTableDataSource(this.customers);    
@@ -54,12 +61,40 @@ export class CustomersComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private vehicleService: VehicleService,
         private customertypeService: CustomerTypeService,
-        private customerService: CustomerService
+        private customerService: CustomerService,
+        private builder: FormBuilder
     ) { 
         this.pageURL = this.router.url;
         let params = this.router.url;
         this.pageTitle = params.replace(/\//g, " "); 
-        this.pageTitle = this.pageTitle.replace(/-/g, " ");         
+        this.pageTitle = this.pageTitle.replace(/-/g, " ");    
+        this.CustomerForm = this.builder.group({
+            firstname: ['', Validators.required],
+            middlename: [''],
+            lastname: ['', Validators.required],
+            gender: ['', Validators.required],
+            birthdate: [''],
+            customer_type_id: ['', Validators.required],
+            vehicle_id: ['', Validators.required],
+            model: [''],
+            plate_no: ['', Validators.required],
+            rfid_no: ['', Validators.required],
+            payment_type_id: ['', Validators.required]
+        });
+
+        this.formErrors = {
+            firstname: {},
+            middlename:{},
+            lastname: {},
+            gender: {},
+            birthdate: {},
+            customer_type_id: {},
+            vehicle_id: {},
+            model: {},
+            plate_no: {},
+            rfid_no: {},
+            payment_type_id: {}
+        };         
     }
 
     ngOnDestroy(): void {}
@@ -91,6 +126,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
         if(activeForm == false) {
             this.documentHeight = <HTMLElement> document.querySelector('.content-table');
             this.documentHeight = this.documentHeight.offsetHeight + 44.8;
+            this.resetForm();
         } else {
             this.documentHeight = <HTMLElement> document.querySelector('.content-form');
             this.documentHeight = this.documentHeight.offsetHeight + 44.8;
@@ -122,31 +158,26 @@ export class CustomersComponent implements OnInit, OnDestroy {
 
     filteredDataSource() {
         let temp = this.customers;
-        // if (this.statusFilter && this.searchFilter) {    
-        //     temp = temp.filter(data => {
-        //         return ((data.vehicle_name.toLowerCase().includes(this.searchFilter) || data.validity_minute.toString().includes(this.searchFilter) || data.fixed_rate.toString().includes(this.searchFilter) || data.excess_rate_per_minute.toString().includes(this.searchFilter)) && data.is_active == this.statusFilter);
-        //     })            
-        // } else {
-            if(this.typeFilter) {            
-                temp = temp.filter(data => data.customer_type_id == this.typeFilter);   
-            }
-            if(this.vehicleFilter) {            
-                temp = temp.filter(data => data.vehicle_id == this.vehicleFilter);   
-            }
-            if(this.statusFilter) {            
-                temp = temp.filter(data => data.is_active == this.statusFilter);   
-            }
-            if(this.searchFilter) { 
-                temp = temp.filter(data => {
-                    return data.firstname.toLowerCase().includes(this.searchFilter) || 
-                    data.middlename.toString().includes(this.searchFilter) || 
-                    data.lastname.toLowerCase().includes(this.searchFilter) || 
-                    data.gender.toLowerCase().includes(this.searchFilter) || 
-                    data.customer_type.toLowerCase().includes(this.searchFilter) ||
-                    data.vehicle_name.toLowerCase().includes(this.searchFilter);
-                })
-            }
-        // }
+                
+        if(this.typeFilter) {            
+            temp = temp.filter(data => data.customer_type_id == this.typeFilter);   
+        }
+        if(this.vehicleFilter) {            
+            temp = temp.filter(data => data.vehicle_id == this.vehicleFilter);   
+        }
+        if(this.statusFilter) {            
+            temp = temp.filter(data => data.is_active == this.statusFilter);   
+        }
+        if(this.searchFilter) { 
+            temp = temp.filter(data => {
+                return data.firstname.toLowerCase().includes(this.searchFilter) || 
+                data.middlename.toString().includes(this.searchFilter) || 
+                data.lastname.toLowerCase().includes(this.searchFilter) || 
+                data.gender.toLowerCase().includes(this.searchFilter) || 
+                data.customer_type.toLowerCase().includes(this.searchFilter) ||
+                data.vehicle_name.toLowerCase().includes(this.searchFilter);
+            })
+        }
 
         this.dataSource = new MatTableDataSource(temp);
         this.dataSource.sort = this.sort;
@@ -166,5 +197,113 @@ export class CustomersComponent implements OnInit, OnDestroy {
         }, error => { 
             this.redirect();
         });
+    }
+
+    displayForm() {
+        this.activeForm = true;
+        this.documentHeight = <HTMLElement> document.querySelector('.content-form');
+        this.documentHeight = this.documentHeight.offsetHeight + 44.8;
+    }
+
+    displayTable() {
+        this.activeForm = false;
+        this.documentHeight = <HTMLElement> document.querySelector('.content-table');
+        this.documentHeight = this.documentHeight.offsetHeight + 44.8;
+        this.getAllCustomers();
+    }
+
+    resetForm() {
+        this.getAllCustomers();
+        this.editForm = false;
+        this.editFormId = null;
+        this.CustomerForm.patchValue({
+            firstname: '',
+            middlename: '',
+            lastname: '',
+            gender: '',
+            birthdate: '',
+            customer_type_id: '',
+            vehicle_id: '',
+            model: '',
+            plate_no: '',
+            rfid_no: '',
+            payment_type_id: ''
+        });
+    }
+
+    saveCustomer() {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'The information will be saved.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, save it!',
+            cancelButtonText: 'No, not now.'
+            }).then((result) => {
+            if (result.value) {
+                if (this.editForm == false) {
+                    this.customerService.create(this.CustomerForm.value)
+                    .subscribe((customers: any) => {
+                        console.log(customers);
+                        if (customers.status == 'ok') {
+                            this.editForm = true;
+                            this.editFormId = customers.data.id;
+                        }
+                        Swal.fire(
+                            customers.message.info,
+                            customers.message.text,
+                            customers.message.type
+                        )
+                    }, error => { 
+                        console.log(error);
+                        // this.redirect();
+                    });
+                } else {
+                    this.customerService.update(this.CustomerForm.value, this.editFormId)
+                    .subscribe((customers: any) => {
+                        console.log(customers);
+                        Swal.fire(
+                            customers.message.info,
+                            customers.message.text,
+                            customers.message.type
+                        )
+                    }, error => { 
+                        console.log(error);
+                        // this.redirect();
+                    });
+                }
+                
+            }
+        });        
+    }
+
+    editRow(id: number) {
+        this.customerService.find(id)
+        .subscribe((customers: any) => {
+            console.log(customers.data);
+            this.editForm = true;
+            this.editFormId = id;
+            this.CustomerForm.patchValue({
+                firstname: customers.data.firstname,
+                middlename: customers.data.middlename,
+                lastname: customers.data.lastname,
+                gender: customers.data.gender,
+                birthdate: customers.data.birthdate,
+                customer_type_id: customers.data.customer_type_id,
+                vehicle_id: customers.data.vehicle_id,
+                model: customers.data.model,
+                plate_no: customers.data.plate_no,
+                rfid_no: customers.data.rfid_no,
+                payment_type_id: customers.data.payment_type_id
+            });
+        }, error => { 
+            this.redirect();
+        });
+        var overlaySpinner = <HTMLElement> document.querySelector('.overlay-spinner');
+        overlaySpinner.classList.add('d-block');
+        setTimeout(() => {
+            overlaySpinner.classList.remove('d-block');
+            this.displayForm();
+        }, 500 + 300 * (Math.random() * 5));
     }
 }

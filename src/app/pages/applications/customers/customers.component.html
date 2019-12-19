@@ -178,85 +178,99 @@
                         */
                         -->
                         <div class="content-form">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <input matInput placeholder="First Name" required>
-                                                <mat-error>this field is required</mat-error>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <input matInput placeholder="Middle Name">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <input matInput placeholder="Last Name" required>
-                                                <mat-error>this field is required</mat-error>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <mat-select placeholder="Gender" required>
-                                                    <mat-option value="Male">Male</mat-option>
-                                                    <mat-option value="Female">Female</mat-option>
-                                                </mat-select>
-                                                <mat-error>this field is required</mat-error>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <input matInput [matDatepicker]="picker" placeholder="Birthdate">
-                                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                                <mat-datepicker #picker></mat-datepicker>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <mat-select placeholder="Type" required>
-                                                    <mat-option *ngFor="let customertype of customertypes" [value]="customertype.id">{{customertype.name}}</mat-option>
-                                                </mat-select>
-                                                <mat-error>this field is required</mat-error>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <mat-select placeholder="Vehicle" required>
-                                                    <mat-option *ngFor="let vechile of vehicles" [value]="vechile.id">{{vechile.name}}</mat-option>
-                                                </mat-select>
-                                                <mat-error>this field is required</mat-error>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <input matInput placeholder="Model">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <input matInput placeholder="Plate No" required>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <input matInput placeholder="RFID No" required>
-                                                <mat-error>this field is required</mat-error>
-                                            </mat-form-field>
+                            <form (ngSubmit)="saveCustomer()" [formGroup]="CustomerForm" novalidate>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="First Name" formControlName="firstname" required>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="Middle Name" formControlName="middlename">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="Last Name" formControlName="lastname" required>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <mat-select placeholder="Gender" formControlName="gender" required>
+                                                        <mat-option value="Male">Male</mat-option>
+                                                        <mat-option value="Female">Female</mat-option>
+                                                    </mat-select>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput [matDatepicker]="picker" placeholder="Birthdate" formControlName="birthdate">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <mat-select placeholder="Type" formControlName="customer_type_id" required>
+                                                        <mat-option *ngFor="let customertype of customertypes" [value]="customertype.id">{{customertype.name}}</mat-option>
+                                                    </mat-select>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <mat-select placeholder="Vehicle" formControlName="vehicle_id" required>
+                                                        <mat-option *ngFor="let vechile of vehicles" [value]="vechile.id">{{vechile.name}}</mat-option>
+                                                    </mat-select>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="Model" formControlName="model">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="Plate No" formControlName="plate_no" required>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="RFID No" formControlName="rfid_no" required>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <mat-select placeholder="Payment Type" formControlName="payment_type_id" required>
+                                                        <mat-option [value]="1">Cash</mat-option>
+                                                        <mat-option [value]="2">Credits</mat-option>
+                                                    </mat-select>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>    
+                                </div>  
+                                <button type="submit" [disabled]="CustomerForm.invalid || isLoading" mat-fab class="btn-float bg-primary" [ngClass]="{ 'active' : activeForm }">
+                                    <i class="la la-save"></i>
+                                </button>
+                            </form>  
                         </div> 
                         
+                    </div>
+                    <div class="overlay-spinner">
+                        <mat-spinner></mat-spinner>
                     </div>
                 </mat-card>
             </div>           
         </div>
     </div>
 </mat-sidenav-content>
-<button mat-fab class="btn-float bg-primary" [ngClass]="{ 'active' : activeForm }">
-    <i class="la la-save"></i>
-</button>
