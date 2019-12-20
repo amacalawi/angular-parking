@@ -6,13 +6,13 @@ import { ApiService } from '../core/services/api.service';
 @Injectable({
     providedIn: 'root'
 })
-export class VehicleService {
+export class FixedRateService {
 
   constructor(private apiService: ApiService) { }
 
   create(payroll: any): Observable<any> {
     return this.apiService
-    .post(`/vehicles`, payroll)
+    .post(`/fixed-rates`, payroll)
     .pipe(
         map((body: any) => body)
       );
@@ -20,7 +20,15 @@ export class VehicleService {
 
   update(payroll: any, id): Observable<any> {
     return this.apiService
-    .put(`/vehicles/${id}/update`, payroll)
+    .put(`/fixed-rates/${id}/update`, payroll)
+    .pipe(
+        map((body: any) => body)
+      );
+  }
+
+  modify(id): Observable<any> {
+    return this.apiService
+    .put(`/fixed-rates/${id}/modify`)
     .pipe(
         map((body: any) => body)
       );
@@ -28,23 +36,15 @@ export class VehicleService {
 
   find(id): Observable<any> {
     return this.apiService
-    .get(`/vehicles/${id}/find`)
+    .get(`/fixed-rates/${id}/find`)
     .pipe(
         map((body: any) => body)
       );
   }
 
-  filter(id): Observable<any> {
+  getAllFixedRate(payroll: any): Observable<any> {
     return this.apiService
-    .get(`/vehicles/${id}/filter`)
-    .pipe(
-        map((body: any) => body)
-      );
-  }
-
-  getAllVehicles(payroll: any): Observable<any> {
-    return this.apiService
-    .get(`/vehicles/${payroll}`)
+    .get(`/fixed-rates/${payroll}`)
     .pipe(
         map((body: any) => body)
     );

@@ -66,84 +66,108 @@
                             <div class="row">
                                 <div class="col-sm-3">
                                     <mat-form-field>
-                                        <mat-select placeholder="Search by type">
-                                            <mat-option value="Parent">Parent</mat-option>
-                                            <mat-option value="Student">Student</mat-option>
-                                            <mat-option value="Employee">Employee</mat-option>
-                                            <mat-option value="Visitor">Visitor</mat-option>
-                                            <mat-option value="Overnight Parker">Overnight Parker</mat-option>
+                                        <mat-select [(ngModel)]="typeFilter" (ngModelChange)="filteredDataSource()" placeholder="Search by type">
+                                            <mat-option value="">All</mat-option>
+                                            <mat-option *ngFor="let customertype of customertypes" [value]="customertype.id">{{customertype.name}}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-sm-3">
                                     <mat-form-field>
-                                        <mat-select placeholder="Search by vehicle">
-                                            <mat-option value="Parent">SUV</mat-option>
-                                            <mat-option value="Student">Van</mat-option>
-                                            <mat-option value="Employee">Bus</mat-option>
-                                            <mat-option value="Visitor">Truck</mat-option>
-                                            <mat-option value="Overnight Parker">Sedan</mat-option>
-                                            <mat-option value="Overnight Parker">Taxi</mat-option>
-                                            <mat-option value="Overnight Parker">Motorcycle</mat-option>
-                                            <mat-option value="Overnight Parker">Bicycle</mat-option>
-                                            <mat-option value="Overnight Parker">Tricycle</mat-option>
+                                        <mat-select [(ngModel)]="vehicleFilter" (ngModelChange)="filteredDataSource()" placeholder="Search by vehicle">
+                                            <mat-option value="">All</mat-option>
+                                            <mat-option *ngFor="let vechile of vehicles" [value]="vechile.id">{{vechile.name}}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-sm-3">
-                                        <mat-form-field>
-                                            <mat-select placeholder="Search by status">
-                                                <mat-option value="Active">Active</mat-option>
-                                                <mat-option value="Inactive">Inactive</mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
+                                    <mat-form-field>
+                                        <mat-select [(ngModel)]="statusFilter" (ngModelChange)="filteredDataSource()" placeholder="Search by status">
+                                            <mat-option value="">All</mat-option>
+                                            <mat-option value="1">Active</mat-option>
+                                            <mat-option value="0">Inactive</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
                                 <div class="col-sm-3">
                                     <mat-form-field>
-                                        <input matInput placeholder="Search by keywords">
+                                        <input [(ngModel)]="searchFilter" (keyup)="filteredDataSource()" matInput placeholder="Search by keywords">
                                     </mat-form-field>
                                 </div>
                             </div>
-                            <table class="table table-striped mt-3">
-                                <thead>
-                                    <tr>
-                                        <th>RFID No</th>
-                                        <th>Fullname</th>
-                                        <th>Gender</th>
-                                        <th>Type</th>
-                                        <th>Vehicle</th>
-                                        <th>Status</th>
-                                        <th>Commands</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let item of collection.data | paginate: config">
-                                        <td>{{ item.id }}</td>
-                                        <td>Ferdie Santiago</td>
-                                        <td>Male</td>
-                                        <td>Parents</td>
-                                        <td>Sedan</td>
-                                        <td>Active</td>
-                                        <td>
-                                            <a class="edit-item" href="javascript:;"><i class="la la-edit"></i></a>
-                                            <a class="delete-item" href="javascript:;"><i class="la la-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <pagination-controls 
-                                [maxSize]="maxSize"
-                                [directionLinks]="directionLinks"
-                                [autoHide]="autoHide"
-                                [responsive]="responsive"
-                                [previousLabel]="labels.previousLabel"
-                                [nextLabel]="labels.nextLabel"
-                                [screenReaderPaginationLabel]="labels.screenReaderPaginationLabel"
-                                [screenReaderPageLabel]="labels.screenReaderPageLabel"
-                                [screenReaderCurrentLabel]="labels.screenReaderCurrentLabel"
-                                (pageChange)="onPageChange($event)">
-                            </pagination-controls>
-                            <div class="clearfix"></div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="table-responsive">
+                                        <table mat-table [dataSource]="dataSource" matSort class="table">
+                                            <!-- rfid column -->
+                                            <ng-container matColumnDef="rfid">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> RFID No </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.rfid_no }} </td>
+                                            </ng-container>
+                                            
+                                            <!-- fullname column -->
+                                            <ng-container matColumnDef="fullname">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Fullname </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.firstname }} {{ element.middlename }} {{ element.lastname }} </td>
+                                            </ng-container>
+                                            
+                                            <!-- gender column -->
+                                            <ng-container matColumnDef="gender">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Gender </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.gender }} </td>
+                                            </ng-container>
+                                            
+                                            <!-- type column -->
+                                            <ng-container matColumnDef="type">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.customer_type }} </td>
+                                            </ng-container>
+
+                                            <!-- vehicle column -->
+                                            <ng-container matColumnDef="vehicle">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Vehicle </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.vehicle_name }} </td>
+                                            </ng-container>
+
+                                            <!-- modified at column -->
+                                            <ng-container matColumnDef="modified_at">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> LAST MODIFIED AT </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.created_at | date: 'dd/MM/yyyy hh:mm:ss' }} </td>
+                                            </ng-container>
+
+                                            <!-- status column -->
+                                            <ng-container matColumnDef="status">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> STATUS </th>
+                                                <td mat-cell *matCellDef="let element"> 
+                                                    <span class="text-success" *ngIf="element.is_active == 1">
+                                                        Active
+                                                    </span>
+                                                    <span class="text-danger" *ngIf="element.is_active == 0">
+                                                        Inactive
+                                                    </span>
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- commands column -->
+                                            <ng-container matColumnDef="commands">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> COMMANDS </th>
+                                                <td mat-cell *matCellDef="let element">  
+                                                    <button (click)="editRow(element.id)" mat-icon-button>
+                                                        <i class="la la-edit"></i>
+                                                    </button>	
+                                                    <button (click)="deleteRow(element.id)" mat-icon-button>
+                                                        <i class="la la-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </ng-container>
+                                            
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                        </table>
+                                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <!--
@@ -154,85 +178,99 @@
                         */
                         -->
                         <div class="content-form">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <input matInput placeholder="First Name" required>
-                                                <mat-error>this field is required</mat-error>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <input matInput placeholder="Middle Name">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <input matInput placeholder="Last Name" required>
-                                                <mat-error>this field is required</mat-error>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <mat-select placeholder="Gender" required>
-                                                    <mat-option value="Male">Male</mat-option>
-                                                    <mat-option value="Female">Female</mat-option>
-                                                </mat-select>
-                                                <mat-error>this field is required</mat-error>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <input matInput [matDatepicker]="picker" placeholder="Birthdate">
-                                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                                <mat-datepicker #picker></mat-datepicker>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <mat-select placeholder="Type" required>
-                                                    <mat-option *ngFor="let customertype of customertypes" [value]="customertype.id">{{customertype.name}}</mat-option>
-                                                </mat-select>
-                                                <mat-error>this field is required</mat-error>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <mat-select placeholder="Vehicle" required>
-                                                    <mat-option *ngFor="let vechile of vehicles" [value]="vechile.id">{{vechile.name}}</mat-option>
-                                                </mat-select>
-                                                <mat-error>this field is required</mat-error>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <input matInput placeholder="Model">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <input matInput placeholder="Plate No" required>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <mat-form-field>
-                                                <input matInput placeholder="RFID No" required>
-                                                <mat-error>this field is required</mat-error>
-                                            </mat-form-field>
+                            <form (ngSubmit)="saveCustomer()" [formGroup]="CustomerForm" novalidate>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="First Name" formControlName="firstname" required>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="Middle Name" formControlName="middlename">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="Last Name" formControlName="lastname" required>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <mat-select placeholder="Gender" formControlName="gender" required>
+                                                        <mat-option value="Male">Male</mat-option>
+                                                        <mat-option value="Female">Female</mat-option>
+                                                    </mat-select>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput [matDatepicker]="picker" placeholder="Birthdate" formControlName="birthdate">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker></mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <mat-select placeholder="Type" formControlName="customer_type_id" required>
+                                                        <mat-option *ngFor="let customertype of customertypes" [value]="customertype.id">{{customertype.name}}</mat-option>
+                                                    </mat-select>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <mat-select placeholder="Vehicle" formControlName="vehicle_id" required>
+                                                        <mat-option *ngFor="let vechile of vehicles" [value]="vechile.id">{{vechile.name}}</mat-option>
+                                                    </mat-select>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="Model" formControlName="model">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="Plate No" formControlName="plate_no" required>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <input matInput placeholder="RFID No" formControlName="rfid_no" required>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <mat-form-field>
+                                                    <mat-select placeholder="Payment Type" formControlName="payment_type_id" required>
+                                                        <mat-option [value]="1">Cash</mat-option>
+                                                        <mat-option [value]="2">Credits</mat-option>
+                                                    </mat-select>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>    
+                                </div>  
+                                <button type="submit" [disabled]="CustomerForm.invalid || isLoading" mat-fab class="btn-float bg-primary" [ngClass]="{ 'active' : activeForm }">
+                                    <i class="la la-save"></i>
+                                </button>
+                            </form>  
                         </div> 
                         
+                    </div>
+                    <div class="overlay-spinner">
+                        <mat-spinner></mat-spinner>
                     </div>
                 </mat-card>
             </div>           
         </div>
     </div>
 </mat-sidenav-content>
-<button mat-fab class="btn-float bg-primary" [ngClass]="{ 'active' : activeForm }">
-    <i class="la la-save"></i>
-</button>

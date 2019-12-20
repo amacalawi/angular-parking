@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PosComponent } from './pos/pos.component';
+import { PosComponent } from './pages/pos/pos.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { LoginComponent } from './login/login.component';
 import { FixedRateComponent } from './pages/applications/fixed-rate/fixed-rate.component';
