@@ -141,7 +141,8 @@ export class CustomersComponent implements OnInit, OnDestroy {
         ).subscribe((vehicles: any) => {
             console.log(this.vehicles = vehicles.data);
         }, error => { 
-            this.redirect();
+            console.log(error);
+            // this.redirect();
         });
     }
 
@@ -151,8 +152,9 @@ export class CustomersComponent implements OnInit, OnDestroy {
             map(data => data)
         ).subscribe((customertypes: any) => {
             console.log(this.customertypes = customertypes.data);
-        }, error => { console.log(error)
-            this.redirect();
+        }, error => { 
+            console.log(error);
+            // this.redirect();
         });
     }
 
@@ -195,7 +197,8 @@ export class CustomersComponent implements OnInit, OnDestroy {
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
         }, error => { 
-            this.redirect();
+            console.log(error);
+            // this.redirect();
         });
     }
 
@@ -297,7 +300,8 @@ export class CustomersComponent implements OnInit, OnDestroy {
                 payment_type_id: customers.data.payment_type_id
             });
         }, error => { 
-            this.redirect();
+            console.log(error);
+            // this.redirect();
         });
         var overlaySpinner = <HTMLElement> document.querySelector('.overlay-spinner');
         overlaySpinner.classList.add('d-block');
@@ -328,7 +332,8 @@ export class CustomersComponent implements OnInit, OnDestroy {
                         'success'
                     )
                 }, error => { 
-                    this.redirect();
+                    console.log(error);
+                    // this.redirect();
                 });  
             }
         });        
