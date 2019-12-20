@@ -306,4 +306,31 @@ export class CustomersComponent implements OnInit, OnDestroy {
             this.displayForm();
         }, 500 + 300 * (Math.random() * 5));
     }
+
+    deleteRow(id: number, active: number) {
+        let text = (active == 0) ? 'The status will be changed to active.' : 'The status will be changed to inactive.';
+        Swal.fire({
+            title: 'Are you sure?',
+            text: text,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, change it!',
+            cancelButtonText: 'No, not now.'
+            }).then((result) => {
+            if (result.value) {                
+                this.customerService.modify(id)
+                .subscribe((customers: any) => {
+                    console.log(customers);
+                    this.getAllCustomers();
+                    Swal.fire(
+                        'Success!',
+                        'the information has been successfully changed.',
+                        'success'
+                    )
+                }, error => { 
+                    this.redirect();
+                });  
+            }
+        });        
+    }
 }

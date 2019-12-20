@@ -19,11 +19,7 @@
 							</button>
 							<mat-menu #menu="matMenu">
 								<button mat-menu-item (click)="onContextMenuAction('All')">All</button>
-								<button mat-menu-item (click)="onContextMenuAction('Category 1')">Employee</button>
-								<button mat-menu-item (click)="onContextMenuAction('Category 2')">Parents</button>
-								<button mat-menu-item (click)="onContextMenuAction('Category 1')">Students</button>
-								<button mat-menu-item (click)="onContextMenuAction('Category 2')">Visitors</button>
-								<button mat-menu-item (click)="onContextMenuAction('Category 2')">Overnight Parkers</button>
+								<button mat-menu-item *ngFor="let customertype of customertypes" (click)="onContextMenuAction(customertype.id)">{{customertype.name}}</button>
 							</mat-menu>
 						</div>
 					</div>
