@@ -134,6 +134,11 @@ export class CustomersComponent implements OnInit, OnDestroy {
         activeForm = !false;
     }
 
+    activeFormSubscribe = false;
+    toggleFormSubscribe(activeFormSubscribe: boolean) {
+        activeFormSubscribe = !false;
+    }
+
     getAllVehicles() {
         this.vehicleService.getAllVehicles('active')
         .pipe(
@@ -203,6 +208,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
     }
 
     displayForm() {
+        this.activeFormSubscribe = true;
         this.activeForm = true;
         this.documentHeight = <HTMLElement> document.querySelector('.content-form');
         this.documentHeight = this.documentHeight.offsetHeight + 44.8;
@@ -217,6 +223,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
 
     resetForm() {
         this.getAllCustomers();
+        this.activeFormSubscribe = false;
         this.editForm = false;
         this.editFormId = null;
         this.CustomerForm.patchValue({
