@@ -18,6 +18,7 @@ import { TransactionService } from './services/transactions.services';
 import { FixedRateService } from './services/fixedrates.services';
 import { VehicleService } from './services/vehicles.services';
 import { CustomerTypeService } from './services/customer-types.services';
+import { SubscriptionService } from './services/subscriptions.services';
 
 import { ChartsModule } from 'ng2-charts';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
@@ -36,6 +37,7 @@ import { FixedRateComponent } from './pages/applications/fixed-rate/fixed-rate.c
 import { CustomersComponent } from './pages/applications/customers/customers.component';
 import { VehiclesComponent } from './pages/applications/vehicles/vehicles.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { CustomerSubscriptionDialogComponent } from './pages/applications/customers/customer.subscription.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
 
@@ -53,7 +55,8 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     SidebarRightComponent,
     FixedRateComponent,
     VehiclesComponent,
-    DashboardComponent
+    DashboardComponent,
+    CustomerSubscriptionDialogComponent
   ],
   imports: [
     ChartsModule,
@@ -94,12 +97,13 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     FixedRateService,
     TransactionService,
     CustomerTypeService,
+    SubscriptionService,
     NavService,
     MenuItems,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  entryComponents: [POSDialogComponent, NotifComponent]
+  entryComponents: [POSDialogComponent, NotifComponent, CustomerSubscriptionDialogComponent]
 })
 export class AppModule { }

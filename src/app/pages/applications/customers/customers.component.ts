@@ -9,6 +9,10 @@ import { Customer } from '../../../shared/customer';
 import { CustomerService } from '../../../services/customers.services';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { NavItem } from '../../../shared/nav-item';
+import { SubscriptionService } from '../../../services/subscriptions.services';
+import { Subscription } from '../../../shared/subscription';
+import { MatDialog } from '@angular/material';
+import { CustomerSubscriptionDialogComponent } from './customer.subscription.component';
 import { NavService } from '../../../services/nav.services';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -40,6 +44,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
     vehicles: Vehicle[];
     customertypes: CustomerType[];
     customers: Customer[];
+    subscriptions: Subscription[];
     typeFilter: any;
     vehicleFilter: any;
     statusFilter: any;
@@ -55,6 +60,11 @@ export class CustomersComponent implements OnInit, OnDestroy {
     @ViewChild(MatSort, {static: true}) sort: MatSort;
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
+    displayedColumns2: string[] = ['transaction_no', 'registration_date', 'expiration_date', 'total_amount', 'excess_rate_option', 'modified_at', 'status', 'commands'];
+    dataSource2 = new MatTableDataSource(this.subscriptions);    
+    @ViewChild(MatSort, {static: true}) sort2: MatSort;
+    @ViewChild(MatPaginator, {static: true}) paginator2: MatPaginator;
+
     constructor(
         public navService: NavService,
         private router: Router,
@@ -62,7 +72,9 @@ export class CustomersComponent implements OnInit, OnDestroy {
         private vehicleService: VehicleService,
         private customertypeService: CustomerTypeService,
         private customerService: CustomerService,
-        private builder: FormBuilder
+        private subscriptionService: SubscriptionService,
+        private builder: FormBuilder,
+        public dialog: MatDialog
     ) { 
         this.pageURL = this.router.url;
         let params = this.router.url;
@@ -104,6 +116,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
             this.getAllVehicles();
             this.getAllCustomerTypes();
             this.getAllCustomers();
+            this.getSubscriptions(0);
         } else {
             this.router.navigate([this.route.snapshot.queryParams.redirect || '/'], { replaceUrl: true });
         }
@@ -137,6 +150,21 @@ export class CustomersComponent implements OnInit, OnDestroy {
     activeFormSubscribe = false;
     toggleFormSubscribe(activeFormSubscribe: boolean) {
         activeFormSubscribe = !false;
+    }
+
+    getSubscriptions(id: number) {
+        this.subscriptionService.find(id)
+        .pipe(
+            map(data => data)
+        ).subscribe((subscriptions: any) => {
+            console.log(this.subscriptions = subscriptions.data);
+            this.dataSource2 = new MatTableDataSource(this.subscriptions);    
+            this.dataSource2.sort = this.sort2;
+            this.dataSource2.paginator = this.paginator2;
+        }, error => { 
+            console.log(error);
+            // this.redirect();
+        });
     }
 
     getAllVehicles() {
@@ -293,6 +321,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
             console.log(customers.data);
             this.editForm = true;
             this.editFormId = id;
+            this.getSubscriptions(id);
             this.CustomerForm.patchValue({
                 firstname: customers.data.firstname,
                 middlename: customers.data.middlename,
@@ -344,5 +373,18 @@ export class CustomersComponent implements OnInit, OnDestroy {
                 });  
             }
         });        
+    }
+
+    openDialog(): void {
+        const dialogRef = this.dialog.open(CustomerSubscriptionDialogComponent, {
+            width: '800px',
+            data: {
+                id: this.editFormId
+            }
+        });
+    
+        dialogRef.afterClosed().subscribe(res => {
+          
+        });
     }
 }
