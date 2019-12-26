@@ -270,6 +270,81 @@
                         <mat-spinner></mat-spinner>
                     </div>
                 </mat-card>
+                <mat-card class="mt-4 mb-4 d-none zoomIn animated" [ngClass]="{ 'd-block' : activeFormSubscribe }">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table mat-table [dataSource]="dataSource" matSort class="table">
+                                    <!-- rfid column -->
+                                    <ng-container matColumnDef="rfid">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Transaction No </th>
+                                        <td mat-cell *matCellDef="let element"> {{ element.rfid_no }} </td>
+                                    </ng-container>
+                                    
+                                    <!-- fullname column -->
+                                    <ng-container matColumnDef="fullname">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Registration Date </th>
+                                        <td mat-cell *matCellDef="let element"> {{ element.firstname }} {{ element.middlename }} {{ element.lastname }} </td>
+                                    </ng-container>
+                                    
+                                    <!-- gender column -->
+                                    <ng-container matColumnDef="gender">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Expiration Date </th>
+                                        <td mat-cell *matCellDef="let element"> {{ element.gender }} </td>
+                                    </ng-container>
+                                    
+                                    <!-- type column -->
+                                    <ng-container matColumnDef="type">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Amount </th>
+                                        <td mat-cell *matCellDef="let element"> {{ element.customer_type }} </td>
+                                    </ng-container>
+
+                                    <!-- vehicle column -->
+                                    <ng-container matColumnDef="vehicle">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Payment Status </th>
+                                        <td mat-cell *matCellDef="let element"> {{ element.vehicle_name }} </td>
+                                    </ng-container>
+
+                                    <!-- modified at column -->
+                                    <ng-container matColumnDef="modified_at">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> LAST MODIFIED AT </th>
+                                        <td mat-cell *matCellDef="let element"> {{ element.created_at | date: 'dd/MM/yyyy hh:mm:ss' }} </td>
+                                    </ng-container>
+
+                                    <!-- status column -->
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> STATUS </th>
+                                        <td mat-cell *matCellDef="let element"> 
+                                            <span class="text-success" *ngIf="element.is_active == 1">
+                                                Active
+                                            </span>
+                                            <span class="text-danger" *ngIf="element.is_active == 0">
+                                                Inactive
+                                            </span>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- commands column -->
+                                    <ng-container matColumnDef="commands">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> COMMANDS </th>
+                                        <td mat-cell *matCellDef="let element">  
+                                            <button (click)="editRow(element.id)" mat-icon-button>
+                                                <i class="la la-edit"></i>
+                                            </button>	
+                                            <button (click)="deleteRow(element.id)" mat-icon-button>
+                                                <i class="la la-trash"></i>
+                                            </button>
+                                        </td>
+                                    </ng-container>
+                                    
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card>
             </div>           
         </div>
     </div>
