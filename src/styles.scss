@@ -142,8 +142,16 @@ mat-toolbar a i {
     background: #bd5d38 !important;
 }
 
-a.bg-primary:focus, a.bg-primary:hover, button.bg-primary:focus, button.bg-primary:hover {
+a.bg-primary:focus, 
+a.bg-primary:hover, 
+button.bg-primary:disabled,
+button.bg-primary:focus, 
+button.bg-primary:hover {
     background: #a75332 !important;
+}
+
+button.bg-primary:disabled {
+    color: rgba(0, 0, 0, 0.26) !important;
 }
 
 .c-white {
@@ -825,6 +833,17 @@ mat-dialog-container button .mat-button-wrapper {
 
 customer-subscription-dialog .mat-dialog-content {
     overflow: hidden;
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: #bf592f;
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle, 
+.mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple), 
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple, 
+.mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+    background-color: #bf592f;
 }
 
 @media (max-width: 480px) { 

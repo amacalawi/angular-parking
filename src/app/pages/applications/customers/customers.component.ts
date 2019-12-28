@@ -19,7 +19,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-customers',
@@ -53,10 +52,11 @@ export class CustomersComponent implements OnInit, OnDestroy {
     formErrors: any;
     editForm = false;
     editFormId: number;
+    fixedRate: number;
 
     public CustomerForm: FormGroup;
 
-    displayedColumns: string[] = ['rfid', 'fullname', 'gender', 'type', 'vehicle', 'modified_at', 'status', 'commands'];
+    displayedColumns: string[] = ['rfid', 'fullname', 'gender', 'type', 'vehicle', 'modified_at', 'subscription', 'status', 'commands'];
     dataSource = new MatTableDataSource(this.customers);    
     @ViewChild(MatSort, {static: true}) sort: MatSort;
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -285,8 +285,10 @@ export class CustomersComponent implements OnInit, OnDestroy {
                     .subscribe((customers: any) => {
                         console.log(customers);
                         if (customers.status == 'ok') {
+                            this.activeFormSubscribe = true;
                             this.editForm = true;
                             this.editFormId = customers.data.id;
+                            this.fixedRate = customers.fixedrate;
                         }
                         Swal.fire(
                             customers.message.info,
@@ -316,12 +318,13 @@ export class CustomersComponent implements OnInit, OnDestroy {
         });        
     }
 
-    editRow(id: number) {
+    editRow(id: number, fixedrate: number) {
         this.customerService.find(id)
         .subscribe((customers: any) => {
             console.log(customers.data);
             this.editForm = true;
             this.editFormId = id;
+            this.fixedRate = fixedrate;
             this.getSubscriptions(id);
             this.CustomerForm.patchValue({
                 firstname: customers.data.firstname,
@@ -377,17 +380,102 @@ export class CustomersComponent implements OnInit, OnDestroy {
     }
 
     openDialog(): void {
-        const dialogRef = this.dialog.open(CustomerSubscriptionDialogComponent, {
-            width: '800px',
-            data: {
-                id: this.editFormId
-            }
-        });
-    
-        dialogRef.afterClosed().subscribe(res => {
-          
-        });
+        if (!this.subscriptions.some(data => data.status == ('draft' || 'valid'))) {
+            const dialogRef = this.dialog.open(CustomerSubscriptionDialogComponent, {
+                width: '800px',
+                disableClose: true,
+                data: {
+                    customer_id: this.editFormId,
+                    fixedrate: this.fixedRate
+                }
+            });
+        
+            dialogRef.afterClosed().subscribe(res => {
+                this.getSubscriptions(this.editFormId);
+            });
+        }
     }
 
+    editDialog(id: number, total_amount: number, registration_date: string, expiration_date: string, allowance_minute: string, excess_rate_option: string, status: string) {
+        if (status == 'draft') {
+            const dialogRef2 = this.dialog.open(CustomerSubscriptionDialogComponent, {
+                width: '800px',
+                disableClose: true,
+                data: {
+                    customer_id: this.editFormId,
+                    fixedrate: this.fixedRate,
+                    total_amount: total_amount,
+                    registration_date: registration_date,
+                    expiration_date: expiration_date,
+                    allowance_minute: allowance_minute,
+                    excess_rate_option: excess_rate_option,
+                    editFormId: id,
+                    editForm: true
+                }
+            });
+
+            dialogRef2.afterClosed().subscribe(res => {
+                this.getSubscriptions(this.editFormId);
+            });
+        }
+    }
+
+    deleteDialog(id: number, status: string) {
+        if (status == 'draft') {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'The information will be deleted.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, not now.'
+                }).then((result) => {
+                if (result.value) {                
+                    this.subscriptionService.delete(id)
+                    .subscribe((subscriptions: any) => {
+                        console.log(subscriptions);
+                        this.getSubscriptions(this.editFormId);
+                        Swal.fire(
+                            'Success!',
+                            'The information has been successfully deleted.',
+                            'success'
+                        )
+                    }, error => { 
+                        console.log(error);
+                        // this.redirect();
+                    });  
+                }
+            });  
+        }      
+    }
+
+    updateDialog(id: number, status: string) {
+        if (status == 'draft') {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'The status will be modifed.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, modify it!',
+                cancelButtonText: 'No, not now.'
+                }).then((result) => {
+                if (result.value) {                
+                    this.subscriptionService.modify(id)
+                    .subscribe((subscriptions: any) => {
+                        console.log(subscriptions);
+                        this.getSubscriptions(this.editFormId);
+                        Swal.fire(
+                            'Success!',
+                            'The status has been successfully modified.',
+                            'success'
+                        )
+                    }, error => { 
+                        console.log(error);
+                        // this.redirect();
+                    });  
+                }
+            });  
+        }      
+    }
     
 }

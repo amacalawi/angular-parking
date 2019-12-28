@@ -7,8 +7,11 @@ export class Subscription {
   expiration_date: string;
   excess_rate_option: string;
   allowance_minute: string;
+  fixedrate: number;
   status: string;
   created_at: string;
   updated_at: string;
   is_active: boolean;
+  editForm: boolean;
+  editFormId: number;
 }
