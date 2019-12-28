@@ -1,23 +1,48 @@
-<h2 mat-dialog-title>Subscription Info</h2>
-<mat-dialog-content class="mat-typography">
-    <div class="row">
-        <div class="col-sm-6">
-            <mat-form-field>
-                <input matInput [matDatepicker]="picker1" placeholder="Registration Startdate" required>
-                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                <mat-datepicker #picker1></mat-datepicker>
-            </mat-form-field>
+<form (ngSubmit)="saveSubscription()" [formGroup]="SubscriptionForm" novalidate>
+    <h2 mat-dialog-title>Subscription Info</h2>
+    <mat-dialog-content class="mat-typography">
+        <div class="row">
+            <div class="col-sm-6">
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker1" placeholder="Registration Startdate" [(ngModel)]="registrationDate" [ngModelOptions]="{standalone: true}" required>
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1 [(ngModel)]="registrationDate" (ngModelChange)="onRegDate($event)"></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker2" placeholder="Registration Enddate" formControlName="expiration_date" required>
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2 (selectedChanged)="onExpDate($event)"></mat-datepicker>
+                </mat-form-field>
+            </div>
         </div>
-        <div class="col-sm-6">
-            <mat-form-field>
-                <input matInput [matDatepicker]="picker2" placeholder="Registration Enddate" required>
-                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                <mat-datepicker #picker2></mat-datepicker>
-            </mat-form-field>
+        <div class="row">
+            <div class="col-sm-6">
+                <mat-form-field>
+                    <input matInput placeholder="Allowance Minute" formControlName="allowance_minute" required>
+                    <mat-error>this field is required</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field>
+                    <input matInput placeholder="Total Amount" formControlName="total_amount" disabled>
+                    <mat-error>this field is required</mat-error>
+                </mat-form-field>
+            </div>
         </div>
-    </div>
-</mat-dialog-content>
-<mat-dialog-actions align="end" class="pb-4">
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Save Changes</button>
-    <button mat-button mat-dialog-close>Cancel</button>
-</mat-dialog-actions>
+        <div class="row">
+            <div class="col-sm-6">
+                <label class="radio-label">Excess Rate Option</label>
+                <mat-radio-group formControlName="excess_rate_option" required aria-label="Excess Rate Option" class="radio-group">
+                    <mat-radio-button value="EX_PER_MIN" class="radio-button">Minute Based</mat-radio-button>
+                    <mat-radio-button value="EX_PER_HR" class="radio-button">Hourly Based</mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end" class="pb-4">
+        <button mat-button [mat-dialog-close]="true" cdkFocusInitial class="bg-primary c-white">Save Changes</button>
+        <button mat-button mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+</form>

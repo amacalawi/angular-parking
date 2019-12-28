@@ -146,6 +146,10 @@ a.bg-primary:focus, a.bg-primary:hover, button.bg-primary:focus, button.bg-prima
     background: #a75332 !important;
 }
 
+.c-white {
+    color: #fff !important;
+}
+
 .c-primary {
     color: #bd5d38 !important;
 }
@@ -804,4 +808,27 @@ mat-paginator .mat-form-field-flex {
 
 .mat-progress-spinner circle, .mat-spinner circle {
     stroke: #bd5d38;
+}
+
+mat-dialog-container button .mat-button-wrapper {
+    font-size: 1rem;
+}
+
+.radio-label {
+    display: block;
+    clear: both;
+}
+
+.mat-radio-label-content {
+    margin-right: 10px;
+}
+
+customer-subscription-dialog .mat-dialog-content {
+    overflow: hidden;
+}
+
+@media (max-width: 480px) { 
+    customer-subscription-dialog .mat-dialog-content {
+        overflow: auto;
+    }
 }

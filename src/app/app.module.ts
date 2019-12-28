@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatProgressSpinnerModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule, MatGridListModule, MatMenuModule, MatCardModule, MatDialogModule, MatInputModule, MatSelectModule, MatSnackBarModule, MatTabsModule, MatSlideToggleModule, MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatPaginatorModule, MatSortModule, MatTableModule } from  '@angular/material';
+import { MatRadioModule, MatProgressSpinnerModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule, MatGridListModule, MatMenuModule, MatCardModule, MatDialogModule, MatInputModule, MatSelectModule, MatSnackBarModule, MatTabsModule, MatSlideToggleModule, MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatPaginatorModule, MatSortModule, MatTableModule } from  '@angular/material';
 import { PosComponent, NotifComponent } from './pages/pos/pos.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { POSDialogComponent } from './pages/pos/pos.dialog.component';
@@ -89,7 +89,8 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatRadioModule
   ],
   providers: [
     ProductsService,

@@ -19,6 +19,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-customers',
@@ -387,4 +388,6 @@ export class CustomersComponent implements OnInit, OnDestroy {
           
         });
     }
+
+    
 }
