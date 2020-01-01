@@ -30,7 +30,9 @@ export class AuthenticationService {
       email: context.username,
       password: context.password,
       token: '',
-      user_id: 0
+      user_id: 0,
+      roles: [],
+      privileges: []
     };
 
     return this.apiService
@@ -40,7 +42,9 @@ export class AuthenticationService {
             email: context.username,
             password: context.password,
             token: user.token,
-            user_id: user.user_id
+            user_id: user.user_id,
+            roles: user.roles,
+            privileges: user.privileges
           };
           this.credentialsService.setCredentials(data, context.remember);
           return of(user);

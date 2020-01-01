@@ -17,6 +17,8 @@ import { ProductFilterPipe } from './shared/product-filter.pipe';
 import { TransactionService } from './services/transactions.services';
 import { FixedRateService } from './services/fixedrates.services';
 import { VehicleService } from './services/vehicles.services';
+import { UserService } from './services/users.services';
+import { RoleService } from './services/roles.services';
 import { CustomerTypeService } from './services/customer-types.services';
 import { SubscriptionService } from './services/subscriptions.services';
 
@@ -38,6 +40,7 @@ import { CustomersComponent } from './pages/applications/customers/customers.com
 import { VehiclesComponent } from './pages/applications/vehicles/vehicles.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CustomerSubscriptionDialogComponent } from './pages/applications/customers/customer.subscription.component';
+import { UsersComponent } from './pages/applications/users/users.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
 
@@ -56,7 +59,8 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     FixedRateComponent,
     VehiclesComponent,
     DashboardComponent,
-    CustomerSubscriptionDialogComponent
+    CustomerSubscriptionDialogComponent,
+    UsersComponent
   ],
   imports: [
     ChartsModule,
@@ -95,6 +99,8 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
   providers: [
     ProductsService,
     VehicleService,
+    UserService,
+    RoleService,
     FixedRateService,
     TransactionService,
     CustomerTypeService,

@@ -406,7 +406,7 @@ mat-card .col-sm-fix .txt-wrapper label {
 }*/
 
 /* width */
-
+.mat-drawer-inner-container::-webkit-scrollbar,
 .table-responsive::-webkit-scrollbar,
 .item-lists::-webkit-scrollbar,
 .product-list::-webkit-scrollbar,
@@ -416,6 +416,7 @@ mat-dialog-content::-webkit-scrollbar {
 }
 
 /* Track */
+.mat-drawer-inner-container::-webkit-scrollbar-track:hover,
 .table-responsive::-webkit-scrollbar-track:hover,
 .item-lists::-webkit-scrollbar-track:hover,
 .product-list::-webkit-scrollbar-track:hover,
@@ -425,12 +426,14 @@ mat-dialog-content::-webkit-scrollbar-track:hover {
 }
 
 /* Handle */
+.mat-drawer-inner-container::-webkit-scrollbar-thumb,
 .table-responsive::-webkit-scrollbar-thumb,
 .item-lists::-webkit-scrollbar-thumb,
 .product-list::-webkit-scrollbar-thumb {
     box-shadow: none !important;
 }
 
+.mat-drawer-inner-container::-webkit-scrollbar-thumb,
 .table-responsive::-webkit-scrollbar-thumb,
 .item-lists:hover::-webkit-scrollbar-thumb,
 .product-list:hover::-webkit-scrollbar-thumb,

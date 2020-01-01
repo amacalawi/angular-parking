@@ -4,22 +4,24 @@
 </div>
 <mat-nav-list>
     <div *ngFor="let item of items">
-        <h4 *ngIf="item.displayName == 'Point Of Sales' || item.displayName == 'Account'" class="text-divider">
-            {{ (item.displayName == 'Point Of Sales') ? 'Components' : 'Settings' }}
-        </h4>
-        <a (click)="onItemSelected(item)" mat-list-item>
-            <i class="{{item.iconName}}"></i> {{item.displayName}}
-            <span class="mat-list-indicator" *ngIf="item.children && item.children.length">
-            <span></span>
-                <mat-icon [@indicatorRotate]="expanded ? 'expanded': 'collapsed'">
-                expand_more
-                </mat-icon>
-            </span>
-        </a> 
-        <div class="sub-menu-item" *ngIf="expanded">
-            <a (click)="onItemSelected(child)" *ngFor="let child of item.children" mat-list-item>
-                {{ child.displayName }}
-            </a>
-        </div>    
+        <div *ngIf="privileges.indexOf(item.route) == -1">
+            <h4 *ngIf="item.displayName == 'Point Of Sales' || item.displayName == 'Account'" class="text-divider">
+                {{ (item.displayName == 'Point Of Sales') ? 'Components' : 'Settings' }}
+            </h4>
+            <a (click)="onItemSelected(item)" mat-list-item>
+                <i class="{{item.iconName}}"></i> {{item.displayName}}
+                <span class="mat-list-indicator" *ngIf="item.children && item.children.length">
+                <span></span>
+                    <mat-icon [@indicatorRotate]="expanded ? 'expanded': 'collapsed'">
+                    expand_more
+                    </mat-icon>
+                </span>
+            </a> 
+            <div class="sub-menu-item" *ngIf="expanded">
+                <a (click)="onItemSelected(child)" *ngFor="let child of item.children" mat-list-item>
+                    {{ child.displayName }}
+                </a>
+            </div>    
+        </div>
     </div>    
 </mat-nav-list>

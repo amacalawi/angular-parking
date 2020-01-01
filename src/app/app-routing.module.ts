@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { FixedRateComponent } from './pages/applications/fixed-rate/fixed-rate.component';
 import { CustomersComponent } from './pages/applications/customers/customers.component';
 import { VehiclesComponent } from './pages/applications/vehicles/vehicles.component';
+import { UsersComponent } from './pages/applications/users/users.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AuthenticationGuard } from './core';
 
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'applications/customers', component: CustomersComponent, canActivate: [AuthenticationGuard] },
   { path: 'applications/fixed-rate', component: FixedRateComponent, canActivate: [AuthenticationGuard] },
   { path: 'applications/vehicles', component: VehiclesComponent, canActivate: [AuthenticationGuard] },
+  { path: 'applications/users', component: UsersComponent, canActivate: [AuthenticationGuard] },
   { path: 'pos', component: PosComponent, canActivate: [AuthenticationGuard] },
   { path: 'notifications', component: NotificationsComponent },
   { path: 'login', component: LoginComponent },

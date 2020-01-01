@@ -21,6 +21,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 })
 export class SidebarLeftComponent implements OnInit, OnDestroy {
     expanded: boolean;
+    credential: any[];
+    privileges: any[];
     @HostBinding('attr.aria-expanded') ariaExpanded = this.expanded;
     @Input() items: NavItem;
 
@@ -30,6 +32,8 @@ export class SidebarLeftComponent implements OnInit, OnDestroy {
         public menuItems: MenuItems
     ) {
         this.items = this.menuItems.getAll();
+        console.log(this.credential = JSON.parse(sessionStorage.credentials));
+        console.log(this.privileges = this.credential['privileges']);
     }
 
 
