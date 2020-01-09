@@ -256,7 +256,7 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <mat-form-field>
-                                                    <input matInput placeholder="RFID No" formControlName="rfid_no" required>
+                                                    <input matInput placeholder="RFID No" (keydown.enter)="$event.preventDefault()" formControlName="rfid_no" required>
                                                     <mat-error>this field is required</mat-error>
                                                 </mat-form-field>
                                             </div>
