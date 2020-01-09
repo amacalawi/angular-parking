@@ -26,12 +26,12 @@ export class NotificationsComponent implements OnInit {
         this.sendMessage(this.messages);
     }
 
-    sendMessage(msg: string) {
-        this.transactionService.checkin(msg)
+    sendMessage(rfid: string) {
+        this.transactionService.autocheckin(rfid)
         .subscribe((transactions: any) => {
             console.log(transactions);
             if (transactions.status == 'ok') {
-                this.socket.emit("message", msg);
+                this.socket.emit("message", transactions);
             }
         }, error => { 
             

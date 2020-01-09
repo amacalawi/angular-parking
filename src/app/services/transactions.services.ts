@@ -10,17 +10,33 @@ export class TransactionService {
 
   constructor(private apiService: ApiService) { }
 
-  checkin(rfid: any): Observable<any> {
+  checkin(payroll: any, rfid: any): Observable<any> {
     return this.apiService
-    .post(`/transactions/${rfid}/checkin`)
+    .post(`/transactions/${rfid}/checkin`, payroll)
     .pipe(
         map((body: any) => body)
       );
   }
 
-  update(payroll: any, id): Observable<any> {
+  autocheckin(rfid: any): Observable<any> {
     return this.apiService
-    .post(`/vehicles/${id}/update`, payroll)
+    .post(`/transactions/${rfid}/auto-checkin`)
+    .pipe(
+        map((body: any) => body)
+      );
+  }
+
+  checkout(payroll: any, id): Observable<any> {
+    return this.apiService
+    .post(`/transactions/${id}/checkout`, payroll)
+    .pipe(
+        map((body: any) => body)
+      );
+  }
+
+  generate(payroll: any): Observable<any> {
+    return this.apiService
+    .post(`/transactions/generate`, payroll)
     .pipe(
         map((body: any) => body)
       );
@@ -28,7 +44,7 @@ export class TransactionService {
 
   find(id): Observable<any> {
     return this.apiService
-    .post(`/vehicles/${id}/find`)
+    .post(`/transactions/${id}/find`)
     .pipe(
         map((body: any) => body)
       );

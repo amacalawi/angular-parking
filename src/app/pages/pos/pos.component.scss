@@ -23,3 +23,63 @@ mat-tab mat-nav-list label {
     font-size: 1.4rem;
     margin-bottom: 2rem;
 }
+
+.font-sm {
+    font-size: .8rem !important;
+}
+
+.content .col-sm-3 mat-card .container-0,
+.content .col-sm-3 mat-card .container-1,
+.content .col-sm-3 mat-card .container-2 {
+    display: none;
+}
+
+.content .col-sm-3 mat-card .container-0 h3 {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 1.2rem;
+    margin-top: 7px;
+    margin-bottom: 20px;
+}
+
+.content .col-sm-3 mat-card .container-0 mat-form-field,
+.content .col-sm-3 mat-card .container-2 mat-radio-group {
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 100%;
+}
+
+.content .col-sm-3 mat-card .container-2 .arithmetic-holder {
+    text-align: center;
+    margin-top: -10px;
+}
+
+.content .col-sm-3 mat-card .container-2 button.arithmetic {
+    background: #f5f5f5;
+    margin: 5px 10px;
+}
+
+.content .col-sm-3 mat-card .container-2 button.confirm-btn {
+    background: #bd5d38;
+    color: #fff;
+    border-radius: 0;
+    float: right;
+    margin-right: 15px;
+    margin-top: 10px;
+    width: 43%;
+}
+
+.content .col-sm-3 mat-card .container-2 button.back-btn {
+    background: #e1e1e1;
+    color: #333;
+    border-radius: 0;
+    float: left;
+    margin-left: 15px;
+    margin-top: 10px;
+    width: 43%;
+}
+
+.content .col-sm-3 mat-card .container-2 button.confirm-btn .mat-button-wrapper,
+.content .col-sm-3 mat-card .container-2 button.back-btn .mat-button-wrapper {
+    font-size: 1.1rem;
+}

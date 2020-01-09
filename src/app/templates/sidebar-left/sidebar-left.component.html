@@ -4,7 +4,7 @@
 </div>
 <mat-nav-list>
     <div *ngFor="let item of items">
-        <div *ngIf="privileges.indexOf(item.route) == -1">
+        <!-- <div *ngIf="privileges.indexOf(item.route) == -1"> -->
             <h4 *ngIf="item.displayName == 'Point Of Sales' || item.displayName == 'Account'" class="text-divider">
                 {{ (item.displayName == 'Point Of Sales') ? 'Components' : 'Settings' }}
             </h4>
@@ -22,6 +22,6 @@
                     {{ child.displayName }}
                 </a>
             </div>    
-        </div>
+        <!-- </div> -->
     </div>    
 </mat-nav-list>

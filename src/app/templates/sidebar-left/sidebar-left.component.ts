@@ -32,8 +32,10 @@ export class SidebarLeftComponent implements OnInit, OnDestroy {
         public menuItems: MenuItems
     ) {
         this.items = this.menuItems.getAll();
-        console.log(this.credential = JSON.parse(sessionStorage.credentials));
-        console.log(this.privileges = this.credential['privileges']);
+        if (sessionStorage.credentials !== undefined) {
+            console.log(this.credential = JSON.parse(sessionStorage.credentials));
+            console.log(this.privileges = this.credential['privileges']);
+        }
     }
 
 

@@ -1,5 +1,5 @@
 <div class="theme-search md-whiteframe-1dp" [ngClass]="{ 'active' : searchbar }">
-		<input type="text" class="theme-search-input" placeholder="Search for keywords ...">
+		<input type="text" [(ngModel)]="searchText" (keydown.enter)="searchTrans()" class="theme-search-input" placeholder="Search for keywords ...">
 	</div>
 	<mat-toolbar color="primary">
 		<div class="container-fluid">
@@ -27,7 +27,7 @@
 				<div class="col-sm-3">
 					<div class="layer">
 						<span class="items p-l-5">
-							<button mat-icon-button (click)="deleteStoredItems()">
+							<button mat-icon-button (click)="reload()">
 								<i class="flaticon-refresh"></i>
 							</button>
 						</span>
@@ -48,15 +48,15 @@
 					<div class="col-sm-9 p-r-0">
 						<mat-card>
 							<div class="product-list">
-								<h1 class="text-center header-title"><i class="la la-star-o"></i> There are 5 transactions queued <i class="la la-star-o"></i></h1>
+								<h1 class="text-center header-title"><i class="la la-star-o"></i> There are {{ transactionsLength }} {{ transactionsLength > 1 ? 'transactions' : 'transaction' }} queued <i class="la la-star-o"></i></h1>
 								<div class="row">
 									<div *ngFor="let trans of transactions" class="col-sm-fix col-6 col-sm-3 col-lg-2">
-										<a href="javascript:;" (click)="openDialog(product.name, product.price, 0, 0)">
+										<a href="javascript:;" (click)="openTrans(trans.id, trans.rfid_no, trans.credits, trans.payment_type_id, trans.vehicle_name, trans.plate_no, trans.model, trans.vehicle_rate, trans.customer_type, trans.validity, trans.timed_allowance, trans.timed_in, trans.excess_option, trans.excess_amount_multiplier)">
 											<div class="wrapper">
 												<div class="txt-wrapper">
 													<h3>{{ trans.transaction_no }}
 													</h3>
-													<label><i class="la la-clock-o mr-1"></i>{{ trans.created_at | date: 'hh:mm'}}</label>
+													<label><i class="la la-clock-o mr-1"></i>{{ trans.timed_in | date: 'HH:mm'}}</label>
 													<span class="pull-right badges {{ trans.color }}"></span>
 												</div>
 											</div>
@@ -67,119 +67,230 @@
 						</mat-card>
 					</div>
 					<div class="col-sm-3">
-						<mat-card>
-							<!-- <div class="container-1 animated fadeIn" *ngIf="showPayment">
-								<h3>Item Information</h3>
-								<div class="item-lists">
-									<mat-nav-list>
-										<a *ngFor="let item of items" mat-list-item>
-											<table class="table">
-												<tbody>
-													<tr>
-														<td width="15%" class="text-center">
-															<span class="item-qty">{{ item.quantity }}</span>
-														</td>
-														<td width="55%" class="p-l-10 p-r-10">
-															<strong class="item-name">{{ item.name }}</strong>
-															<br/>
-															<span class="item-price">₱{{ item.price.toFixed(2) }}</span>
-														</td>
-														<td width="30%" class="text-right">
-															<strong class="item-total">₱{{ item.total.toFixed(2) }}</strong>
-														</td>
-													</tr>
-												</tbody>
-											</table>
-										</a>
-									</mat-nav-list>
-								</div>
-								<div class="sub-total-card-holder">
-									<div class="row">
-										<div class="col text-left">
-											<strong>Sub Total</strong>
+						<mat-card>	
+							<div class="overlay-spinner">
+								<mat-spinner></mat-spinner>
+							</div>
+
+							<div class="container-0 fadeIn animated">
+								<h3>Parking Information</h3>
+								<form (ngSubmit)="saveCheckIn()" [formGroup]="CheckInForm" novalidate>
+									<mat-form-field>
+										<input matInput placeholder="Customer RFID" formControlName="rfid_no" disabled>
+										<mat-error>this field is required</mat-error>
+									</mat-form-field>
+									<mat-form-field>
+										<mat-select placeholder="Vehicle" formControlName="vehicle_id" required> 
+											<mat-option *ngFor="let vehicle of vehicles" [value]="vehicle.id">{{vehicle.name}}</mat-option>
+										</mat-select>
+										<mat-error>this field is required</mat-error>
+									</mat-form-field>
+									<mat-form-field>
+										<input matInput placeholder="Model" formControlName="model">
+										<mat-error>this field is required</mat-error>
+									</mat-form-field>
+									<mat-form-field>
+										<input matInput placeholder="Plate No" formControlName="plate_no" required>
+										<mat-error>this field is required</mat-error>
+									</mat-form-field>
+									<mat-form-field>
+										<input matInput placeholder="Check-In Time" formControlName="timed_in" disabled>
+										<mat-error>this field is required</mat-error>
+									</mat-form-field>
+									<button type="submit" [disabled]="CheckInForm.invalid || isLoading" mat-button class="text-center full-width checkout">
+										CHECKIN
+									</button>
+								</form>
+							</div>
+
+							<div class="container-1 fadeIn animated">
+								<h3>Transaction Information</h3>
+								<div class="col-sm-12">
+									<div class="widget_item">
+										<div class="m-widget4__ext">
+											<span class="m-widget4__icon m--font-brand">
+												<i class="flaticon-user-ok"></i>
+											</span>
 										</div>
-										<div class="col text-right">
-											<strong>₱{{ subTotal.toFixed(2) }}</strong>
+										<div class="m-widget4__info">
+											<span class="m-widget4__text">
+												Customer
+											</span>
+											<span class="m-widget4__text d-block font-sm">
+												({{ information[0].rfid_no }})
+											</span>
+										</div>
+										<div class="m-widget4__ext">
+											<span class="m-widget4__number m--font-info">
+												{{ information[0].customer_type }}
+											</span>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col text-left">
-											<strong>Vat (12%)</strong>
+									<div class="widget_item">
+										<div class="m-widget4__ext">
+											<span class="m-widget4__icon m--font-brand">
+												<i class="flaticon-truck"></i>
+											</span>
 										</div>
-										<div class="col text-right">
-											<strong>₱{{ vatTotal.toFixed(2) }}</strong>
+										<div class="m-widget4__info">
+											<span class="m-widget4__text">
+												Vehicle Rate 
+											</span>
+											<span class="m-widget4__text d-block font-sm">
+												({{ information[0].vehicle_name }}) [{{ information[0].plate_no }}]
+											</span>
 										</div>
-									</div>
-									<div class="row">
-										<div class="col text-left">
-											<strong>Total Discount</strong>
-										</div>
-										<div class="col text-right">
-											<strong class="c-red">₱{{ totalDiscount.toFixed(2) }}</strong>
-										</div>
-									</div>
-									<div class="divider"></div>
-									<div class="row">
-										<div class="col text-left">
-											<h5><strong>Total Payment</strong></h5>
-										</div>
-										<div class="col text-right">
-											<h5><strong>₱{{ totalPayment.toFixed(2) }}</strong></h5>
+										<div class="m-widget4__ext">
+											<span class="m-widget4__number m--font-info">
+												{{ information[0].vehicle_rate.toFixed(2) }}
+											</span>
 										</div>
 									</div>
-									<button (click)="toggleCheckout()" [disabled]="totalPayment <= 0" mat-button class="text-center full-width checkout">
+									<div class="widget_item">
+										<div class="m-widget4__ext">
+											<span class="m-widget4__icon m--font-brand">
+												<i class="flaticon-time-1"></i>
+											</span>
+										</div>
+										<div class="m-widget4__info">
+											<span class="m-widget4__text">
+												Validity
+											</span>
+										</div>
+										<div class="m-widget4__ext">
+											<span class="m-widget4__number m--font-info">
+												{{ information[0].validity }}
+											</span>
+										</div>
+									</div>
+									<div class="widget_item">
+										<div class="m-widget4__ext">
+											<span class="m-widget4__icon m--font-brand">
+												<i class="flaticon-clock-1"></i>
+											</span>
+										</div>
+										<div class="m-widget4__info">
+											<span class="m-widget4__text">
+												Time Allowance
+											</span>
+										</div>
+										<div class="m-widget4__ext">
+											<span class="m-widget4__number m--font-info">
+												{{ information[0].timed_allowance }}
+											</span>
+										</div>
+									</div>
+									<div class="widget_item">
+										<div class="m-widget4__ext">
+											<span class="m-widget4__icon m--font-brand">
+												<i class="flaticon-time-2"></i>
+											</span>
+										</div>
+										<div class="m-widget4__info">
+											<span class="m-widget4__text">
+												Timed In
+											</span>
+										</div>
+										<div class="m-widget4__ext">
+											<span class="m-widget4__number m--font-info">
+												{{ information[0].timed_in | date: 'HH:mm' }}
+											</span>
+										</div>
+									</div>
+									<div class="widget_item">
+										<div class="m-widget4__ext">
+											<span class="m-widget4__icon m--font-brand">
+												<i class="flaticon-list-1 c-primary"></i>
+											</span>
+										</div>
+										<div class="m-widget4__info">
+											<span class="m-widget4__text c-primary">
+												Total Accu. Time
+											</span>
+										</div>
+										<div class="m-widget4__ext">
+											<span class="m-widget4__number m--font-info c-gray">
+												{{ information[0].total_time }}
+											</span>
+										</div>
+									</div>
+									<div class="widget_item">
+										<div class="m-widget4__ext">
+											<span class="m-widget4__icon m--font-brand">
+												<i class="flaticon-coins c-primary"></i>
+											</span>
+										</div>
+										<div class="m-widget4__info">
+											<span class="m-widget4__text c-primary">
+												Total Amount
+											</span>
+										</div>
+										<div class="m-widget4__ext">
+											<span class="m-widget4__number m--font-info c-gray">
+												{{ information[0].total_amount }}
+											</span>
+										</div>
+									</div>
+									<button (click)="toggleCheckout()" mat-button class="text-center full-width checkout">
 										CHECKOUT
 									</button>
 								</div>
 							</div>
-							<div class="container-2 animated fadeIn" *ngIf="!showPayment">
+
+							<div class="container-2 animated fadeIn">
 								<h3>Payment Information</h3>
-								<mat-form-field>
-									<input class="text-right" matInput placeholder="TOTAL PAYMENTS" [(ngModel)]="totalPayment" disabled>
+								<mat-radio-group [(ngModel)]="information[0].payment_method" class="radio-group" required>
+									<mat-radio-button [value]="1" (click)="togglePaymentMethod(1)" [checked]="information[0].payment_method === 1"  class="radio-button mr-5">CASH</mat-radio-button>
+									<mat-radio-button [value]="2" (click)="togglePaymentMethod(2)" [checked]="information[0].payment_method === 2" class="radio-button">CREDITS</mat-radio-button>
+								</mat-radio-group>
+								<mat-form-field class="mt-2">
+									<input class="text-right" matInput placeholder="OWNED CREDITS" [(ngModel)]="information[0].total_credits" disabled>
 								</mat-form-field>
 								<mat-form-field>
-									<input class="text-right" matInput placeholder="AMOUNT PAID" [(ngModel)]="totalPaid" required>
-									<mat-error *ngIf="totalPaid <= 0 || totalPaid == ''">{{getErrorMessage()}}</mat-error>
+									<input class="text-right" matInput placeholder="TOTAL PAYMENTS" [(ngModel)]="information[0].total_amount" disabled>
 								</mat-form-field>
 								<mat-form-field>
-									<input class="text-right" matInput placeholder="AMOUNT CHANGE" [(ngModel)]="totalChange" disabled>
+									<input class="text-right" matInput placeholder="AMOUNT PAID" [(ngModel)]="information[0].amount_paid" required>
+								</mat-form-field>
+								<mat-form-field>
+									<input class="text-right" matInput placeholder="AMOUNT CHANGE" [(ngModel)]="information[0].amount_change" disabled>
 								</mat-form-field>
 	
 								<div class="arithmetic-holder">
-									<button (click)="compute('7')" class="arithmetic" mat-button>
+									<button [disabled]="information[0].payment_method == 2" (click)="compute('7')" class="arithmetic" mat-button>
 									7
 									</button>
-									<button (click)="compute('8')" class="arithmetic" mat-button>
+									<button [disabled]="information[0].payment_method == 2" (click)="compute('8')" class="arithmetic" mat-button>
 									8
 									</button>
-									<button (click)="compute('9')" class="arithmetic" mat-button>
+									<button [disabled]="information[0].payment_method == 2" (click)="compute('9')" class="arithmetic" mat-button>
 									9
 									</button><br/>
-									<button (click)="compute('4')" class="arithmetic" mat-button>
+									<button [disabled]="information[0].payment_method == 2" (click)="compute('4')" class="arithmetic" mat-button>
 									4
 									</button>
-									<button (click)="compute('5')" class="arithmetic" mat-button>
+									<button [disabled]="information[0].payment_method == 2" (click)="compute('5')" class="arithmetic" mat-button>
 									5
 									</button>
-									<button (click)="compute('6')" class="arithmetic" mat-button>
+									<button [disabled]="information[0].payment_method == 2" (click)="compute('6')" class="arithmetic" mat-button>
 									6
 									</button><br/>
-									<button (click)="compute('1')" class="arithmetic" mat-button>
+									<button [disabled]="information[0].payment_method == 2" (click)="compute('1')" class="arithmetic" mat-button>
 									1
 									</button>
-									<button (click)="compute('2')" class="arithmetic" mat-button>
+									<button [disabled]="information[0].payment_method == 2" (click)="compute('2')" class="arithmetic" mat-button>
 									2
 									</button>
-									<button (click)="compute('3')" class="arithmetic" mat-button>
+									<button [disabled]="information[0].payment_method == 2" (click)="compute('3')" class="arithmetic" mat-button>
 									3
 									</button><br/>
-									<button (click)="compute('.')" class="arithmetic" mat-button>
+									<button [disabled]="information[0].payment_method == 2" (click)="compute('.')" class="arithmetic" mat-button>
 									.
 									</button>
-									<button (click)="compute('0')" class="arithmetic" mat-button>
+									<button [disabled]="information[0].payment_method == 2" (click)="compute('0')" class="arithmetic" mat-button>
 									0
 									</button>
-									<button (click)="clear()" class="arithmetic" mat-button>
+									<button [disabled]="information[0].payment_method == 2" (click)="clear()" class="arithmetic" mat-button>
 									<i class="la la-arrow-left"></i>
 									</button>
 								</div>
@@ -188,10 +299,10 @@
 									BACK
 								</button>
 	
-								<button (click)="checkout()" [disabled]="totalPaid < totalPayment" class="confirm-btn" mat-button>
+								<button (click)="saveCheckout()" [disabled]="(information[0].amount_paid < totalPayment) && (totalPayment !== 0)" class="confirm-btn bg-primary" mat-button>
 									CONFIRM
 								</button>
-							</div> -->
+							</div>
 						</mat-card>
 					</div>
 				</div>     

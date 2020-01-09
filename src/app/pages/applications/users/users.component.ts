@@ -104,6 +104,7 @@ export class UsersComponent implements OnInit {
         this.getAllUsers();
         this.editForm = false;
         this.editFormId = null;
+        this.hide = true;
         this.UserForm.patchValue({
             role_id: '',
             email: '',
@@ -216,7 +217,7 @@ export class UsersComponent implements OnInit {
                 role_id: users.data[0].roles,
                 email: users.data[0].email,
                 name: users.data[0].name,
-                password: ''
+                password: users.data[0].password
             });
         }, error => { 
             console.log(error);

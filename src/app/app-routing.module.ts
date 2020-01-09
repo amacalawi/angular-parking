@@ -8,6 +8,8 @@ import { CustomersComponent } from './pages/applications/customers/customers.com
 import { VehiclesComponent } from './pages/applications/vehicles/vehicles.component';
 import { UsersComponent } from './pages/applications/users/users.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { ReportsComponent } from './pages/reports/reports.component';
+import { AccountComponent } from './pages/account/account.component';
 import { AuthenticationGuard } from './core';
 
 const routes: Routes = [
@@ -17,6 +19,8 @@ const routes: Routes = [
   { path: 'applications/vehicles', component: VehiclesComponent, canActivate: [AuthenticationGuard] },
   { path: 'applications/users', component: UsersComponent, canActivate: [AuthenticationGuard] },
   { path: 'pos', component: PosComponent, canActivate: [AuthenticationGuard] },
+  { path: 'reports', component: ReportsComponent, canActivate: [AuthenticationGuard] },
+  { path: 'account', component: AccountComponent, canActivate: [AuthenticationGuard] },
   { path: 'notifications', component: NotificationsComponent },
   { path: 'login', component: LoginComponent },
   { path: '',   redirectTo: '/dashboard', pathMatch: 'full' }

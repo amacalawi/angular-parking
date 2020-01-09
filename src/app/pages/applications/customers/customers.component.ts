@@ -52,6 +52,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
     formErrors: any;
     editForm = false;
     editFormId: number;
+    editCusType: number;
     fixedRate: number;
 
     public CustomerForm: FormGroup;
@@ -255,6 +256,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
         this.activeFormSubscribe = false;
         this.editForm = false;
         this.editFormId = null;
+        this.editCusType = null;
         this.CustomerForm.patchValue({
             firstname: '',
             middlename: '',
@@ -325,6 +327,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
             this.editForm = true;
             this.editFormId = id;
             this.fixedRate = fixedrate;
+            console.log(this.editCusType = customers.data.customer_type_id);
             this.getSubscriptions(id);
             this.CustomerForm.patchValue({
                 firstname: customers.data.firstname,
@@ -386,7 +389,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
                 disableClose: true,
                 data: {
                     customer_id: this.editFormId,
-                    fixedrate: this.fixedRate
+                    fixedrate: (this.editCusType != 4) ? this.fixedRate : 0
                 }
             });
         
@@ -403,7 +406,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
                 disableClose: true,
                 data: {
                     customer_id: this.editFormId,
-                    fixedrate: this.fixedRate,
+                    fixedrate: (this.editCusType != 4) ? this.fixedRate : 0,
                     total_amount: total_amount,
                     registration_date: registration_date,
                     expiration_date: expiration_date,

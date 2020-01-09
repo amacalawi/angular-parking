@@ -1,0 +1,106 @@
+<mat-sidenav-content>        
+    <mat-toolbar color="primary">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="layer">
+                        <button mat-icon-button (click)="navService.openNav()">
+                            <i class="flaticon-signs"></i>
+                        </button>  
+                        <span class="text-capitalize">{{ pageTitle }}</span>                       
+                        <div class="pull-right">                              							
+                            <button mat-icon-button (click)="navService.openSidebar()">
+                                <i class="flaticon-grid-menu"></i>
+                            </button>					
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-toolbar>
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="col-sm-12">
+                <h1 class="page-title">   
+                    <i class="page-icon flaticon-line-graph"></i>
+                    Reports
+                    <button (click)="generate()" mat-flat-button class="bg-primary c-white pull-right">
+                        Generate <i class="flaticon-interface"></i>
+                    </button>
+                </h1>
+                <mat-card>
+                    <form [formGroup]="ReportForm">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <mat-form-field>
+                                    <input formControlName="start_date" matInput [matDatepicker]="picker1" placeholder="Date From" required>
+                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                    <mat-error>this field is required</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-6">
+                                <mat-form-field>
+                                    <input formControlName="end_date" matInput [matDatepicker]="picker2" placeholder="Date To" required>
+                                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                    <mat-error>this field is required</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-6">
+                                <mat-form-field>
+                                    <mat-select formControlName="type" placeholder="Transaction Type" required>
+                                        <mat-option value="all">All</mat-option>
+                                        <mat-option value="1">Registration</mat-option>
+                                        <mat-option value="2">Parking</mat-option>
+                                        <mat-option value="3">Load Credits</mat-option>
+                                    </mat-select>
+                                    <mat-error>this field is required</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-6">
+                                <mat-form-field>
+                                    <mat-select formControlName="orderby" placeholder="Order By" required>
+                                        <mat-option value="ASC">Ascending</mat-option>
+                                        <mat-option value="DESC">Descending</mat-option>
+                                    </mat-select>
+                                    <mat-error>this field is required</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </form>
+                </mat-card>
+                <div class="text-center mt-4 col overlay-spinner-2">
+                    <mat-spinner [diameter]="50"></mat-spinner>
+                </div>
+                <mat-card class="mt-4 report-layer">
+                    <h4 class="mb-3">Generated Reports As Of January 1, 2019</h4>
+                    <table class="table table-borderless mb-0">
+                        <thead>
+                          <tr>
+                            <td class="text-left">Transaction No</td>
+                            <td class="text-center">Customer RFID</td>
+                            <td class="text-center">Transaction Type</td>
+                            <td class="text-center">Transaction Date</td>
+                            <td class="text-right">Total Amount</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let trans of transactions">
+                            <td class="text-left">{{ trans.transaction_no }}</td>
+                            <td class="text-center">{{ trans.customer }}</td>
+                            <td class="text-center">{{ trans.type }}</td>
+                            <td class="text-center">{{ trans.transaction_date }}</td>
+                            <td class="text-right">{{ trans.total_amount }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+    <button (click)="print()" [disabled]="transactionsLength <= 0" mat-fab class="btn-float bg-primary" [ngClass]="{ 'active' : activeBtn }">
+        <i class="la la-print"></i>
+    </button>
+</mat-sidenav-content>

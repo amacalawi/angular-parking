@@ -24,6 +24,7 @@ import { SubscriptionService } from './services/subscriptions.services';
 
 import { ChartsModule } from 'ng2-charts';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LoginComponent } from './login/login.component';
 
@@ -41,6 +42,8 @@ import { VehiclesComponent } from './pages/applications/vehicles/vehicles.compon
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CustomerSubscriptionDialogComponent } from './pages/applications/customers/customer.subscription.component';
 import { UsersComponent } from './pages/applications/users/users.component';
+import { ReportsComponent } from './pages/reports/reports.component';
+import { AccountComponent } from './pages/account/account.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
 
@@ -60,7 +63,9 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     VehiclesComponent,
     DashboardComponent,
     CustomerSubscriptionDialogComponent,
-    UsersComponent
+    UsersComponent,
+    ReportsComponent,
+    AccountComponent
   ],
   imports: [
     ChartsModule,
