@@ -9,6 +9,10 @@ import { Customer } from '../../../shared/customer';
 import { CustomerService } from '../../../services/customers.services';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { NavItem } from '../../../shared/nav-item';
+import { SubscriptionService } from '../../../services/subscriptions.services';
+import { Subscription } from '../../../shared/subscription';
+import { MatDialog } from '@angular/material';
+import { CustomerSubscriptionDialogComponent } from './customer.subscription.component';
 import { NavService } from '../../../services/nav.services';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -40,6 +44,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
     vehicles: Vehicle[];
     customertypes: CustomerType[];
     customers: Customer[];
+    subscriptions: Subscription[];
     typeFilter: any;
     vehicleFilter: any;
     statusFilter: any;
@@ -47,13 +52,20 @@ export class CustomersComponent implements OnInit, OnDestroy {
     formErrors: any;
     editForm = false;
     editFormId: number;
+    editCusType: number;
+    fixedRate: number;
 
     public CustomerForm: FormGroup;
 
-    displayedColumns: string[] = ['rfid', 'fullname', 'gender', 'type', 'vehicle', 'modified_at', 'status', 'commands'];
+    displayedColumns: string[] = ['rfid', 'fullname', 'gender', 'type', 'vehicle', 'modified_at', 'subscription', 'status', 'commands'];
     dataSource = new MatTableDataSource(this.customers);    
     @ViewChild(MatSort, {static: true}) sort: MatSort;
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
+    displayedColumns2: string[] = ['transaction_no', 'registration_date', 'expiration_date', 'total_amount', 'excess_rate_option', 'modified_at', 'status', 'commands'];
+    dataSource2 = new MatTableDataSource(this.subscriptions);    
+    @ViewChild(MatSort, {static: true}) sort2: MatSort;
+    @ViewChild(MatPaginator, {static: true}) paginator2: MatPaginator;
 
     constructor(
         public navService: NavService,
@@ -62,7 +74,9 @@ export class CustomersComponent implements OnInit, OnDestroy {
         private vehicleService: VehicleService,
         private customertypeService: CustomerTypeService,
         private customerService: CustomerService,
-        private builder: FormBuilder
+        private subscriptionService: SubscriptionService,
+        private builder: FormBuilder,
+        public dialog: MatDialog
     ) { 
         this.pageURL = this.router.url;
         let params = this.router.url;
@@ -104,6 +118,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
             this.getAllVehicles();
             this.getAllCustomerTypes();
             this.getAllCustomers();
+            this.getSubscriptions(0);
         } else {
             this.router.navigate([this.route.snapshot.queryParams.redirect || '/'], { replaceUrl: true });
         }
@@ -132,6 +147,26 @@ export class CustomersComponent implements OnInit, OnDestroy {
             this.documentHeight = this.documentHeight.offsetHeight + 44.8;
         }
         activeForm = !false;
+    }
+
+    activeFormSubscribe = false;
+    toggleFormSubscribe(activeFormSubscribe: boolean) {
+        activeFormSubscribe = !false;
+    }
+
+    getSubscriptions(id: number) {
+        this.subscriptionService.find(id)
+        .pipe(
+            map(data => data)
+        ).subscribe((subscriptions: any) => {
+            console.log(this.subscriptions = subscriptions.data);
+            this.dataSource2 = new MatTableDataSource(this.subscriptions);    
+            this.dataSource2.sort = this.sort2;
+            this.dataSource2.paginator = this.paginator2;
+        }, error => { 
+            console.log(error);
+            // this.redirect();
+        });
     }
 
     getAllVehicles() {
@@ -203,6 +238,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
     }
 
     displayForm() {
+        this.activeFormSubscribe = true;
         this.activeForm = true;
         this.documentHeight = <HTMLElement> document.querySelector('.content-form');
         this.documentHeight = this.documentHeight.offsetHeight + 44.8;
@@ -217,8 +253,10 @@ export class CustomersComponent implements OnInit, OnDestroy {
 
     resetForm() {
         this.getAllCustomers();
+        this.activeFormSubscribe = false;
         this.editForm = false;
         this.editFormId = null;
+        this.editCusType = null;
         this.CustomerForm.patchValue({
             firstname: '',
             middlename: '',
@@ -249,8 +287,10 @@ export class CustomersComponent implements OnInit, OnDestroy {
                     .subscribe((customers: any) => {
                         console.log(customers);
                         if (customers.status == 'ok') {
+                            this.activeFormSubscribe = true;
                             this.editForm = true;
                             this.editFormId = customers.data.id;
+                            this.fixedRate = customers.fixedrate;
                         }
                         Swal.fire(
                             customers.message.info,
@@ -280,12 +320,15 @@ export class CustomersComponent implements OnInit, OnDestroy {
         });        
     }
 
-    editRow(id: number) {
+    editRow(id: number, fixedrate: number) {
         this.customerService.find(id)
         .subscribe((customers: any) => {
             console.log(customers.data);
             this.editForm = true;
             this.editFormId = id;
+            this.fixedRate = fixedrate;
+            console.log(this.editCusType = customers.data.customer_type_id);
+            this.getSubscriptions(id);
             this.CustomerForm.patchValue({
                 firstname: customers.data.firstname,
                 middlename: customers.data.middlename,
@@ -338,4 +381,104 @@ export class CustomersComponent implements OnInit, OnDestroy {
             }
         });        
     }
+
+    openDialog(): void {
+        if (!this.subscriptions.some(data => data.status == ('draft' || 'valid'))) {
+            const dialogRef = this.dialog.open(CustomerSubscriptionDialogComponent, {
+                width: '800px',
+                disableClose: true,
+                data: {
+                    customer_id: this.editFormId,
+                    fixedrate: (this.editCusType != 4) ? this.fixedRate : 0
+                }
+            });
+        
+            dialogRef.afterClosed().subscribe(res => {
+                this.getSubscriptions(this.editFormId);
+            });
+        }
+    }
+
+    editDialog(id: number, total_amount: number, registration_date: string, expiration_date: string, allowance_minute: string, excess_rate_option: string, status: string) {
+        if (status == 'draft') {
+            const dialogRef2 = this.dialog.open(CustomerSubscriptionDialogComponent, {
+                width: '800px',
+                disableClose: true,
+                data: {
+                    customer_id: this.editFormId,
+                    fixedrate: (this.editCusType != 4) ? this.fixedRate : 0,
+                    total_amount: total_amount,
+                    registration_date: registration_date,
+                    expiration_date: expiration_date,
+                    allowance_minute: allowance_minute,
+                    excess_rate_option: excess_rate_option,
+                    editFormId: id,
+                    editForm: true
+                }
+            });
+
+            dialogRef2.afterClosed().subscribe(res => {
+                this.getSubscriptions(this.editFormId);
+            });
+        }
+    }
+
+    deleteDialog(id: number, status: string) {
+        if (status == 'draft') {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'The information will be deleted.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, not now.'
+                }).then((result) => {
+                if (result.value) {                
+                    this.subscriptionService.delete(id)
+                    .subscribe((subscriptions: any) => {
+                        console.log(subscriptions);
+                        this.getSubscriptions(this.editFormId);
+                        Swal.fire(
+                            'Success!',
+                            'The information has been successfully deleted.',
+                            'success'
+                        )
+                    }, error => { 
+                        console.log(error);
+                        // this.redirect();
+                    });  
+                }
+            });  
+        }      
+    }
+
+    updateDialog(id: number, status: string) {
+        if (status == 'draft') {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'The status will be modifed.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, modify it!',
+                cancelButtonText: 'No, not now.'
+                }).then((result) => {
+                if (result.value) {                
+                    this.subscriptionService.modify(id)
+                    .subscribe((subscriptions: any) => {
+                        console.log(subscriptions);
+                        this.getSubscriptions(this.editFormId);
+                        Swal.fire(
+                            'Success!',
+                            'The status has been successfully modified.',
+                            'success'
+                        )
+                    }, error => { 
+                        console.log(error);
+                        // this.redirect();
+                    });  
+                }
+            });  
+        }      
+    }
+    
 }

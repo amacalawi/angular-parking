@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NavService } from '../../../services/nav.services'
@@ -50,13 +50,15 @@ export class FixedRateComponent implements OnInit {
             validity_minute: ['', Validators.required],
             fixed_rate: ['', Validators.required],
             excess_rate_per_minute: ['', Validators.required],
+            excess_rate_per_hour: ['', Validators.required]
         });
 
         this.formErrors = {
             vehicle_id: {},
             validity_minute: {},
             fixed_rate: {},
-            excess_rate_per_minute: {}
+            excess_rate_per_minute: {},
+            excess_rate_per_hour: {}
         };    
     }
 
@@ -145,7 +147,8 @@ export class FixedRateComponent implements OnInit {
             vehicle_id: '',
             validity_minute: '',
             fixed_rate: '',
-            excess_rate_per_minute: ''
+            excess_rate_per_minute: '',
+            excess_rate_per_hour: ''
         });
     }
 
@@ -204,7 +207,8 @@ export class FixedRateComponent implements OnInit {
                     vehicle_id: fixedrates.data.vehicle_id,
                     validity_minute: fixedrates.data.validity_minute,
                     fixed_rate: fixedrates.data.fixed_rate,
-                    excess_rate_per_minute: fixedrates.data.excess_rate_per_minute
+                    excess_rate_per_minute: fixedrates.data.excess_rate_per_minute,
+                    excess_rate_per_hour: fixedrates.data.excess_rate_per_hour
                 });
             }, error => { 
                 this.redirect();
@@ -260,14 +264,16 @@ export class FixedRateComponent implements OnInit {
                     .subscribe((vehicles: any) => {
                         console.log(vehicles);
                     }, error => { 
-                        this.redirect();
+                        console.log(error);
+                        // this.redirect();
                     });
                 } else {
                     this.fixedrateService.update(this.FixedRateForm.value, this.editFormId)
                     .subscribe((vehicles: any) => {
                         console.log(vehicles);
                     }, error => { 
-                        this.redirect();
+                        console.log(error);
+                        // this.redirect();
                     });
                 }
                 Swal.fire(

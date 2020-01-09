@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatProgressSpinnerModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule, MatGridListModule, MatMenuModule, MatCardModule, MatDialogModule, MatInputModule, MatSelectModule, MatSnackBarModule, MatTabsModule, MatSlideToggleModule, MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatPaginatorModule, MatSortModule, MatTableModule } from  '@angular/material';
+import { MatRadioModule, MatProgressSpinnerModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule, MatGridListModule, MatMenuModule, MatCardModule, MatDialogModule, MatInputModule, MatSelectModule, MatSnackBarModule, MatTabsModule, MatSlideToggleModule, MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatPaginatorModule, MatSortModule, MatTableModule } from  '@angular/material';
 import { PosComponent, NotifComponent } from './pages/pos/pos.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { POSDialogComponent } from './pages/pos/pos.dialog.component';
@@ -17,10 +17,14 @@ import { ProductFilterPipe } from './shared/product-filter.pipe';
 import { TransactionService } from './services/transactions.services';
 import { FixedRateService } from './services/fixedrates.services';
 import { VehicleService } from './services/vehicles.services';
+import { UserService } from './services/users.services';
+import { RoleService } from './services/roles.services';
 import { CustomerTypeService } from './services/customer-types.services';
+import { SubscriptionService } from './services/subscriptions.services';
 
 import { ChartsModule } from 'ng2-charts';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LoginComponent } from './login/login.component';
 
@@ -36,6 +40,10 @@ import { FixedRateComponent } from './pages/applications/fixed-rate/fixed-rate.c
 import { CustomersComponent } from './pages/applications/customers/customers.component';
 import { VehiclesComponent } from './pages/applications/vehicles/vehicles.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { CustomerSubscriptionDialogComponent } from './pages/applications/customers/customer.subscription.component';
+import { UsersComponent } from './pages/applications/users/users.component';
+import { ReportsComponent } from './pages/reports/reports.component';
+import { AccountComponent } from './pages/account/account.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
 
@@ -53,7 +61,11 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     SidebarRightComponent,
     FixedRateComponent,
     VehiclesComponent,
-    DashboardComponent
+    DashboardComponent,
+    CustomerSubscriptionDialogComponent,
+    UsersComponent,
+    ReportsComponent,
+    AccountComponent
   ],
   imports: [
     ChartsModule,
@@ -86,20 +98,24 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatRadioModule
   ],
   providers: [
     ProductsService,
     VehicleService,
+    UserService,
+    RoleService,
     FixedRateService,
     TransactionService,
     CustomerTypeService,
+    SubscriptionService,
     NavService,
     MenuItems,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  entryComponents: [POSDialogComponent, NotifComponent]
+  entryComponents: [POSDialogComponent, NotifComponent, CustomerSubscriptionDialogComponent]
 })
 export class AppModule { }

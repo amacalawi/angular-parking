@@ -8,10 +8,7 @@
                             <i class="flaticon-signs"></i>
                         </button>  
                         <span class="text-capitalize">{{ pageTitle }}</span>                       
-                        <div class="pull-right">
-                            <button mat-icon-button (click)="toggleClass(searchbar = !searchbar)" class="mr-3">
-                                <i class="flaticon-search"></i>
-                            </button>                                							
+                        <div class="pull-right">                             							
                             <button mat-icon-button (click)="navService.openSidebar()">
                                 <i class="flaticon-grid-menu"></i>
                             </button>					
@@ -27,7 +24,7 @@
             <div class="col-sm-12">
                 <h1 class="page-title">   
                     <i class="page-icon flaticon-coins"></i>
-                    Fixed Rate Information
+                    Users Information
                     <button *ngIf="!activeForm" (click)="toggleForm(activeForm = !activeForm)" mat-flat-button class="bg-primary pull-right">
                         New <i class="la la-angle-double-right"></i>
                     </button>
@@ -36,7 +33,7 @@
                     </button>
                 </h1>
                 <mat-card [ngStyle]="{'height': documentHeight + 'px' }">
-                    <div class="fixed-rate-content" [ngClass]="{ 'active' : activeForm }">
+                    <div class="users-content" [ngClass]="{ 'active' : activeForm }">
                         <div class="content-table">
                             <div class="row">
                                 <div class="col-sm-6">
@@ -64,27 +61,21 @@
                                             </ng-container>
                                             
                                             <!-- vehicle column -->
-                                            <ng-container matColumnDef="vehicle">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> VEHICLE </th>
-                                                <td mat-cell *matCellDef="let element"> {{ element.vehicle_name }} </td>
+                                            <ng-container matColumnDef="username">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Username/Email </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.email }} </td>
                                             </ng-container>
                                             
                                             <!-- validitiy column -->
-                                            <ng-container matColumnDef="validity">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> VALID MINUTES </th>
-                                                <td mat-cell *matCellDef="let element"> {{ element.validity_minute }}mins </td>
+                                            <ng-container matColumnDef="fullname">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Fullname </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
                                             </ng-container>
                                             
                                             <!-- fixed rate column -->
-                                            <ng-container matColumnDef="fixedrate">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> FIXED RATE </th>
-                                                <td mat-cell *matCellDef="let element"> {{ element.fixed_rate }} </td>
-                                            </ng-container>
-
-                                            <!-- excess column -->
-                                            <ng-container matColumnDef="excess">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> EXCESS RATE PER MIN </th>
-                                                <td mat-cell *matCellDef="let element"> {{ element.excess_rate_per_minute }} </td>
+                                            <ng-container matColumnDef="roles">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Roles </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.roles }} </td>
                                             </ng-container>
 
                                             <!-- modified column -->
@@ -132,46 +123,43 @@
                             </div>
                         </div>
                         <div class="content-form">
-                            <form (ngSubmit)="saveFixedRate()" [formGroup]="FixedRateForm" novalidate>
+                            <form (ngSubmit)="saveUser()" [formGroup]="UserForm" novalidate>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <mat-form-field>
-                                                    <mat-select placeholder="Vehicle" formControlName="vehicle_id" required>
-                                                        <mat-option *ngFor="let vehicle of vehicles" [value]="vehicle.id">{{vehicle.name}}</mat-option>
+                                                    <input matInput placeholder="Fullname" formControlName="name" required>
+                                                    <mat-error>this field is required</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <mat-form-field>
+                                                    <mat-select placeholder="Roles" formControlName="role_id" multiple required>
+                                                        <mat-option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</mat-option>
                                                     </mat-select>
                                                     <mat-error>this field is required</mat-error>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-sm-6">
                                                 <mat-form-field>
-                                                    <input matInput placeholder="Validity Minute" formControlName="validity_minute" required>
+                                                    <input matInput placeholder="Email / Username" formControlName="email" required>
                                                     <mat-error>this field is required</mat-error>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-sm-6">
                                                 <mat-form-field>
-                                                    <input matInput placeholder="Fixed Rate" formControlName="fixed_rate" required>
-                                                    <mat-error>this field is required</mat-error>
-                                                </mat-form-field>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <mat-form-field>
-                                                    <input matInput placeholder="Excess Rate Per Minute" formControlName="excess_rate_per_minute" required>
-                                                    <mat-error>this field is required</mat-error>
-                                                </mat-form-field>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <mat-form-field>
-                                                    <input matInput placeholder="Excess Rate Per Hour" formControlName="excess_rate_per_hour" required>
+                                                    <input name="password" matInput placeholder="Password" formControlName="password" required [type]="hide ? 'password' : 'text'">
+                                                    <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                                    </button>
                                                     <mat-error>this field is required</mat-error>
                                                 </mat-form-field>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" [disabled]="FixedRateForm.invalid || isLoading" mat-fab class="btn-float bg-primary" [ngClass]="{ 'active' : activeForm }">
+                                <button type="submit" [disabled]="UserForm.invalid || isLoading" mat-fab class="btn-float bg-primary" [ngClass]="{ 'active' : activeForm }">
                                     <i class="la la-save"></i>
                                 </button>
                             </form>

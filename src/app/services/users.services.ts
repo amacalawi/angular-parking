@@ -6,37 +6,29 @@ import { ApiService } from '../core/services/api.service';
 @Injectable({
     providedIn: 'root'
 })
-export class TransactionService {
+export class UserService {
 
   constructor(private apiService: ApiService) { }
 
-  checkin(payroll: any, rfid: any): Observable<any> {
+  create(payroll: any): Observable<any> {
     return this.apiService
-    .post(`/transactions/${rfid}/checkin`, payroll)
+    .post(`/users`, payroll)
     .pipe(
         map((body: any) => body)
       );
   }
 
-  autocheckin(rfid: any): Observable<any> {
+  update(payroll: any, id): Observable<any> {
     return this.apiService
-    .post(`/transactions/${rfid}/auto-checkin`)
+    .put(`/users/${id}/update`, payroll)
     .pipe(
         map((body: any) => body)
       );
   }
 
-  checkout(payroll: any, id): Observable<any> {
+  modify(id): Observable<any> {
     return this.apiService
-    .post(`/transactions/${id}/checkout`, payroll)
-    .pipe(
-        map((body: any) => body)
-      );
-  }
-
-  generate(payroll: any): Observable<any> {
-    return this.apiService
-    .post(`/transactions/generate`, payroll)
+    .put(`/users/${id}/modify`)
     .pipe(
         map((body: any) => body)
       );
@@ -44,15 +36,15 @@ export class TransactionService {
 
   find(id): Observable<any> {
     return this.apiService
-    .post(`/transactions/${id}/find`)
+    .get(`/users/${id}/find`)
     .pipe(
         map((body: any) => body)
       );
   }
 
-  getAllQueuedParking(payroll: any): Observable<any> {
+  getAllUsers(payroll: any): Observable<any> {
     return this.apiService
-    .get(`/transactions/${payroll}`)
+    .get(`/users/${payroll}`)
     .pipe(
         map((body: any) => body)
     );

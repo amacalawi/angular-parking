@@ -41,6 +41,12 @@ const MENUITEMS = [
                 iconName: '',
                 route: 'applications/fixed-rate',
                 children: []
+            },
+            {
+                displayName: 'Users',
+                iconName: '',
+                route: 'applications/users',
+                children: []
             }
         ]
     },
