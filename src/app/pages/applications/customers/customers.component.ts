@@ -59,13 +59,13 @@ export class CustomersComponent implements OnInit, OnDestroy {
 
     displayedColumns: string[] = ['rfid', 'fullname', 'gender', 'type', 'vehicle', 'modified_at', 'subscription', 'status', 'commands'];
     dataSource = new MatTableDataSource(this.customers);    
-    @ViewChild(MatSort, {static: true}) sort: MatSort;
-    @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+    @ViewChild('sorter1', {static: false}) sorter1: MatSort;
+    @ViewChild('paginator1', {static: false}) paginator1: MatPaginator;
 
-    displayedColumns2: string[] = ['transaction_no', 'registration_date', 'expiration_date', 'total_amount', 'excess_rate_option', 'modified_at', 'status', 'commands'];
+    displayedColumns2: string[] = ['transaction_no', 'registration_date', 'expiration_date', 'total_amount', 'subscriber_rate_option', 'excess_rate_option', 'modified_at', 'status', 'commands'];
     dataSource2 = new MatTableDataSource(this.subscriptions);    
-    @ViewChild(MatSort, {static: true}) sort2: MatSort;
-    @ViewChild(MatPaginator, {static: true}) paginator2: MatPaginator;
+    @ViewChild('sorter2', {static: false}) sorter2: MatSort;
+    @ViewChild('paginator2', {static: false}) paginator2: MatPaginator;
 
     constructor(
         public navService: NavService,
@@ -161,7 +161,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
         ).subscribe((subscriptions: any) => {
             console.log(this.subscriptions = subscriptions.data);
             this.dataSource2 = new MatTableDataSource(this.subscriptions);    
-            this.dataSource2.sort = this.sort2;
+            this.dataSource2.sort = this.sorter2;
             this.dataSource2.paginator = this.paginator2;
         }, error => { 
             console.log(error);
@@ -182,7 +182,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
     }
 
     getAllCustomerTypes() {
-        this.customertypeService.getAllCustomerTypes()
+        this.customertypeService.getAllCustomerTypes('all')
         .pipe(
             map(data => data)
         ).subscribe((customertypes: any) => {
@@ -217,8 +217,8 @@ export class CustomersComponent implements OnInit, OnDestroy {
         }
 
         this.dataSource = new MatTableDataSource(temp);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sorter1;
+        this.dataSource.paginator = this.paginator1;
         return this.dataSource;
     }
 
@@ -229,8 +229,8 @@ export class CustomersComponent implements OnInit, OnDestroy {
         ).subscribe((customers: any) => {
             console.log(this.customers = customers.data);
             this.dataSource = new MatTableDataSource(this.customers);    
-            this.dataSource.sort = this.sort;
-            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sorter1;
+            this.dataSource.paginator = this.paginator1;
         }, error => { 
             console.log(error);
             // this.redirect();
@@ -399,7 +399,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
         }
     }
 
-    editDialog(id: number, total_amount: number, registration_date: string, expiration_date: string, allowance_minute: string, excess_rate_option: string, status: string) {
+    editDialog(id: number, total_amount: number, registration_date: string, expiration_date: string, allowance_minute: string, subscriber_rate_option: string, excess_rate_option: string, status: string) {
         if (status == 'draft') {
             const dialogRef2 = this.dialog.open(CustomerSubscriptionDialogComponent, {
                 width: '800px',
@@ -411,6 +411,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
                     registration_date: registration_date,
                     expiration_date: expiration_date,
                     allowance_minute: allowance_minute,
+                    subscriber_rate_option: subscriber_rate_option,
                     excess_rate_option: excess_rate_option,
                     editFormId: id,
                     editForm: true

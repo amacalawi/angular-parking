@@ -20,6 +20,12 @@ const MENUITEMS = [
         children: []
     },
     {
+        displayName: 'Load Credit',
+        iconName: 'flaticon-gift',
+        route: 'load-credit',
+        children: []
+    },
+    {
         displayName: 'Applications',
         iconName: 'flaticon-interface-7',
         route: '',
@@ -40,6 +46,12 @@ const MENUITEMS = [
                 displayName: 'Fix Rate',
                 iconName: '',
                 route: 'applications/fixed-rate',
+                children: []
+            },
+            {
+                displayName: 'Subscription Rate',
+                iconName: '',
+                route: 'applications/subscription-rate',
                 children: []
             },
             {

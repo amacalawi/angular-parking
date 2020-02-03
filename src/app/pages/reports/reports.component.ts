@@ -16,6 +16,7 @@ export class ReportsComponent implements OnInit {
     transactions: Transaction[];
     transactionsLength: number = 0;
     formErrors: any;
+    totalAmount: number = 0;
 
     public ReportForm: FormGroup;
 
@@ -64,10 +65,12 @@ export class ReportsComponent implements OnInit {
 
     generate() {
         if (this.ReportForm.valid) {
+            var overlaySpinner = <HTMLElement> document.querySelector('.overlay-spinner-2');
+            var reportLayer = <HTMLElement> document.querySelector('.report-layer');
+            reportLayer.classList.remove('d-block');
             this.transactionService.generate(this.ReportForm.value)
             .subscribe((transactions: any) => {
-                var overlaySpinner = <HTMLElement> document.querySelector('.overlay-spinner-2');
-                var reportLayer = <HTMLElement> document.querySelector('.report-layer');
+                this.totalAmount = transactions.total_amount;
                 overlaySpinner.classList.add('d-block');
                 setTimeout(() => {
                     overlaySpinner.classList.remove('d-block');
@@ -94,9 +97,52 @@ export class ReportsComponent implements OnInit {
             this.activeBtn = false;
         }
     }
+    
+    print(): void {
+        let printContents, popupWin;
+        var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
+        var dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
+        var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+        var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+        var left = ((width / 2) - (500 / 2)) + dualScreenLeft;
+        var top = ((height / 2) - (500 / 2)) + dualScreenTop;
 
-    print() {
-
+        printContents = document.getElementById('report-layer').innerHTML;
+        popupWin =  window.open('', '_blank', 'width=500,height=500,top='+top+',left='+left+'scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no');
+        popupWin.document.open();
+        popupWin.document.write(`
+            <html>
+            <head>
+                <title>Print tab</title>
+                <style>
+                table {
+                    width: 100% !important;
+                }
+                h4,
+                table td,
+                table th {
+                    font-family: Arial, Helvetica, sans-serif;
+                }
+                table thead td {
+                    font-weight: bold !important;
+                }
+                table td.text-right,
+                table th.text-right {
+                    text-align: right !important;
+                }
+                table td.text-center,
+                table th.text-center {
+                    text-align: center !important;
+                }
+                table tfoot th {
+                    padding-top: 10px !important;
+                }
+                </style>
+            </head>
+            <body onload="window.print();window.close()">${printContents}</body>
+            </html>`
+        );
+        popupWin.document.close();
     }
 
 }
