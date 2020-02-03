@@ -1,0 +1,187 @@
+<!--
+/*
+| ---------------------------------
+| # content here
+| ---------------------------------
+*/
+-->
+<mat-sidenav-content>     
+    <mat-toolbar color="primary">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="layer">
+                        <button mat-icon-button (click)="navService.openNav()">
+                            <i class="flaticon-signs"></i>
+                        </button>  
+                        <span class="text-capitalize">{{ pageTitle }}</span>                       
+                        <div class="pull-right">                           							
+                            <button mat-icon-button (click)="navService.openSidebar()">
+                                <i class="flaticon-grid-menu"></i>
+                            </button>					
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-toolbar>
+
+    <!--
+    /*
+    | ---------------------------------
+    | # content here
+    | ---------------------------------
+    */
+    -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="col-sm-12">
+                <h1 class="page-title">   
+                    <i *ngIf="!activeForm" class="page-icon flaticon-users"></i>
+                    <span *ngIf="!activeForm">
+                        Available Customer
+                    </span>
+                    <i *ngIf="activeForm" class="page-icon flaticon-gift"></i>
+                    <span *ngIf="activeForm">
+                        Load Credit History ({{ this.customer }})
+                    </span>
+                    <button *ngIf="activeForm" (click)="toggleForm(activeForm = !activeForm)" mat-flat-button class="bg-primary pull-right">
+                        <i class="la la-angle-double-left"></i> Back 
+                    </button>
+                </h1>
+                <mat-card [ngStyle]="{'height': documentHeight + 'px' }">
+                    <div class="load-credit-content" [ngClass]="{ 'active' : activeForm }">
+                        
+                        <!--
+                        /*
+                        | ---------------------------------
+                        | # table
+                        | ---------------------------------
+                        */
+                        -->
+                        <div class="content-table">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <mat-form-field>
+                                        <mat-select [(ngModel)]="typeFilter" (ngModelChange)="filteredDataSource()" placeholder="Search by type">
+                                            <mat-option value="">All</mat-option>
+                                            <mat-option *ngFor="let customertype of customertypes" [value]="customertype.id">{{customertype.name}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-4">
+                                    <mat-form-field>
+                                        <mat-select [(ngModel)]="vehicleFilter" (ngModelChange)="filteredDataSource()" placeholder="Search by vehicle">
+                                            <mat-option value="">All</mat-option>
+                                            <mat-option *ngFor="let vechile of vehicles" [value]="vechile.id">{{vechile.name}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-4">
+                                    <mat-form-field>
+                                        <input [(ngModel)]="searchFilter" (keyup)="filteredDataSource()" matInput placeholder="Search by keywords">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="table-responsive">
+                                        <table mat-table [dataSource]="dataSource" matSort #sorter1="matSort" class="table">
+                                            <!-- rfid column -->
+                                            <ng-container matColumnDef="rfid">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> RFID No </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.rfid_no }} </td>
+                                            </ng-container>
+                                            
+                                            <!-- fullname column -->
+                                            <ng-container matColumnDef="fullname">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Fullname </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.firstname }} {{ element.middlename }} {{ element.lastname }} </td>
+                                            </ng-container>
+                                            
+                                            <!-- gender column -->
+                                            <ng-container matColumnDef="gender">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Gender </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.gender }} </td>
+                                            </ng-container>
+                                            
+                                            <!-- type column -->
+                                            <ng-container matColumnDef="type">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.customer_type }} </td>
+                                            </ng-container>
+
+                                            <!-- vehicle column -->
+                                            <ng-container matColumnDef="vehicle">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Vehicle </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.vehicle_name }} </td>
+                                            </ng-container>
+
+                                            <!-- vehicle column -->
+                                            <ng-container matColumnDef="credits">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Credtis </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.credits.toFixed(2) }} </td>
+                                            </ng-container>
+
+                                            <!-- modified at column -->
+                                            <ng-container matColumnDef="modified_at">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> LAST LOADED AT </th>
+                                                <td mat-cell *matCellDef="let element"> {{ element.created_at | date: 'dd/MM/yyyy hh:mm:ss' }} </td>
+                                            </ng-container>
+
+                                            <!-- commands column -->
+                                            <ng-container matColumnDef="commands">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> COMMANDS </th>
+                                                <td mat-cell *matCellDef="let element">  
+                                                    <button matTooltip="add credit" [matTooltipPosition]="position1.value" (click)="loadRow(element.id, element.rfid_no, element.firstname, element.middlename, element.lastname, element.credits)" mat-icon-button>
+                                                        <i class="flaticon-edit"></i>
+                                                    </button>	
+                                                    <button matTooltip="credit history" [matTooltipPosition]="position2.value" (click)="viewRow(element.id, element.rfid_no, element.firstname, element.middlename, element.lastname)" mat-icon-button>
+                                                        <i class="flaticon-comment"></i>
+                                                    </button>
+                                                </td>
+                                            </ng-container>
+                                            
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                        </table>
+                                        <mat-paginator #paginator1="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-form">
+                            <table mat-table [dataSource]="dataSource2" matSort #sorter2="matSort" class="table">
+                                <!-- rfid column -->
+                                <ng-container matColumnDef="transaction_no">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> TRANSACTION NO </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.transaction_no }} </td>
+                                </ng-container>
+                                
+                                <!-- fullname column -->
+                                <ng-container matColumnDef="credit_amount">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> CREDIT AMOUNT </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.credit_amount }} </td>
+                                </ng-container>
+
+                                <!-- modified at column -->
+                                <ng-container matColumnDef="modified_at">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> LAST LOADED AT </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.created_at | date: 'dd/MM/yyyy hh:mm:ss' }} </td>
+                                </ng-container>
+                                
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                            </table>
+                            <mat-paginator #paginator2="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                        </div>
+                        <div class="overlay-spinner">
+                            <mat-spinner></mat-spinner>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>           
+        </div>
+    </div>
+</mat-sidenav-content>

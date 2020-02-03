@@ -854,3 +854,10 @@ customer-subscription-dialog .mat-dialog-content {
     -webkit-transform: none !important;
     transform: none !important;
 }
+
+#time-picker .time-picker-clock-origin,
+#time-picker .time-picker-clock-arrow,
+#time-picker .time-picker-clock-arrow span,
+#time-picker button.active {
+    background: #bd5d38 !important;
+}

@@ -52,8 +52,8 @@
                                 <mat-form-field>
                                     <mat-select formControlName="type" placeholder="Transaction Type" required>
                                         <mat-option value="all">All</mat-option>
-                                        <mat-option value="1">Registration</mat-option>
-                                        <mat-option value="2">Parking</mat-option>
+                                        <mat-option value="1">Parking</mat-option>
+                                        <mat-option value="2">Registration</mat-option>
                                         <mat-option value="3">Load Credits</mat-option>
                                     </mat-select>
                                     <mat-error>this field is required</mat-error>
@@ -74,7 +74,7 @@
                 <div class="text-center mt-4 col overlay-spinner-2">
                     <mat-spinner [diameter]="50"></mat-spinner>
                 </div>
-                <mat-card class="mt-4 report-layer">
+                <mat-card id="report-layer" class="mt-4 report-layer">
                     <h4 class="mb-3">Generated Reports As Of January 1, 2019</h4>
                     <table class="table table-borderless mb-0">
                         <thead>
@@ -95,6 +95,12 @@
                             <td class="text-right">{{ trans.total_amount }}</td>
                           </tr>
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="4" class="text-right">TOTAL AMOUNT</th>
+                                <th class="text-right">{{ totalAmount }}</th>
+                            </tr>
+                        </tfoot>
                       </table>
                 </mat-card>
             </div>

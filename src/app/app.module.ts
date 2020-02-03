@@ -2,11 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { AmazingTimePickerModule } from 'amazing-time-picker';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatRadioModule, MatProgressSpinnerModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule, MatGridListModule, MatMenuModule, MatCardModule, MatDialogModule, MatInputModule, MatSelectModule, MatSnackBarModule, MatTabsModule, MatSlideToggleModule, MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatPaginatorModule, MatSortModule, MatTableModule } from  '@angular/material';
+import { MatTooltipModule, MatRadioModule, MatProgressSpinnerModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule, MatGridListModule, MatMenuModule, MatCardModule, MatDialogModule, MatInputModule, MatSelectModule, MatSnackBarModule, MatTabsModule, MatSlideToggleModule, MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatPaginatorModule, MatSortModule, MatTableModule } from  '@angular/material';
 import { PosComponent, NotifComponent } from './pages/pos/pos.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { POSDialogComponent } from './pages/pos/pos.dialog.component';
@@ -16,11 +17,13 @@ import { ProductFilterPipe } from './shared/product-filter.pipe';
 
 import { TransactionService } from './services/transactions.services';
 import { FixedRateService } from './services/fixedrates.services';
+import { SubscriptionRateService } from './services/subscriptionrates.services';
 import { VehicleService } from './services/vehicles.services';
 import { UserService } from './services/users.services';
 import { RoleService } from './services/roles.services';
 import { CustomerTypeService } from './services/customer-types.services';
 import { SubscriptionService } from './services/subscriptions.services';
+import { CreditService } from './services/credits.services';
 
 import { ChartsModule } from 'ng2-charts';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
@@ -44,6 +47,9 @@ import { CustomerSubscriptionDialogComponent } from './pages/applications/custom
 import { UsersComponent } from './pages/applications/users/users.component';
 import { ReportsComponent } from './pages/reports/reports.component';
 import { AccountComponent } from './pages/account/account.component';
+import { SubcriptionRateComponent } from './pages/applications/subcription-rate/subcription-rate.component';
+import { LoadCreditComponent } from './pages/load-credit/load-credit.component';
+import { CreditDialogComponent } from './pages/load-credit/credit-dialog.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
 
@@ -65,10 +71,14 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     CustomerSubscriptionDialogComponent,
     UsersComponent,
     ReportsComponent,
-    AccountComponent
+    AccountComponent,
+    SubcriptionRateComponent,
+    LoadCreditComponent,
+    CreditDialogComponent
   ],
   imports: [
     ChartsModule,
+    AmazingTimePickerModule,
     SocketIoModule.forRoot(config),
     BrowserModule,
     BrowserAnimationsModule,
@@ -99,14 +109,17 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     MatSortModule,
     MatTableModule,
     MatProgressSpinnerModule,
-    MatRadioModule
+    MatRadioModule,
+    MatTooltipModule
   ],
   providers: [
     ProductsService,
+    CreditService,
     VehicleService,
     UserService,
     RoleService,
     FixedRateService,
+    SubscriptionRateService,
     TransactionService,
     CustomerTypeService,
     SubscriptionService,
@@ -116,6 +129,6 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  entryComponents: [POSDialogComponent, NotifComponent, CustomerSubscriptionDialogComponent]
+  entryComponents: [POSDialogComponent, NotifComponent, CustomerSubscriptionDialogComponent, CreditDialogComponent]
 })
 export class AppModule { }

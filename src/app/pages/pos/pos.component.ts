@@ -164,7 +164,7 @@ export class PosComponent implements OnInit, OnDestroy {
     }
 
     getAllCustomerTypes() {
-        this.customertypeService.getAllCustomerTypes()
+        this.customertypeService.getAllCustomerTypes('all')
         .pipe(
             map(data => data)
         ).subscribe((customertypes: any) => {

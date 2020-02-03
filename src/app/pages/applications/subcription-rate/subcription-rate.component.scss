@@ -62,13 +62,13 @@ mat-card {
     // height: inherit !important;
 }
 
-.customer-content {
+.subscription-rate-content {
     width: 100%;
     transition: .3s all ease-in-out;
     margin-left: 0%;
 }
 
-.customer-content.active {
+.subscription-rate-content.active {
     margin-left: -120%;
 }
 
@@ -85,6 +85,10 @@ mat-card {
     border-bottom: 2px solid #bd5d38;
     background: #bd5d38;
     color: #fff;
+}
+
+.table td.text-center {
+    text-indent: -30px;
 }
 
 .table a {
@@ -108,6 +112,7 @@ mat-card {
     font-size: 1.2rem;
 }
 
-.table td.text-center {
-    text-indent: -30px;
+.table thead th {
+    background: #bd5d38;
+    color: #fff;
 }

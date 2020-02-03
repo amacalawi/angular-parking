@@ -6,24 +6,24 @@ import { ApiService } from '../core/services/api.service';
 @Injectable({
     providedIn: 'root'
 })
-export class CustomerTypeService {
+export class CreditService {
 
   constructor(private apiService: ApiService) { }
 
-  getAllCustomerTypes(payroll: any): Observable<any> {
+  create(payroll: any, id: number, amount: any): Observable<any> {
     return this.apiService
-    .get(`/customer-types/${payroll}`)
-    .pipe(
-        map((body: any) => body)
-    );
-  }
-
-  filter(id): Observable<any> {
-    return this.apiService
-    .get(`/customer-types/${id}/filter`)
+    .post(`/load-credits/${id}/${amount}/create`, payroll)
     .pipe(
         map((body: any) => body)
       );
+  }
+  
+  getAllLoadCredits(id: number): Observable<any> {
+    return this.apiService
+    .get(`/load-credits/${id}`)
+    .pipe(
+        map((body: any) => body)
+    );
   }
 
 }

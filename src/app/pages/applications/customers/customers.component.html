@@ -98,7 +98,7 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="table-responsive">
-                                        <table mat-table [dataSource]="dataSource" matSort class="table">
+                                        <table mat-table [dataSource]="dataSource" matSort #sorter1="matSort" class="table">
                                             <!-- rfid column -->
                                             <ng-container matColumnDef="rfid">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> RFID No </th>
@@ -177,7 +177,7 @@
                                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                                         </table>
-                                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                                        <mat-paginator #paginator1="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
                                     </div>
                                 </div>
                             </div>
@@ -297,41 +297,47 @@
                     <div class="row">                        
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <table mat-table [dataSource]="dataSource2" matSort class="table">
+                                <table mat-table [dataSource]="dataSource2" matSort #sorter2="matSort" class="table">
                                     <!-- rfid column -->
                                     <ng-container matColumnDef="transaction_no">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Transaction No </th>
-                                        <td mat-cell *matCellDef="let element"> {{ element.transaction_no }} </td>
+                                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.transaction_no }} </td>
                                     </ng-container>
                                     
                                     <!-- fullname column -->
                                     <ng-container matColumnDef="registration_date">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Registration Date </th>
-                                        <td mat-cell *matCellDef="let element"> {{ element.registration_date | date: 'dd-MMM-yyyy' }} </td>
+                                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.registration_date | date: 'dd-MMM-yyyy' }} </td>
                                     </ng-container>
                                     
                                     <!-- gender column -->
                                     <ng-container matColumnDef="expiration_date">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Expiration Date </th>
-                                        <td mat-cell *matCellDef="let element"> {{ element.expiration_date | date: 'dd-MMM-yyyy' }} </td>
+                                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.expiration_date | date: 'dd-MMM-yyyy' }} </td>
                                     </ng-container>
                                     
                                     <!-- type column -->
                                     <ng-container matColumnDef="total_amount">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Amount </th>
-                                        <td mat-cell *matCellDef="let element"> {{ element.total_amount }} </td>
+                                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.total_amount }} </td>
+                                    </ng-container>
+
+                                    <!-- type column -->
+                                    <ng-container matColumnDef="subscriber_rate_option">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Subscriber Rate Option </th>
+                                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.subscriber_rate_option }} </td>
                                     </ng-container>
 
                                     <!-- type column -->
                                     <ng-container matColumnDef="excess_rate_option">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Excess Rate Option </th>
-                                        <td mat-cell *matCellDef="let element"> {{ element.excess_rate_option }} </td>
+                                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.excess_rate_option }} </td>
                                     </ng-container>
 
                                     <!-- modified at column -->
                                     <ng-container matColumnDef="modified_at">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header> LAST MODIFIED AT </th>
-                                        <td mat-cell *matCellDef="let element"> 
+                                        <td mat-cell *matCellDef="let element" class="text-center"> 
                                             <span *ngIf="element.updated_at != null">{{ element.updated_at | date: 'dd/MM/yyyy hh:mm:ss' }}</span>
                                             <span *ngIf="element.updated_at == null">{{ element.created_at | date: 'dd/MM/yyyy hh:mm:ss' }}</span>
                                         </td>
@@ -356,8 +362,8 @@
                                     <!-- commands column -->
                                     <ng-container matColumnDef="commands">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header> COMMANDS </th>
-                                        <td mat-cell *matCellDef="let element">  
-                                            <button (click)="editDialog(element.id, element.total_amount, element.registration_date, element.expiration_date, element.allowance_minute, element.excess_rate_option, element.status)" mat-icon-button>
+                                        <td mat-cell *matCellDef="let element" class="text-center">  
+                                            <button (click)="editDialog(element.id, element.total_amount, element.registration_date, element.expiration_date, element.allowance_minute, element.subscriber_rate_option, element.excess_rate_option, element.status)" mat-icon-button>
                                                 <i class="la la-edit"></i>
                                             </button>	
                                             <button (click)="deleteDialog(element.id, element.status)" mat-icon-button>
@@ -372,7 +378,7 @@
                                     <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
                                     <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
                                 </table>
-                                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                                <mat-paginator #paginator2="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
                             </div>
                         </div>
                     </div>

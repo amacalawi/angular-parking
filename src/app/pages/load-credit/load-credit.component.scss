@@ -62,13 +62,13 @@ mat-card {
     // height: inherit !important;
 }
 
-.customer-content {
+.load-credit-content {
     width: 100%;
     transition: .3s all ease-in-out;
     margin-left: 0%;
 }
 
-.customer-content.active {
+.load-credit-content.active {
     margin-left: -120%;
 }
 
@@ -106,8 +106,4 @@ mat-card {
 
 .table i {
     font-size: 1.2rem;
-}
-
-.table td.text-center {
-    text-indent: -30px;
 }

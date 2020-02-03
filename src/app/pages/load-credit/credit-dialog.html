@@ -1,0 +1,75 @@
+<form (ngSubmit)="saveCredit()" [formGroup]="CreditForm" novalidate>
+    <h2 mat-dialog-title>Load Credit Info</h2>
+    <mat-dialog-content class="mat-typography">
+        <div class="row">
+            <div class="col-sm-6">
+                <mat-form-field>
+                    <input matInput placeholder="RFID No" formControlName="rfid_no" required>
+                    <mat-error>this field is required</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field>
+                    <input matInput placeholder="Fullname" formControlName="fullname" required>
+                    <mat-error>this field is required</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field>
+                    <input matInput placeholder="Available Credits" formControlName="credits" required>
+                    <mat-error>this field is required</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field>
+                    <input matInput placeholder="Amount to Load" formControlName="amount_loaded" required>
+                    <mat-error>this field is required</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-sm-12">
+                <div class="arithmetic-holder text-center mt-3 mb-4">
+                    <button (click)="compute('7')" class="arithmetic" mat-button>
+                    7
+                    </button>
+                    <button (click)="compute('8')" class="arithmetic" mat-button>
+                    8
+                    </button>
+                    <button (click)="compute('9')" class="arithmetic" mat-button>
+                    9
+                    </button><br/>
+                    <button (click)="compute('4')" class="arithmetic" mat-button>
+                    4
+                    </button>
+                    <button (click)="compute('5')" class="arithmetic" mat-button>
+                    5
+                    </button>
+                    <button (click)="compute('6')" class="arithmetic" mat-button>
+                    6
+                    </button><br/>
+                    <button (click)="compute('1')" class="arithmetic" mat-button>
+                    1
+                    </button>
+                    <button (click)="compute('2')" class="arithmetic" mat-button>
+                    2
+                    </button>
+                    <button (click)="compute('3')" class="arithmetic" mat-button>
+                    3
+                    </button><br/>
+                    <button (click)="compute('.')" class="arithmetic" mat-button>
+                    .
+                    </button>
+                    <button (click)="compute('0')" class="arithmetic" mat-button>
+                    0
+                    </button>
+                    <button (click)="clear()" class="arithmetic" mat-button>
+                    <i class="la la-arrow-left"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="center" class="pb-5">
+        <button mat-button cdkFocusInitial [disabled]="staticDisableValue <= 0" class="bg-primary c-white" type="submit">Load Now</button>
+        <button mat-button mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+</form>

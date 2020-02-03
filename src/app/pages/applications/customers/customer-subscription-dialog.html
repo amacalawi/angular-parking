@@ -26,12 +26,19 @@
             </div>
             <div class="col-sm-6">
                 <mat-form-field>
-                    <input matInput placeholder="Total Amount" formControlName="total_amount">
+                    <input matInput placeholder="Total Amount" formControlName="total_amount" required>
                     <mat-error>this field is required</mat-error>
                 </mat-form-field>
             </div>
         </div>
         <div class="row">
+            <div class="col-sm-6">
+                <label class="radio-label">Subscriber Option</label>
+                <mat-radio-group (change)="subscribeChange($event)" formControlName="subscriber_rate_option" required aria-label="Subscriber Option" class="radio-group">
+                    <mat-radio-button value="SUB_RATE"  class="radio-button">Subscription Based</mat-radio-button>
+                    <mat-radio-button value="FIX_RATE" class="radio-button">Fixed Rate Based</mat-radio-button>
+                </mat-radio-group>
+            </div>
             <div class="col-sm-6">
                 <label class="radio-label">Excess Rate Option</label>
                 <mat-radio-group formControlName="excess_rate_option" required aria-label="Excess Rate Option" class="radio-group">

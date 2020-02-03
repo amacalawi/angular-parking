@@ -5,6 +5,7 @@ export class Subscription {
   total_amount: number;
   registration_date: string;
   expiration_date: string;
+  subscriber_rate_option: string;
   excess_rate_option: string;
   allowance_minute: string;
   fixedrate: number;
