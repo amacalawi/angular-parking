@@ -24,6 +24,7 @@ import { RoleService } from './services/roles.services';
 import { CustomerTypeService } from './services/customer-types.services';
 import { SubscriptionService } from './services/subscriptions.services';
 import { CreditService } from './services/credits.services';
+import { DashboardService } from './services/dashboard.services';
 
 import { ChartsModule } from 'ng2-charts';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
@@ -113,6 +114,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     MatTooltipModule
   ],
   providers: [
+    DashboardService,
     ProductsService,
     CreditService,
     VehicleService,

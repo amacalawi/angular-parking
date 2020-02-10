@@ -278,7 +278,7 @@ mat-nav-list h4.text-divider {
 }
 
 .content .col-sm-3 mat-card {
-    height: calc(100vh - 64px);
+    min-height: calc(100vh - 64px);
     border-radius: 0;
 }
 

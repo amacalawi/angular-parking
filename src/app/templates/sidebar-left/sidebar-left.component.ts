@@ -23,6 +23,7 @@ export class SidebarLeftComponent implements OnInit, OnDestroy {
     expanded: boolean;
     credential: any[];
     privileges: any[];
+    fullname: string;
     @HostBinding('attr.aria-expanded') ariaExpanded = this.expanded;
     @Input() items: NavItem;
 
@@ -31,9 +32,9 @@ export class SidebarLeftComponent implements OnInit, OnDestroy {
         public router: Router,
         public menuItems: MenuItems
     ) {
-        this.items = this.menuItems.getAll();
         if (sessionStorage.credentials !== undefined) {
             console.log(this.credential = JSON.parse(sessionStorage.credentials));
+            this.items = this.menuItems.getAll();
             console.log(this.privileges = this.credential['privileges']);
         }
     }
@@ -42,7 +43,7 @@ export class SidebarLeftComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {}
 
     ngOnInit() {
-
+        console.log(this.fullname = this.credential['name']);
         this.navService.currentUrl.subscribe((url: string) => {
             if (this.items.route && url) {
                 console.log(`Checking '/${this.items.route}' against '${url}'`);

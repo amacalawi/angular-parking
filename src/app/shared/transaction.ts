@@ -24,4 +24,7 @@ export class Transaction {
   total_amount: number;
   excess_option: string;
   excess_amount_multiplier: any;
+  rate_option: string;
+  starting_period: any;
+  ending_period: any;
 }
