@@ -29,6 +29,7 @@ export class AuthenticationService {
     var data = {
       email: context.username,
       password: context.password,
+      name: '',
       token: '',
       user_id: 0,
       roles: [],
@@ -41,6 +42,7 @@ export class AuthenticationService {
           data = {
             email: context.username,
             password: context.password,
+            name: user.name,
             token: user.token,
             user_id: user.user_id,
             roles: user.roles,

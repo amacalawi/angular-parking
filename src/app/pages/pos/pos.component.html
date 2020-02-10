@@ -51,7 +51,7 @@
 								<h1 class="text-center header-title"><i class="la la-star-o"></i> There are {{ transactionsLength }} {{ transactionsLength > 1 ? 'transactions' : 'transaction' }} queued <i class="la la-star-o"></i></h1>
 								<div class="row">
 									<div *ngFor="let trans of transactions" class="col-sm-fix col-6 col-sm-3 col-lg-2">
-										<a href="javascript:;" (click)="openTrans(trans.id, trans.rfid_no, trans.credits, trans.payment_type_id, trans.vehicle_name, trans.plate_no, trans.model, trans.vehicle_rate, trans.customer_type, trans.validity, trans.timed_allowance, trans.timed_in, trans.excess_option, trans.excess_amount_multiplier)">
+										<a href="javascript:;" (click)="openTrans(trans.id, trans.rfid_no, trans.credits, trans.payment_type_id, trans.vehicle_name, trans.plate_no, trans.model, trans.vehicle_rate, trans.customer_type, trans.validity, trans.timed_allowance, trans.timed_in, trans.excess_option, trans.excess_amount_multiplier, trans.rate_option, trans.starting_period, trans.ending_period)">
 											<div class="wrapper">
 												<div class="txt-wrapper">
 													<h3>{{ trans.transaction_no }}

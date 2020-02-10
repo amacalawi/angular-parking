@@ -5,7 +5,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { POSDialogComponent } from './pos.dialog.component';
 import { TransactionService } from '../../services/transactions.services'
 import { NavService } from '../../services/nav.services'
-import { Product } from '../../shared/product';
+// import { Product } from '../../shared/product';
 import { Transaction } from '../../shared/transaction';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -324,7 +324,7 @@ export class PosComponent implements OnInit, OnDestroy {
         });
     }
 
-    openTrans($id: number, $rfid: any, $credits: any, $payment_method: number, $vehicle: string, $plate_no: string, $model: string, $rate: any, $type: string, $validity: string, $allowance: any, $timed_in: any, $excess_option: string, $excess_multiplier: any) {
+    openTrans($id: number, $rfid: any, $credits: any, $payment_method: number, $vehicle: string, $plate_no: string, $model: string, $rate: any, $type: string, $validity: string, $allowance: any, $timed_in: any, $excess_option: string, $excess_multiplier: any, $rate_option: string, $starting_period: any, $ending_period: any) {
         var layer1 = <HTMLElement> document.querySelector('.container-1');
         var layer2 = <HTMLElement> document.querySelector('.container-2');
         var overlaySpinner = <HTMLElement> document.querySelector('.overlay-spinner');
@@ -351,33 +351,152 @@ export class PosComponent implements OnInit, OnDestroy {
             console.log(this.information[0].timed_allowance = $allowance);
             console.log(this.information[0].timed_in = $timed_in);
             console.log(this.information[0].total_credits = parseFloat($credits).toFixed(2));
-            console.log(this.information[0].payment_method = $payment_method);
+            console.log(this.information[0].payment_method = $payment_method);   
 
-            let hours: any = Math.floor(totalminute / 60);          
-            let minutes: any = totalminute % 60;
-            hours = (hours < 10) ? '0' + hours : hours;
-            minutes = (minutes < 10) ? '0' + minutes : minutes;
-            console.log(this.information[0].total_time = hours + ':' + minutes);    
+            if ($rate_option == 'SUB_RATE') {
 
-            if (parseFloat(allowance) >= parseFloat(totalminute)) {
-                this.information[0].total_amount = 0;
-            } else {
-                let timeAllowed: any = parseFloat(totalminute) - parseFloat(allowance);
-                if (parseFloat(timeAllowed) <= parseFloat(validity)) {
-                    this.information[0].total_amount = $rate;
+                let excess_minute: any = 0;
+                let hours: any = Math.floor(totalminute / 60);          
+                let minutes: any = totalminute % 60;
+                hours = (hours < 10) ? '0' + hours : hours;
+                minutes = (minutes < 10) ? '0' + minutes : minutes;
+                console.log(this.information[0].total_time = hours + ':' + minutes); 
+
+                let dayDiff = Math.abs(timedin.diff(todate.format(), 'day'));
+                console.log('day difference: ' + Math.abs(timedin.diff(todate.format(), 'day')));
+                
+                if ($starting_period > $ending_period) {
+                    let startingMinute: any = this.convertToMinute($starting_period);
+                    let endingMinute: any = this.convertToMinute($ending_period);
+                    let multiplierMinute: any = parseFloat('1440') -  (parseFloat(startingMinute) - parseFloat(endingMinute));
+                    let timedinMinute: any = this.convertToMinute(timedin.format('HH:mm'));
+                    let timedoutMinute: any = this.convertToMinute(todate.format('HH:mm'));
+                    console.log('multiplierMinute: ' + multiplierMinute + ', startingMinute: ' + startingMinute + ', endingMinute: ' + endingMinute + ', timedinMinute: ' + timedinMinute + ', timedoutMinute: ' + timedoutMinute);
+
+                    // when greater than 1 day
+                    if ( dayDiff > 0) {
+                        // when starting minute is higher than timedin minute
+                        if (startingMinute >= timedinMinute) {
+                            if (timedinMinute > endingMinute) {
+                                excess_minute += timedinMinute - endingMinute;
+                            } else {
+                                excess_minute += timedoutMinute - endingMinute;
+                            }
+                            excess_minute += multiplierMinute * dayDiff;
+                            console.log('excessMinute: ' + excess_minute);
+                        } else {
+                            // when timedin minute is higher than starting minute
+                            if (timedinMinute > endingMinute) {
+                                excess_minute += timedinMinute - endingMinute;
+                            } else {
+                                excess_minute += timedoutMinute - endingMinute;
+                            }
+                            excess_minute += multiplierMinute * (dayDiff - 1);
+                            console.log('excessMinute: ' + excess_minute);
+                        }
+                    } else {
+                        // when same day
+                        if (startingMinute >= timedinMinute) {
+                            // when starting minute is higher than timedin minute
+                            if (timedinMinute > endingMinute) {
+                                excess_minute += timedinMinute - endingMinute;
+                            } else {
+                                excess_minute += timedoutMinute - endingMinute;
+                            }
+                        } else {
+                            // when timedin minute is higher than starting minute
+                            if (timedinMinute > endingMinute) {
+                                excess_minute += timedinMinute - endingMinute;
+                            } else {
+                                excess_minute += timedoutMinute - endingMinute;
+                            }
+                        }
+                        console.log('excessMinute: ' + excess_minute);
+                    }
+
                 } else {
+                    let startingMinute: any = this.convertToMinute($starting_period);
+                    let endingMinute: any = this.convertToMinute($ending_period);
+                    let multiplierMinute: any = parseFloat('1440') - (parseFloat(endingMinute) - parseFloat(startingMinute));
+                    let timedinMinute: any = this.convertToMinute(timedin.format('HH:mm'));
+                    let timedoutMinute: any = 720; //this.convertToMinute(todate.format('HH:mm'));
+                    console.log('multiplierMinute: ' + multiplierMinute + ', startingMinute: ' + startingMinute + ', endingMinute: ' + endingMinute + ', timedinMinute: ' + timedinMinute + ', timedoutMinute: ' + timedoutMinute);
+
+                    // when greater than 1 day
+                    if ( dayDiff > 0) {
+                        // when starting minute is higher than timedin minute
+                        if (startingMinute >= timedinMinute) {
+                            if (timedinMinute >= endingMinute) {
+                                excess_minute += timedinMinute - endingMinute;
+                                console.log('excessMinute: ' + excess_minute);
+                            } else {
+                                if (timedoutMinute <= startingMinute) {
+                                    excess_minute += timedoutMinute - timedinMinute;
+                                } else {
+                                    if (timedoutMinute >= endingMinute) {
+                                        excess_minute +=  (timedoutMinute - endingMinute) + (startingMinute - timedinMinute);
+                                    } else {
+                                        excess_minute +=  startingMinute - timedinMinute;
+                                    }
+                                }
+                                console.log('excessMinute: ' + excess_minute);
+                            }
+                            excess_minute += multiplierMinute * dayDiff;
+                            console.log('excessMinute: ' + excess_minute);
+                        } else {
+                            if (timedinMinute >= endingMinute) {
+                                excess_minute += timedinMinute - endingMinute;
+                                console.log('excessMinute: ' + excess_minute);
+                            } else {
+                                if (timedoutMinute <= startingMinute) {
+                                    excess_minute += timedoutMinute - timedinMinute;
+                                } else {
+                                    if (timedoutMinute >= endingMinute) {
+                                        excess_minute +=  (timedoutMinute - endingMinute) + (startingMinute - timedinMinute);
+                                    } else {
+                                        excess_minute +=  startingMinute - timedinMinute;
+                                    }
+                                }
+                                console.log('excessMinute: ' + excess_minute);
+                            }
+                            excess_minute += multiplierMinute * (dayDiff - 1);
+                            console.log('excessMinute: ' + excess_minute);
+                        }
+                    } else {
+                        if (timedinMinute >= endingMinute) {
+                            excess_minute += timedinMinute - endingMinute;
+                            console.log('excessMinute: ' + excess_minute);
+                        } else {
+                            if (timedoutMinute <= startingMinute) {
+                                excess_minute += timedoutMinute - timedinMinute;
+                            } else {
+                                if (timedoutMinute >= endingMinute) {
+                                    excess_minute +=  (timedoutMinute - endingMinute) + (startingMinute - timedinMinute);
+                                } else {
+                                    excess_minute +=  startingMinute - timedinMinute;
+                                }
+                            }
+                            console.log('excessMinute: ' + excess_minute);
+                        }
+                    }
+                }
+
+                if (parseFloat(allowance) >= parseFloat(excess_minute)) {
+                    this.information[0].total_amount = 0;
+                } else {
+                    // let timeAllowed: any = parseFloat(totalminute) - parseFloat(allowance);
                     if ($excess_option == 'EX_PER_MIN') {
-                        let excess_minute: any = parseFloat(timeAllowed) - parseFloat(validity);
-                        let totalexcessAmount: any = parseFloat(excess_minute) * parseFloat($excess_multiplier);
+                        let totalexcessAmount: any = (parseFloat(excess_minute) - parseFloat(allowance)) * parseFloat($excess_multiplier);
                         this.information[0].total_amount = parseFloat($rate) + parseFloat(totalexcessAmount);
                     } else {
-                        let excess_hours: any = parseFloat(timeAllowed) - parseFloat(validity);
+                        // let excess_hours: any = parseFloat(timeAllowed) - parseFloat(validity);
+                        let excess_hours: any = parseFloat(excess_minute) - parseFloat(allowance);
                         let excessHr: any = Math.floor(excess_hours / 60); 
                         let excessMin: any = excess_hours % 60;   
                         console.log('excessHr: ' + excess_hours);
                         console.log('excessHr: ' + excessHr);
                         console.log('excessMin: ' + excessMin);
-
+    
                         let totalexcessAmount: any = parseFloat(excessHr) * parseFloat($excess_multiplier);
                         console.log('multiplier: ' + $excess_multiplier);
                         console.log('excess amount: ' + totalexcessAmount);
@@ -390,16 +509,67 @@ export class PosComponent implements OnInit, OnDestroy {
                     this.totalPayment = this.information[0].total_amount;
                     this.information[0].total_amount = parseFloat(this.information[0].total_amount).toFixed(2);
                 }
-            }
-
-            if ($payment_method == 2) {
-                if (parseFloat($credits) >= parseFloat(this.information[0].total_amount)) {
-                    this.information[0].amount_paid = this.information[0].total_amount;
+                
+                if ($payment_method == 2) {
+                    if (parseFloat($credits) >= parseFloat(this.information[0].total_amount)) {
+                        this.information[0].amount_paid = this.information[0].total_amount;
+                    } else {
+                        this.information[0].amount_paid = $credits;
+                    }
                 } else {
-                    this.information[0].amount_paid = $credits;
+                    this.information[0].amount_paid = 0;
                 }
+
             } else {
-                this.information[0].amount_paid = 0;
+
+                let hours: any = Math.floor(totalminute / 60);          
+                let minutes: any = totalminute % 60;
+                hours = (hours < 10) ? '0' + hours : hours;
+                minutes = (minutes < 10) ? '0' + minutes : minutes;
+                console.log(this.information[0].total_time = hours + ':' + minutes); 
+
+                if (parseFloat(allowance) >= parseFloat(totalminute)) {
+                    this.information[0].total_amount = 0;
+                } else {
+                    let timeAllowed: any = parseFloat(totalminute) - parseFloat(allowance);
+                    if (parseFloat(timeAllowed) <= parseFloat(validity)) {
+                        this.information[0].total_amount = $rate;
+                    } else {
+                        if ($excess_option == 'EX_PER_MIN') {
+                            let excess_minute: any = parseFloat(timeAllowed) - parseFloat(validity);
+                            let totalexcessAmount: any = parseFloat(excess_minute) * parseFloat($excess_multiplier);
+                            this.information[0].total_amount = parseFloat($rate) + parseFloat(totalexcessAmount);
+                        } else {
+                            let excess_hours: any = parseFloat(timeAllowed) - parseFloat(validity);
+                            let excessHr: any = Math.floor(excess_hours / 60); 
+                            let excessMin: any = excess_hours % 60;   
+                            console.log('excessHr: ' + excess_hours);
+                            console.log('excessHr: ' + excessHr);
+                            console.log('excessMin: ' + excessMin);
+
+                            let totalexcessAmount: any = parseFloat(excessHr) * parseFloat($excess_multiplier);
+                            console.log('multiplier: ' + $excess_multiplier);
+                            console.log('excess amount: ' + totalexcessAmount);
+                            if (parseFloat(excessMin) > 0) {
+                                totalexcessAmount += parseFloat($excess_multiplier);
+                            }
+                            this.information[0].total_amount = parseFloat($rate) + parseFloat(totalexcessAmount); 
+                        }
+                        
+                        this.totalPayment = this.information[0].total_amount;
+                        this.information[0].total_amount = parseFloat(this.information[0].total_amount).toFixed(2);
+                    }
+                }
+
+                if ($payment_method == 2) {
+                    if (parseFloat($credits) >= parseFloat(this.information[0].total_amount)) {
+                        this.information[0].amount_paid = this.information[0].total_amount;
+                    } else {
+                        this.information[0].amount_paid = $credits;
+                    }
+                } else {
+                    this.information[0].amount_paid = 0;
+                }
             }
 
         }, 500 + 300 * (Math.random() * 5));
