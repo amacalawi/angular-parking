@@ -79,10 +79,10 @@
                                             </ng-container>
 
                                             <!-- ending period column -->
-                                            <ng-container matColumnDef="subscription_rate">
+                                            <!-- <ng-container matColumnDef="subscription_rate">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> SUBSCRIPTION RATE </th>
                                                 <td mat-cell *matCellDef="let element" class="text-center"> {{ element.subscription_rate }} </td>
-                                            </ng-container>
+                                            </ng-container> -->
 
                                             <!-- excess per min column -->
                                             <ng-container matColumnDef="excess_min">
@@ -157,7 +157,7 @@
                                                     <mat-error>this field is required</mat-error>
                                                 </mat-form-field>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-4">
                                                 <mat-form-field>
                                                     <mat-select placeholder="Type of Customer" formControlName="customer_type_id" required>
                                                         <mat-option *ngFor="let customertype of customertypes" [value]="customertype.id">{{ customertype.name }}</mat-option>
@@ -165,19 +165,19 @@
                                                     <mat-error>this field is required</mat-error>
                                                 </mat-form-field>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <!-- <div class="col-sm-6">
                                                 <mat-form-field>
                                                     <input matInput placeholder="Subscription Rate" formControlName="subscription_rate" required>
                                                     <mat-error>this field is required</mat-error>
                                                 </mat-form-field>
-                                            </div>
-                                            <div class="col-sm-6">
+                                            </div> -->
+                                            <div class="col-sm-4">
                                                 <mat-form-field>
                                                     <input matInput placeholder="Excess Rate Per Minute" formControlName="excess_rate_per_minute" required>
                                                     <mat-error>this field is required</mat-error>
                                                 </mat-form-field>
                                             </div>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-4">
                                                 <mat-form-field>
                                                     <input matInput placeholder="Excess Rate Per Hour" formControlName="excess_rate_per_hour" required>
                                                     <mat-error>this field is required</mat-error>

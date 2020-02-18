@@ -2,6 +2,7 @@ export class Subscription {
   id: number;
   transaction_no: string;
   customer_id: number;
+  customer_type: number;
   total_amount: number;
   registration_date: string;
   expiration_date: string;

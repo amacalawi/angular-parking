@@ -389,6 +389,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
                 disableClose: true,
                 data: {
                     customer_id: this.editFormId,
+                    customer_type: this.editCusType,
                     fixedrate: (this.editCusType != 4) ? this.fixedRate : 0
                 }
             });
@@ -406,6 +407,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
                 disableClose: true,
                 data: {
                     customer_id: this.editFormId,
+                    customer_type: this.editCusType,
                     fixedrate: (this.editCusType != 4) ? this.fixedRate : 0,
                     total_amount: total_amount,
                     registration_date: registration_date,

@@ -143,6 +143,12 @@
 										<div class="m-widget4__ext">
 											<span class="m-widget4__number m--font-info">
 												{{ information[0].vehicle_rate.toFixed(2) }}
+												<span class="pull-left" *ngIf="information[0].rate_option == 'SUB_RATE' && information[0].excess_option == 'EX_PER_MIN'">
+													/ Min
+												</span>
+												<span class="pull-left" *ngIf="information[0].rate_option == 'SUB_RATE' && information[0].excess_option == 'EX_PER_HR'">
+													/ Hr
+												</span>
 											</span>
 										</div>
 									</div>
@@ -239,9 +245,9 @@
 
 							<div class="container-2 animated fadeIn">
 								<h3>Payment Information</h3>
-								<mat-radio-group [(ngModel)]="information[0].payment_method" class="radio-group" required>
-									<mat-radio-button [value]="1" (click)="togglePaymentMethod(1)" [checked]="information[0].payment_method === 1"  class="radio-button mr-5">CASH</mat-radio-button>
-									<mat-radio-button [value]="2" (click)="togglePaymentMethod(2)" [checked]="information[0].payment_method === 2" class="radio-button">CREDITS</mat-radio-button>
+								<mat-radio-group [(ngModel)]="information[0].payment_method" class="radio-group row" required>
+									<mat-radio-button [value]="1" (click)="togglePaymentMethod(1)" [checked]="information[0].payment_method === 1"  class="col-sm-6 radio-button">CASH</mat-radio-button>
+									<mat-radio-button [value]="2" (click)="togglePaymentMethod(2)" [checked]="information[0].payment_method === 2" class="col-sm-6 radio-button">CREDITS</mat-radio-button>
 								</mat-radio-group>
 								<mat-form-field class="mt-2">
 									<input class="text-right" matInput placeholder="OWNED CREDITS" [(ngModel)]="information[0].total_credits" disabled>
@@ -255,7 +261,11 @@
 								<mat-form-field>
 									<input class="text-right" matInput placeholder="AMOUNT CHANGE" [(ngModel)]="information[0].amount_change" disabled>
 								</mat-form-field>
-	
+								<mat-radio-group [(ngModel)]="information[0].charges" class="radio-group row" required>
+									<mat-radio-button [value]="1" class="radio-button col-sm-6">WITH CHARGE</mat-radio-button>
+									<mat-radio-button [value]="0" class="radio-button col-sm-6">NO CHARGE</mat-radio-button>
+								</mat-radio-group>
+
 								<div class="arithmetic-holder">
 									<button [disabled]="information[0].payment_method == 2" (click)="compute('7')" class="arithmetic" mat-button>
 									7
@@ -299,7 +309,7 @@
 									BACK
 								</button>
 	
-								<button (click)="saveCheckout()" [disabled]="(information[0].amount_paid < totalPayment) && (totalPayment !== 0)" class="confirm-btn bg-primary" mat-button>
+								<button (click)="saveCheckout()" [disabled]="(information[0].amount_paid < totalPayment) && (totalPayment !== 0) && (information[0].charges == 1)" class="confirm-btn bg-primary" mat-button>
 									CONFIRM
 								</button>
 							</div>

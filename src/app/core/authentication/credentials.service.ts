@@ -1,3 +1,4 @@
+import { Output, EventEmitter } from '@angular/core';
 import { Injectable } from '@angular/core';
 
 export interface Credentials {
@@ -20,6 +21,7 @@ const credentialsKey = 'credentials';
 @Injectable()
 export class CredentialsService {
   private _credentials: Credentials | null = null;
+  @Output() fireIsLoggedIn: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() {
     const savedCredentials = sessionStorage.getItem(credentialsKey) || localStorage.getItem(credentialsKey);
@@ -41,7 +43,12 @@ export class CredentialsService {
    * @return The user credentials or null if the user is not authenticated.
    */
   get credentials(): Credentials | null {
+    this.fireIsLoggedIn.emit(this._credentials);
     return this._credentials;
+  }
+
+  getEmitter() {
+    return this.fireIsLoggedIn;
   }
 
   /**

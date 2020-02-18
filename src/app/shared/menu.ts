@@ -80,6 +80,9 @@ const MENUITEMS = [
     providedIn: 'root'
 })
 export class MenuItems {
+  getCredentials(): any {
+    return JSON.parse(sessionStorage.credentials);
+  }
   getAll(): any {
     return MENUITEMS;
   }

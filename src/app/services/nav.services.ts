@@ -1,6 +1,7 @@
 import { EventEmitter, Injectable} from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { MenuItems } from '../shared/menu';
 
 @Injectable()
 export class NavService {
@@ -8,7 +9,10 @@ export class NavService {
   public rightSidebar: any;
   public currentUrl = new BehaviorSubject<string>(undefined);
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+    public menuItems: MenuItems
+    
+    ) {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         this.currentUrl.next(event.urlAfterRedirects);
@@ -20,8 +24,13 @@ export class NavService {
     this.leftSidebar.close();
   }
 
+  public getCredential() {
+    return this.menuItems.getCredentials();
+  }
+
   public openNav() {
     this.leftSidebar.open();
+    console.log('open');
   }
 
   public closeSidebar() {
