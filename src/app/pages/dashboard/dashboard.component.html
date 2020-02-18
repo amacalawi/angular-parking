@@ -37,10 +37,20 @@
                             <div class="row">
                                 
                                 <div class="col-sm-6 p-5">
-                                    <h1>
-                                        <strong>₱{{ thismonthsales.toFixed(2) }}</strong>
-                                    </h1>
-                                    <h3>Sales this month</h3>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <h1>
+                                                <strong>₱{{ thismonthsales | number: '.2' }}</strong>
+                                            </h1>
+                                            <h3>Sales this month</h3>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h1 class="text-right">
+                                                <strong>₱{{ thisdaysales | number: '.2' }}</strong>
+                                            </h1>
+                                            <h3 class="text-right">Sales this day</h3>
+                                        </div>
+                                    </div>
                                     <h5>
                                         <div class="success-wrapper">
                                             <i class="la la-caret-up"></i>

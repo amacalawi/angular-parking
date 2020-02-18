@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import { CredentialsService } from '../core/authentication/credentials.service';
     styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-
+    @Output() fireIsLoggedIn: EventEmitter<any> = new EventEmitter<any>();
     error: string | undefined;
     public LoginForm: FormGroup;
     formErrors: any;

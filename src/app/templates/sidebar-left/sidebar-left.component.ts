@@ -4,6 +4,7 @@ import { NavItem } from '../../shared/nav-item';
 import { MenuItems } from '../../shared/menu';
 import { NavService } from '../../services/nav.services';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { CredentialsService } from '../../core/authentication/credentials.service';
 
 @Component({
   selector: 'app-sidebar-left',
@@ -21,29 +22,33 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 })
 export class SidebarLeftComponent implements OnInit, OnDestroy {
     expanded: boolean;
-    credential: any[];
-    privileges: any[];
-    fullname: string;
     @HostBinding('attr.aria-expanded') ariaExpanded = this.expanded;
     @Input() items: NavItem;
+    fullname: string;
+    credential: any[];
+    privileges: any[];
 
     constructor(
         public navService: NavService,
         public router: Router,
-        public menuItems: MenuItems
+        public menuItems: MenuItems,
+        public credentialsService: CredentialsService
     ) {
-        if (sessionStorage.credentials !== undefined) {
-            console.log(this.credential = JSON.parse(sessionStorage.credentials));
+        // if (sessionStorage.credentials !== undefined) {
+            // console.log(this.credential = JSON.parse(sessionStorage.credentials));
             this.items = this.menuItems.getAll();
-            console.log(this.privileges = this.credential['privileges']);
-        }
+            // console.log(this.credentialsService.credentials);
+        // }
     }
 
 
     ngOnDestroy(): void {}
 
     ngOnInit() {
-        console.log(this.fullname = this.credential['name']);
+        this.credentialsService.getEmitter().subscribe((credential) => {
+            this.fullname = credential['name'];
+        });
+        
         this.navService.currentUrl.subscribe((url: string) => {
             if (this.items.route && url) {
                 console.log(`Checking '/${this.items.route}' against '${url}'`);
@@ -52,7 +57,11 @@ export class SidebarLeftComponent implements OnInit, OnDestroy {
                 console.log(`${this.items.route} is expanded: ${this.expanded}`);
             }
         });
+        // this.credential = this.navService.getCredential();
+        // console.log(this.fullname = this.credential['name']);
+        // console.log(this.privileges = this.credential['privileges']);
     }
+
 
     logout() {
         sessionStorage.clear();

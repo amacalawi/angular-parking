@@ -51,7 +51,10 @@ export class PosComponent implements OnInit, OnDestroy {
         'total_credits': 0,
         'payment_method': 1,
         'amount_paid': 0,
-        'amount_change': 0
+        'amount_change': 0,
+        'charges': 1,
+        'rate_option': '',
+        'excess_option': ''
     }];
 
     totalPayment: number = 0;
@@ -100,7 +103,10 @@ export class PosComponent implements OnInit, OnDestroy {
             total_credits: [''],
             payment_method: [''],
             amount_paid: [''],
-            amount_change: ['']
+            amount_change: [''],
+            charges: [''],
+            rate_option: [''],
+            excess_option: ['']
         });
     }
 
@@ -304,6 +310,9 @@ export class PosComponent implements OnInit, OnDestroy {
         this.information[0].payment_method = 1;
         this.information[0].amount_paid = 0;
         this.information[0].amount_change = 0;
+        this.information[0].charges = 1;
+        this.information[0].rate_option = '';
+        this.information[0].excess_option = '';
         this.CheckOutForm.patchValue({
             id: '',
             rfid_no: '',
@@ -320,7 +329,10 @@ export class PosComponent implements OnInit, OnDestroy {
             total_credits: '',
             payment_method: '',
             amount_paid: '',
-            amount_change: ''
+            amount_change: '',
+            charges: '',
+            rate_option: '',
+            excess_option: ''
         });
     }
 
@@ -351,7 +363,9 @@ export class PosComponent implements OnInit, OnDestroy {
             console.log(this.information[0].timed_allowance = $allowance);
             console.log(this.information[0].timed_in = $timed_in);
             console.log(this.information[0].total_credits = parseFloat($credits).toFixed(2));
-            console.log(this.information[0].payment_method = $payment_method);   
+            console.log(this.information[0].payment_method = $payment_method); 
+            console.log(this.information[0].rate_option = $rate_option);     
+            console.log(this.information[0].excess_option = $excess_option);
 
             if ($rate_option == 'SUB_RATE') {
 
@@ -406,7 +420,7 @@ export class PosComponent implements OnInit, OnDestroy {
                         } else {
                             // when timedin minute is higher than starting minute
                             if (timedinMinute > endingMinute) {
-                                excess_minute += timedinMinute - endingMinute;
+                                // excess_minute += timedinMinute - endingMinute;
                             } else {
                                 excess_minute += timedoutMinute - endingMinute;
                             }
@@ -419,7 +433,7 @@ export class PosComponent implements OnInit, OnDestroy {
                     let endingMinute: any = this.convertToMinute($ending_period);
                     let multiplierMinute: any = parseFloat('1440') - (parseFloat(endingMinute) - parseFloat(startingMinute));
                     let timedinMinute: any = this.convertToMinute(timedin.format('HH:mm'));
-                    let timedoutMinute: any = 720; //this.convertToMinute(todate.format('HH:mm'));
+                    let timedoutMinute: any = this.convertToMinute(todate.format('HH:mm'));
                     console.log('multiplierMinute: ' + multiplierMinute + ', startingMinute: ' + startingMinute + ', endingMinute: ' + endingMinute + ', timedinMinute: ' + timedinMinute + ', timedoutMinute: ' + timedoutMinute);
 
                     // when greater than 1 day
@@ -427,11 +441,14 @@ export class PosComponent implements OnInit, OnDestroy {
                         // when starting minute is higher than timedin minute
                         if (startingMinute >= timedinMinute) {
                             if (timedinMinute >= endingMinute) {
-                                excess_minute += timedinMinute - endingMinute;
+                                excess_minute += timedoutMinute - timedinMinute;
                                 console.log('excessMinute: ' + excess_minute);
                             } else {
                                 if (timedoutMinute <= startingMinute) {
-                                    excess_minute += timedoutMinute - timedinMinute;
+                                    excess_minute += startingMinute - timedinMinute;
+                                    if (timedoutMinute >= endingMinute) {
+                                        excess_minute += (timedoutMinute - endingMinute);
+                                    }
                                 } else {
                                     if (timedoutMinute >= endingMinute) {
                                         excess_minute +=  (timedoutMinute - endingMinute) + (startingMinute - timedinMinute);
@@ -443,13 +460,33 @@ export class PosComponent implements OnInit, OnDestroy {
                             }
                             excess_minute += multiplierMinute * dayDiff;
                             console.log('excessMinute: ' + excess_minute);
+                            // if (timedinMinute >= endingMinute) {
+                            //     excess_minute += timedoutMinute - timedinMinute;
+                            //     console.log('excessMinute: ' + excess_minute);
+                            // } else {
+                            //     if (timedoutMinute <= startingMinute) {
+                            //         excess_minute += timedoutMinute - timedinMinute;
+                            //     } else {
+                            //         if (timedoutMinute >= endingMinute) {
+                            //             excess_minute +=  (timedoutMinute - endingMinute) + (startingMinute - timedinMinute);
+                            //         } else {
+                            //             excess_minute +=  startingMinute - timedinMinute;
+                            //         }
+                            //     }
+                            //     console.log('excessMinute: ' + excess_minute);
+                            // }
+                            // excess_minute += multiplierMinute * dayDiff;
+                            // console.log('excessMinute: ' + excess_minute);
                         } else {
                             if (timedinMinute >= endingMinute) {
-                                excess_minute += timedinMinute - endingMinute;
+                                excess_minute += timedoutMinute - timedinMinute;
                                 console.log('excessMinute: ' + excess_minute);
                             } else {
                                 if (timedoutMinute <= startingMinute) {
-                                    excess_minute += timedoutMinute - timedinMinute;
+                                    excess_minute += startingMinute - timedinMinute;
+                                    if (timedoutMinute >= endingMinute) {
+                                        excess_minute += (timedoutMinute - endingMinute);
+                                    }
                                 } else {
                                     if (timedoutMinute >= endingMinute) {
                                         excess_minute +=  (timedoutMinute - endingMinute) + (startingMinute - timedinMinute);
@@ -461,19 +498,37 @@ export class PosComponent implements OnInit, OnDestroy {
                             }
                             excess_minute += multiplierMinute * (dayDiff - 1);
                             console.log('excessMinute: ' + excess_minute);
+                            // if (timedinMinute >= endingMinute) {
+                            //     excess_minute += timedinMinute - endingMinute;
+                            //     console.log('excessMinute: ' + excess_minute);
+                            // } else {
+                            //     if (timedoutMinute <= startingMinute) {
+                            //         excess_minute += timedoutMinute - timedinMinute;
+                            //     } else {
+                            //         if (timedoutMinute >= endingMinute) {
+                            //             excess_minute +=  (timedoutMinute - endingMinute) + (startingMinute - timedinMinute);
+                            //         } else {
+                            //             excess_minute +=  startingMinute - timedinMinute;
+                            //         }
+                            //     }
+                            //     console.log('excessMinute: ' + excess_minute);
+                            // }
+                            // excess_minute += multiplierMinute * (dayDiff - 1);
+                            // console.log('excessMinute: ' + excess_minute);
                         }
                     } else {
                         if (timedinMinute >= endingMinute) {
-                            excess_minute += timedinMinute - endingMinute;
+                            excess_minute += timedoutMinute - timedinMinute;
                             console.log('excessMinute: ' + excess_minute);
                         } else {
                             if (timedoutMinute <= startingMinute) {
-                                excess_minute += timedoutMinute - timedinMinute;
+                                excess_minute += startingMinute - timedinMinute;
+                                if (timedoutMinute >= endingMinute) {
+                                    excess_minute += (timedoutMinute - endingMinute);
+                                }
                             } else {
                                 if (timedoutMinute >= endingMinute) {
-                                    excess_minute +=  (timedoutMinute - endingMinute) + (startingMinute - timedinMinute);
-                                } else {
-                                    excess_minute +=  startingMinute - timedinMinute;
+                                    excess_minute +=  (timedoutMinute - endingMinute)
                                 }
                             }
                             console.log('excessMinute: ' + excess_minute);
@@ -487,13 +542,13 @@ export class PosComponent implements OnInit, OnDestroy {
                     // let timeAllowed: any = parseFloat(totalminute) - parseFloat(allowance);
                     if ($excess_option == 'EX_PER_MIN') {
                         let totalexcessAmount: any = (parseFloat(excess_minute) - parseFloat(allowance)) * parseFloat($excess_multiplier);
-                        this.information[0].total_amount = parseFloat($rate) + parseFloat(totalexcessAmount);
+                        this.information[0].total_amount = parseFloat(totalexcessAmount);
                     } else {
                         // let excess_hours: any = parseFloat(timeAllowed) - parseFloat(validity);
                         let excess_hours: any = parseFloat(excess_minute) - parseFloat(allowance);
                         let excessHr: any = Math.floor(excess_hours / 60); 
                         let excessMin: any = excess_hours % 60;   
-                        console.log('excessHr: ' + excess_hours);
+                        console.log('excessHrs: ' + excess_hours);
                         console.log('excessHr: ' + excessHr);
                         console.log('excessMin: ' + excessMin);
     
@@ -503,9 +558,10 @@ export class PosComponent implements OnInit, OnDestroy {
                         if (parseFloat(excessMin) > 0) {
                             totalexcessAmount += parseFloat($excess_multiplier);
                         }
-                        this.information[0].total_amount = parseFloat($rate) + parseFloat(totalexcessAmount); 
+                        this.information[0].total_amount = parseFloat(totalexcessAmount); 
                     }
                     
+                    console.log('total amount: ' + this.information[0].total_amount);
                     this.totalPayment = this.information[0].total_amount;
                     this.information[0].total_amount = parseFloat(this.information[0].total_amount).toFixed(2);
                 }
@@ -658,7 +714,8 @@ export class PosComponent implements OnInit, OnDestroy {
             total_credits: this.information[0].total_credits,
             payment_method: this.information[0].payment_method,
             amount_paid: this.information[0].amount_paid,
-            amount_change: this.information[0].amount_change
+            amount_change: this.information[0].amount_change,
+            charges: this.information[0].charges
         });
         Swal.fire({
             title: 'Are you sure?',

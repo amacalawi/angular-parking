@@ -1,5 +1,6 @@
 <div class="profile">
-    <img src="assets/img/profile.jpg"/>
+    <img *ngIf="fullname == 'Aliudin Macalawi'" src="assets/img/din.jpg"/>
+    <img *ngIf="fullname == 'Ferdie Santiago'" src="assets/img/ferdie.jpg"/>
     <h1>{{ fullname }}</h1>
 </div>
 <mat-nav-list>

@@ -20,6 +20,7 @@ export class CustomerSubscriptionDialogComponent implements OnInit {
     registrationDate: any;
     expirationDate: any;
     diffInDays: any;
+    customerType: number = 0;
 
     constructor(
         public dialogRef: MatDialogRef<CustomerSubscriptionDialogComponent>,
@@ -45,6 +46,8 @@ export class CustomerSubscriptionDialogComponent implements OnInit {
             excess_rate_option: {},
             subscriber_rate_option: {}
         }; 
+        
+        
     }
 
     onNoClick(): void {
@@ -52,6 +55,7 @@ export class CustomerSubscriptionDialogComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log(this.customerType = this.data.customer_type);
         if (!this.data.editForm == true) { 
             this.data.editForm = false; 
             this.registrationDate = '';
@@ -144,7 +148,13 @@ export class CustomerSubscriptionDialogComponent implements OnInit {
 
     subscribeChange(event: MatRadioChange ) {
         if (event.value == 'SUB_RATE') {
-            this.SubscriptionForm.get('total_amount').enable();
+            if (this.customerType == 3) {
+                this.SubscriptionForm.patchValue({
+                    total_amount: 0
+                });
+            } else {
+                this.SubscriptionForm.get('total_amount').enable();
+            }
         } else {
             this.SubscriptionForm.get('total_amount').disable();
             this.validate_total_amount();

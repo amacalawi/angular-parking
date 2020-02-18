@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, ViewEncapsulation, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, ViewEncapsulation, AfterViewInit, Input } from '@angular/core';
 import { VERSION } from '@angular/material';
 import { NavService } from './services/nav.services';
 import { MenuItems } from './shared/menu';
@@ -13,7 +13,7 @@ export class AppComponent implements AfterViewInit {
     @ViewChild('leftSidebar', {static: false}) leftSidebar: ElementRef;
     @ViewChild('rightSidebar', {static: false}) rightSidebar: ElementRef;
     version = VERSION;
-    
+
     constructor(
         private navService: NavService,
         public menuItems: MenuItems, 

@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 })
 export class DashboardComponent implements OnInit {
     pageTitle: string;
+    thisdaysales: number = 0;
     thismonthsales: number = 0;
     lastmonthsales: number = 0;
     lineChartData: ChartDataSets[]; 
@@ -59,6 +60,7 @@ export class DashboardComponent implements OnInit {
         this.dashboardService.getAllSales()
         .subscribe((transactions: any) => {
             console.log(transactions);
+            this.thisdaysales = transactions.thisday;
             this.thismonthsales = transactions.thismonth;
             this.lastmonthsales = transactions.lastmonth;
             this.lineChartLabels = transactions.days;

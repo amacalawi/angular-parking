@@ -51,7 +51,8 @@ mat-tab mat-nav-list label {
 
 .content .col-sm-3 mat-card .container-2 .arithmetic-holder {
     text-align: center;
-    margin-top: -10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .content .col-sm-3 mat-card .container-2 button.arithmetic {
@@ -73,7 +74,7 @@ mat-tab mat-nav-list label {
     background: #e1e1e1;
     color: #333;
     border-radius: 0;
-    float: left;
+    // float: left;
     margin-left: 15px;
     margin-top: 10px;
     width: 43%;

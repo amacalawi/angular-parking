@@ -31,7 +31,7 @@ export class SubcriptionRateComponent implements OnInit {
 
     public SubscriptionRateForm: FormGroup;
 
-    displayedColumns: string[] = ['id', 'customer_type', 'starting_period', 'ending_period', 'subscription_rate', 'excess_min', 'excess_hour', 'modified', 'status', 'commands'];
+    displayedColumns: string[] = ['id', 'customer_type', 'starting_period', 'ending_period', 'excess_min', 'excess_hour', 'modified', 'status', 'commands'];
     dataSource = new MatTableDataSource(this.subscriptionrates);    
     @ViewChild(MatSort, {static: true}) sort: MatSort;
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -52,7 +52,7 @@ export class SubcriptionRateComponent implements OnInit {
             customer_type_id: ['', Validators.required],
             starting_period: ['', Validators.required],
             ending_period: ['', Validators.required],
-            subscription_rate: ['', Validators.required],
+            // subscription_rate: ['', Validators.required],
             excess_rate_per_minute: ['', Validators.required],
             excess_rate_per_hour: ['', Validators.required]
         });
@@ -61,7 +61,7 @@ export class SubcriptionRateComponent implements OnInit {
             customer_type_id: {},
             starting_period: {},
             ending_period: {},
-            subscription_rate: {},
+            // subscription_rate: {},
             excess_rate_per_minute: {},
             excess_rate_per_hour: {}
         };    
@@ -108,7 +108,7 @@ export class SubcriptionRateComponent implements OnInit {
             customer_type_id: '',
             starting_period: '',
             ending_period: '',
-            subscription_rate: '',
+            // subscription_rate: '',
             excess_rate_per_minute: '',
             excess_rate_per_hour: ''
         });
@@ -139,7 +139,7 @@ export class SubcriptionRateComponent implements OnInit {
         let temp = this.subscriptionrates;
         if (this.statusFilter && this.searchFilter) {    
             temp = temp.filter(data => {
-                return ((data.customer_type.toLowerCase().includes(this.searchFilter) || data.starting_period.toString().includes(this.searchFilter) || data.ending_period.toString().includes(this.searchFilter) || data.excess_rate_per_minute.toString().includes(this.searchFilter) || data.excess_rate_per_hour.toString().includes(this.searchFilter) || data.subscription_rate.toString().includes(this.searchFilter)) && data.is_active == this.statusFilter);
+                return ((data.customer_type.toLowerCase().includes(this.searchFilter) || data.starting_period.toString().includes(this.searchFilter) || data.ending_period.toString().includes(this.searchFilter) || data.excess_rate_per_minute.toString().includes(this.searchFilter) || data.excess_rate_per_hour.toString().includes(this.searchFilter)) && data.is_active == this.statusFilter);
             })            
         } else {
             if(this.statusFilter) {            
@@ -147,7 +147,7 @@ export class SubcriptionRateComponent implements OnInit {
             }
             if(this.searchFilter) { 
                 temp = temp.filter(data => {
-                    return (data.customer_type.toLowerCase().includes(this.searchFilter) || data.starting_period.toString().includes(this.searchFilter) || data.ending_period.toString().includes(this.searchFilter) || data.excess_rate_per_minute.toString().includes(this.searchFilter) || data.excess_rate_per_hour.toString().includes(this.searchFilter) || data.subscription_rate.toString().includes(this.searchFilter));
+                    return (data.customer_type.toLowerCase().includes(this.searchFilter) || data.starting_period.toString().includes(this.searchFilter) || data.ending_period.toString().includes(this.searchFilter) || data.excess_rate_per_minute.toString().includes(this.searchFilter) || data.excess_rate_per_hour.toString().includes(this.searchFilter));
                 })
             }
         }
@@ -232,7 +232,7 @@ export class SubcriptionRateComponent implements OnInit {
                     customer_type_id: subscriptionrates.data.customer_type_id,
                     starting_period: subscriptionrates.data.starting_period,
                     ending_period: subscriptionrates.data.ending_period,
-                    subscription_rate: subscriptionrates.data.subscription_rate,
+                    // subscription_rate: subscriptionrates.data.subscription_rate,
                     excess_rate_per_minute: subscriptionrates.data.excess_rate_per_minute,
                     excess_rate_per_hour: subscriptionrates.data.excess_rate_per_hour
                 });
